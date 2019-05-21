@@ -16,6 +16,8 @@ public class BaseComp : MonoBehaviour
 
      public Competance _data;
 
+    private GameObject _canvas;
+    private CurrentUnits _scriptCurrent;
      private Sprite _sprite;
      private int _index;
      private int _indexOfComp;
@@ -24,6 +26,8 @@ public class BaseComp : MonoBehaviour
 
     private void OnEnable()
     {
+        _canvas = GameObject.Find("Canvas");
+        _scriptCurrent = _canvas.GetComponent<CurrentUnits>();
         _active.onClick.AddListener(Active);
         _shoot.onClick.AddListener(Shoot);
         _overwatch.onClick.AddListener(Overwatch);
@@ -42,6 +46,7 @@ public class BaseComp : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Shoot();
+            
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -111,10 +116,12 @@ public class BaseComp : MonoBehaviour
             if(_indexOfComp == 1)
             {
                 _percents.SetActive(true);
+                _scriptCurrent._isAiming = true;
             }
             else
             {
                 _percents.SetActive(false);
+                _scriptCurrent._isAiming = true;
             }
             _indexUse = _indexOfComp;
             _TabInformation.SetActive(true);
@@ -125,6 +132,7 @@ public class BaseComp : MonoBehaviour
             _indexOfComp = 0;
             _TabInformation.SetActive(false);
             _percents.SetActive(false);
+            _scriptCurrent._isAiming = false;
         }
     }
 
