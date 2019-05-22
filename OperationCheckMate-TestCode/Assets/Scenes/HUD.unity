@@ -1546,7 +1546,6 @@ MonoBehaviour:
   _TabInformation: {fileID: 1411936392}
   _percents: {fileID: 660390475}
   _data: {fileID: 0}
-  _tabInfoText: {fileID: 0}
 --- !u!1001 &843805466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4233,6 +4232,7 @@ GameObject:
   - component: {fileID: 2083747208}
   - component: {fileID: 2083747207}
   - component: {fileID: 2083747206}
+  - component: {fileID: 2083747209}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -4305,6 +4305,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 22.480001, y: 38.443, z: 0}
+--- !u!114 &2083747209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083747205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff60d8f573df4b349aa3cd5b0496aa28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnSpeed: 4
+  player: {fileID: 282807276}
 --- !u!1001 &2538893046613608972
 PrefabInstance:
   m_ObjectHideFlags: 0
