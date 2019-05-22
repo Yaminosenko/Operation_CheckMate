@@ -25,6 +25,7 @@ public class FieldOfView : MonoBehaviour {
     public int edgeResolveIterations;
     public float edgeDstThreshold;
     private bool _aimTrue = false;
+    public bool _isAimaing = false;
 
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
@@ -59,23 +60,7 @@ public class FieldOfView : MonoBehaviour {
         {
             DrawFieldOfView();
 
-            if (Input.GetKeyDown(KeyCode.O))
-            {
-                _nbOfTarget = 0;
-                _targetSelect = 0;
-                if(_currentTargets.Length != 0)
-                {
-                    for (int i = 0; i<_currentTargets.Length; i++)
-                    {
-                        Material _m;
-                        _m = _currentTargets[i].GetComponent<Renderer>().material;
-                        _m.color = Color.blue;
-                    }
-                }
-
-                AimTarget();
-                _currentTargets = visibleTargets.ToArray();
-            }
+            
             if (_aimTrue == true)
             {
                 SelectTarget();
@@ -114,7 +99,7 @@ public class FieldOfView : MonoBehaviour {
 
     void SelectTarget() //Change l'unité visée a chaque "Tab". Penser a lock le changement d'unité lors de l'aim.
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             if(_targetSelect < _nbOfTarget)
             {
@@ -145,9 +130,29 @@ public class FieldOfView : MonoBehaviour {
                 }
             }
         }
-
-
     }
+
+    public void Refresh()
+    {
+        if (_isAimaing == true)
+        {
+            _nbOfTarget = 0;
+            _targetSelect = 0;
+            if (_currentTargets.Length != 0)
+            {
+                for (int i = 0; i < _currentTargets.Length; i++)
+                {
+                    Material _m;
+                    _m = _currentTargets[i].GetComponent<Renderer>().material;
+                    _m.color = Color.blue;
+                }
+            }
+
+            AimTarget();
+            _currentTargets = visibleTargets.ToArray();
+        }
+    }
+
 
     void DrawFieldOfView()
     {

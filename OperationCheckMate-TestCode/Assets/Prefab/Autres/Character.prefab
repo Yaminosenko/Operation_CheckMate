@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5055203494491810221}
   - component: {fileID: 5055203494491810222}
   - component: {fileID: 5055203494491810223}
+  - component: {fileID: 7862689289922373074}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -123,8 +124,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933f27ed8a5cf43359d7caf0a5f5e732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 23.16
-  viewAngle: 144
+  viewRadius: 31.26
+  viewAngle: 117
   _isActive: 0
   targetMask:
     serializedVersion: 2
@@ -135,7 +136,7 @@ MonoBehaviour:
   visibleTargets: []
   _nbOfTarget: 0
   _targetSelect: 1
-  _red: {fileID: 2100000, guid: d3271630fad40494a8cee9eb7a44f9ab, type: 2}
+  _red: {fileID: 2100000, guid: f30b5874d866443a09587129155dd161, type: 2}
   _targetMaterial: {fileID: 2100000, guid: d3271630fad40494a8cee9eb7a44f9ab, type: 2}
   _currentTargets: []
   meshResolution: 1
@@ -158,6 +159,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &7862689289922373074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5055203494491810216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6bc3b787152ba9408ba2c5ececcaa7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentHealth: 0
+  _data: {fileID: 0}
 --- !u!1 &5055203494776077673
 GameObject:
   m_ObjectHideFlags: 0
