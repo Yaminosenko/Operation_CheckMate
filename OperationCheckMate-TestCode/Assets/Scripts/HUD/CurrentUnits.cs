@@ -18,10 +18,15 @@ public class CurrentUnits : MonoBehaviour
     private int _index = 1;
 
     public bool _cantSwap = false;
+    private Camera _cam;
+    private TargetSelector _camaTarget;
+    private Transform _transCurrentTarget;
 
 
     private void OnEnable()
     {
+        _cam = Camera.main;
+        _camaTarget = _cam.gameObject.GetComponent<TargetSelector>();
         _compScript = _active.GetComponent<BaseComp>();
         _dataUse = _data1;
         _compScript._data = _dataUse.Data;
@@ -57,6 +62,8 @@ public class CurrentUnits : MonoBehaviour
             {
                 ChangeUnits();
                 SelectUnitOnTab();
+                _camaTarget._target = _transCurrentTarget;
+                _camaTarget.NewTarget();
                 _compScript._data = _dataUse.Data;
             }
         }
@@ -85,6 +92,7 @@ public class CurrentUnits : MonoBehaviour
 
             if(i == _index - 1)
             {
+                _transCurrentTarget = _units[i].transform;
                 _script._isActive = true;
                 _theOne._isActive = true;
                 _player._isActive = true;
