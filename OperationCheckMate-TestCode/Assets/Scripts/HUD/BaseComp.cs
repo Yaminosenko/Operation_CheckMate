@@ -17,12 +17,13 @@ public class BaseComp : MonoBehaviour
 
      public Competance _data;
 
-    private GameObject _canvas;
-    private CurrentUnits _scriptCurrent;
+     private GameObject _canvas;
+     private CurrentUnits _scriptCurrent;
      private Sprite _sprite;
      private int _index;
      private int _indexOfComp;
-     private int _indexUse;
+    private int _dmg;
+     
 
     private string _shootTxt = "Oui le tire";
     private string _ovTxt = "Oui la Vigilence";
@@ -32,18 +33,19 @@ public class BaseComp : MonoBehaviour
     private string _ActiveTxt = "Oui l'active";
 
     private TextMeshProUGUI _tabInfoText;
+    public FieldOfView _currentFov;
 
 
     private void OnEnable()
     {
         _canvas = GameObject.Find("Canvas");
         _scriptCurrent = _canvas.GetComponent<CurrentUnits>();
-        _active.onClick.AddListener(Active);
-        _shoot.onClick.AddListener(Shoot);
-        _overwatch.onClick.AddListener(Overwatch);
-        _defense.onClick.AddListener(Defense);
-        _grenade.onClick.AddListener(Grenade);
-        _reload.onClick.AddListener(Reload);
+        _active.onClick.AddListener(ActiveButton);
+        _shoot.onClick.AddListener(ShootButton);
+        _overwatch.onClick.AddListener(OverwatchButton);
+        _defense.onClick.AddListener(DefenseButton);
+        _grenade.onClick.AddListener(GrenadeButton);
+        _reload.onClick.AddListener(ReloadButton);
 
         _tabInfoText = _TabInformation.GetComponentInChildren<TextMeshProUGUI>();
     }
@@ -57,40 +59,53 @@ public class BaseComp : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Shoot();
+            ShootButton();
             
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Overwatch();
+            OverwatchButton();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            Defense();
+            DefenseButton();
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            Grenade();
+            GrenadeButton();
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
-            Reload();
+            ReloadButton();
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
-            Active();
+            ActiveButton();
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            _indexUse = 0;
+            
             _indexOfComp = 0;
             _TabInformation.SetActive(false);
             _percents.SetActive(false);
             _scriptCurrent._cantSwap = false;
         }
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            if (_indexOfComp == 1)
+            {
+                Shoot();
+            }
+            _indexOfComp = 0;
+            _TabInformation.SetActive(false);
+            _percents.SetActive(false);
+            _scriptCurrent._cantSwap = false;
+
+        }
+        
     }
 
-    private void Shoot()
+    private void ShootButton()
     {
          
         _indexOfComp = 1;
@@ -98,21 +113,21 @@ public class BaseComp : MonoBehaviour
         AnyButtonDown();
     }
 
-    private void Overwatch()
+    private void OverwatchButton()
     {
         _indexOfComp = 2;
         _tabInfoText.SetText(_ovTxt);
         AnyButtonDown();
     }
 
-    private void Defense()
+    private void DefenseButton()
     {
         _indexOfComp = 3;
         _tabInfoText.SetText(_defenseTxt);
         AnyButtonDown();
     }
 
-    private void Grenade()
+    private void GrenadeButton()
     {
         //seulement lorsque il a encore une grenade
         _indexOfComp = 4;
@@ -120,7 +135,7 @@ public class BaseComp : MonoBehaviour
         AnyButtonDown();
     }
 
-    private void Reload()
+    private void ReloadButton()
     {
         //seulement quand il lui manque au moins une munition
         _indexOfComp = 5;
@@ -128,17 +143,17 @@ public class BaseComp : MonoBehaviour
         AnyButtonDown();
     }
 
-    private void Active()
+    private void ActiveButton()
     {
         _indexOfComp = 6;
         _tabInfoText.SetText(_ActiveTxt);
         AnyButtonDown();
     }
 
-    private void AnyButtonDown()
+    private void AnyButtonDown() // Affichage du txt du bouton
     {
-        if (_indexOfComp != _indexUse)
-        {
+        //if (_indexOfComp != _indexUse)
+        //{
             if(_indexOfComp == 1)
             {
                 _percents.SetActive(true);
@@ -151,18 +166,31 @@ public class BaseComp : MonoBehaviour
                 _scriptCurrent.IsAimaing(false);
             }
 
-            _indexUse = _indexOfComp;
+          
             _TabInformation.SetActive(true);
             _scriptCurrent._cantSwap = true;
-        }
-        else
-        {
-            _indexUse = 0;
-            _indexOfComp = 0;
-            _TabInformation.SetActive(false);
-            _percents.SetActive(false);
-            _scriptCurrent._cantSwap = false;
-        }
+        //}
+        //else
+        //{
+        //    _indexUse = 0;
+        //    _indexOfComp = 0;
+        //    _TabInformation.SetActive(false);
+        //    _percents.SetActive(false);
+        //    _scriptCurrent._cantSwap = false;
+        //}
     }
+
+    public void Shoot()
+    {
+        Transform _target;
+        Player _player;
+        _target = _currentFov._actualTarget;
+        _player = _target.GetComponent<Player>();
+
+        _player.TakeDmg(3);
+    }
+
+
+
 
 }

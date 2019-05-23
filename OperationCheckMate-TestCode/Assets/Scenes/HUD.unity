@@ -953,6 +953,7 @@ GameObject:
   - component: {fileID: 364898742}
   - component: {fileID: 364898741}
   - component: {fileID: 364898740}
+  - component: {fileID: 364898743}
   m_Layer: 9
   m_Name: Tagets (1)
   m_TagString: Untagged
@@ -1033,6 +1034,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 364898738}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &364898743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364898738}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6bc3b787152ba9408ba2c5ececcaa7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentHealth: 0
+  _isActive: 0
+  _portrait: {fileID: 0}
 --- !u!224 &381898408 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6188682294125397494, guid: 8df8de139649b9f4380c0ca54d7b5737,
@@ -1116,7 +1132,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11455738, guid: 407bd5cbe8c43334bb1b25c0f3826974, type: 3}
       propertyPath: screenEdgeMovementSpeed
-      value: 15
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 11455738, guid: 407bd5cbe8c43334bb1b25c0f3826974, type: 3}
       propertyPath: followingSpeed
@@ -1677,6 +1693,7 @@ MonoBehaviour:
   _TabInformation: {fileID: 1411936392}
   _percents: {fileID: 660390475}
   _data: {fileID: 0}
+  _currentFov: {fileID: 0}
 --- !u!1001 &843805466
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1966,6 +1983,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7545831172327518764, guid: 8df8de139649b9f4380c0ca54d7b5737,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.39215687
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8df8de139649b9f4380c0ca54d7b5737, type: 3}
@@ -2508,6 +2530,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7545831172327518764, guid: 8df8de139649b9f4380c0ca54d7b5737,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.39215687
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8df8de139649b9f4380c0ca54d7b5737, type: 3}
 --- !u!1 &1411936392
@@ -2688,6 +2715,7 @@ GameObject:
   - component: {fileID: 1443958384}
   - component: {fileID: 1443958383}
   - component: {fileID: 1443958382}
+  - component: {fileID: 1443958385}
   m_Layer: 9
   m_Name: Tagets
   m_TagString: Untagged
@@ -2768,6 +2796,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1443958380}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1443958385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443958380}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6bc3b787152ba9408ba2c5ececcaa7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentHealth: 0
+  _isActive: 0
+  _portrait: {fileID: 0}
 --- !u!224 &1475294330 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7983623157966252092, guid: 0258f0c5ab323664d8c0ed5a93464d0a,
@@ -3295,6 +3338,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7545831172327518764, guid: 8df8de139649b9f4380c0ca54d7b5737,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.39215687
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8df8de139649b9f4380c0ca54d7b5737, type: 3}
 --- !u!1 &1758665855
@@ -3562,6 +3610,7 @@ GameObject:
   - component: {fileID: 1786397383}
   - component: {fileID: 1786397382}
   - component: {fileID: 1786397381}
+  - component: {fileID: 1786397384}
   m_Layer: 9
   m_Name: Tagets (2)
   m_TagString: Untagged
@@ -3642,6 +3691,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1786397379}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1786397384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786397379}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6bc3b787152ba9408ba2c5ececcaa7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentHealth: 0
+  _isActive: 0
+  _portrait: {fileID: 0}
 --- !u!1 &1858624588
 GameObject:
   m_ObjectHideFlags: 0
@@ -3921,6 +3985,11 @@ PrefabInstance:
       propertyPath: _red
       value: 
       objectReference: {fileID: 2100000, guid: f30b5874d866443a09587129155dd161, type: 2}
+    - target: {fileID: 7862689289922373074, guid: 4c7230030829ba04fa5969d47d479a83,
+        type: 3}
+      propertyPath: _isActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c7230030829ba04fa5969d47d479a83, type: 3}
 --- !u!1 &1970818144
@@ -4048,7 +4117,9 @@ MonoBehaviour:
   - {fileID: 282807269}
   - {fileID: 1568611801}
   - {fileID: 1529050110}
+  _childPortrait: []
   _active: {fileID: 835004504}
+  _portrait: {fileID: 0}
   _cantSwap: 0
 --- !u!224 &1986256517 stripped
 RectTransform:
@@ -4551,6 +4622,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7545831172327518764, guid: 8df8de139649b9f4380c0ca54d7b5737,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.39215687
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8df8de139649b9f4380c0ca54d7b5737, type: 3}

@@ -23,18 +23,18 @@ public class TargetSelector : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit))
-            {
-                if (hit.transform.CompareTag(targetsTag))
-                    cam.SetTarget(hit.transform);
-                else
-                    cam.ResetTarget();
-            }
-        }
+        //if(Input.GetMouseButtonDown(0))
+        //{
+        //    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit;
+        //    if(Physics.Raycast(ray, out hit))
+        //    {
+        //        if (hit.transform.CompareTag(targetsTag))
+        //            cam.SetTarget(hit.transform);
+        //        else
+        //            cam.ResetTarget();
+        //    }
+        //}
 
         //if (_target != null)
         //{
@@ -50,7 +50,7 @@ public class TargetSelector : MonoBehaviour
         //}
     }
 
-    public void NewTarget()
+    public void NewTarget() // envois la target a suivre pour la cam
     {
         cam.SetTarget(_target);
         StartCoroutine(TravelTime());

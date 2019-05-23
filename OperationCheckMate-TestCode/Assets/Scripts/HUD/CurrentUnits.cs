@@ -31,7 +31,7 @@ public class CurrentUnits : MonoBehaviour
          List<Transform> _theListPortrait = new List<Transform>();
         _portrait = this.gameObject.transform.GetChild(0);
 
-        for(int i= 0; i < _portrait.gameObject.transform.childCount; i++)
+        for(int i= 0; i < _portrait.gameObject.transform.childCount; i++) //recherche des portrait de chaque unité
         {
             _theListPortrait.Add(_portrait.gameObject.transform.GetChild(i));
         }
@@ -39,14 +39,23 @@ public class CurrentUnits : MonoBehaviour
         _childPortrait = _theListPortrait.ToArray();
         _theListPortrait.Clear();
 
+        for (int i = 0; i < _childPortrait.Length; i++)
+        {
+            Player _player;
+            _player = _units[i].GetComponent<Player>();
+            _player._portrait = _childPortrait[i].gameObject.transform.GetChild(0);
+        }
+
         _cam = Camera.main;
         _camaTarget = _cam.gameObject.GetComponent<TargetSelector>();
         _compScript = _active.GetComponent<BaseComp>();
         _dataUse = _data1;
         _compScript._data = _dataUse.Data;
         FieldOfView _fovScript;
-        _fovScript = _units[1].GetComponent<FieldOfView>();
+        _fovScript = _units[0].GetComponent<FieldOfView>();
         _fovScript._isActive = true;
+        _compScript._currentFov = _fovScript;
+
     }
 
     private void Update()
@@ -70,12 +79,14 @@ public class CurrentUnits : MonoBehaviour
         
        
 
-        if (_cantSwap == false)
+        if (_cantSwap == false) //ne marche pas lorsqu'une action est en cours
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (Input.GetKeyDown(KeyCode.Tab)) //changement d'unité par touche 
             {
                 ChangeUnits();
                 SelectUnitOnTab();
+                ChangePortrait();
+
                 _camaTarget._target = _transCurrentTarget;
                 _camaTarget.NewTarget();
                 _compScript._data = _dataUse.Data;
@@ -83,7 +94,7 @@ public class CurrentUnits : MonoBehaviour
         }
     }
 
-    private void ChangeUnits()
+    private void ChangeUnits() // change l'index de l'unité a utilisé
     {
         _index += 1;
 
@@ -93,7 +104,7 @@ public class CurrentUnits : MonoBehaviour
         }
     }
 
-   void SelectUnitOnTab()
+   void SelectUnitOnTab() //choisit quelle unité sera selectioné
     {
         for (int i =0; i < _units.Length; i++)
         {
@@ -110,6 +121,7 @@ public class CurrentUnits : MonoBehaviour
                 _script._isActive = true;
                 _theOne._isActive = true;
                 _player._isActive = true;
+                _compScript._currentFov = _script;
             }
             else
             {
@@ -120,23 +132,30 @@ public class CurrentUnits : MonoBehaviour
         }
     }
 
-    void ChangePortrait()
+    void ChangePortrait() //mise en place du portrait adéquat
     {
         for(int i = 0; i < _childPortrait.Length; i++)
         {
             
+            Image _portraitImg;
+            _portraitImg = _childPortrait[i].gameObject.GetComponent<Image>();
+           
+            var _temp = _portraitImg.color;
+            
             if (i == _index - 1)
             {
-                _childPortrait[i].gameObject.SetActive(true);
+                _temp.a = 1f;
+                _portraitImg.color = _temp;
             }
             else
             {
-
+                _temp.a = 0.5f;
+                _portraitImg.color = _temp;
             }
         }
     }
 
-    public void IsAimaing(bool _IsOrIsnt)
+    public void IsAimaing(bool _IsOrIsnt) // vise t-il ?
     {
         
            for (int i = 0; i < _units.Length; i++)

@@ -8,24 +8,25 @@ public class FieldOfView : MonoBehaviour {
     [Range(0, 360)]
     public float viewAngle;
 
-    public bool _isActive = false;
     public LayerMask targetMask;
     public LayerMask obstacleMask;
    // public List<GameObject> targetSpoted = new List<GameObject>;
+    public bool _isActive = false;
     public List<Transform> visibleTargets = new List<Transform>();
     [SerializeField ]private int _nbOfTarget = 0;
     [SerializeField ]private int _targetSelect = 1;
     [SerializeField ]private Material _red;
     [SerializeField ]private Material _targetMaterial;
     [SerializeField ]private Transform[] _currentTargets;
+    public Transform _actualTarget;
+    private bool _aimTrue = false;
+    public bool _isAimaing = false;
 
     [HideInInspector]
 
     public float meshResolution;
     public int edgeResolveIterations;
     public float edgeDstThreshold;
-    private bool _aimTrue = false;
-    public bool _isAimaing = false;
 
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
@@ -41,7 +42,7 @@ public class FieldOfView : MonoBehaviour {
     }
 
 
-    IEnumerator FindTargetsWithDelay(float delay)
+    IEnumerator FindTargetsWithDelay(float delay) //refresh des targets 
     {
         while (true)
         {
@@ -68,7 +69,7 @@ public class FieldOfView : MonoBehaviour {
         }
     }
 
-    void FindVisibleTargets()
+    void FindVisibleTargets() //mise en place des targets dans une list 
     {
         visibleTargets.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
@@ -123,6 +124,7 @@ public class FieldOfView : MonoBehaviour {
                 if (i+1 == _targetSelect)
                 {
                     _m.color = Color.red;
+                    _actualTarget = _currentTargets[i];
                     //Debug.Log(_currentTargets[i]);
                 }else
                 {
@@ -132,7 +134,7 @@ public class FieldOfView : MonoBehaviour {
         }
     }
 
-    public void Refresh()
+    public void Refresh() //stop aiming 
     {
         if (_isAimaing == true)
         {
@@ -150,11 +152,15 @@ public class FieldOfView : MonoBehaviour {
 
             AimTarget();
             _currentTargets = visibleTargets.ToArray();
+            if (_currentTargets.Length != 0)
+            {
+                _actualTarget = _currentTargets[0];
+            }
         }
     }
 
 
-    void DrawFieldOfView()
+    void DrawFieldOfView() // FOV de l'unité calculé en fonction des obstacles en face de lui par triangulisation 
     {
         int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
         float stepAngleSize = viewAngle / stepCount;
