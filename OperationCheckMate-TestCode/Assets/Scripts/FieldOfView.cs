@@ -123,7 +123,7 @@ public class FieldOfView : MonoBehaviour {
                 if (i+1 == _targetSelect)
                 {
                     _m.color = Color.red;
-                    Debug.Log(_currentTargets[i]);
+                    //Debug.Log(_currentTargets[i]);
                 }else
                 {
                     _m.color = Color.blue;

@@ -34,7 +34,7 @@ public class Controller : MonoBehaviour
     {
         if(_isActive == true)
         {
-            rigidbody.MovePosition(rigidbody.position + velocity * Time.fixedDeltaTime);
+           // rigidbody.MovePosition(rigidbody.position + velocity * Time.fixedDeltaTime);
         }
     }
 }

@@ -11,9 +11,12 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private Units _data4;
 
     [SerializeField] private GameObject[] _units;
+    [SerializeField] private Transform[] _childPortrait;
+    [SerializeField] private GameObject _active;
+    [SerializeField] private Transform _portrait;
+
 
     private Units _dataUse;
-    [SerializeField] private GameObject _active;
     private BaseComp _compScript;
     private int _index = 1;
 
@@ -25,6 +28,17 @@ public class CurrentUnits : MonoBehaviour
 
     private void OnEnable()
     {
+         List<Transform> _theListPortrait = new List<Transform>();
+        _portrait = this.gameObject.transform.GetChild(0);
+
+        for(int i= 0; i < _portrait.gameObject.transform.childCount; i++)
+        {
+            _theListPortrait.Add(_portrait.gameObject.transform.GetChild(i));
+        }
+
+        _childPortrait = _theListPortrait.ToArray();
+        _theListPortrait.Clear();
+
         _cam = Camera.main;
         _camaTarget = _cam.gameObject.GetComponent<TargetSelector>();
         _compScript = _active.GetComponent<BaseComp>();
@@ -102,6 +116,22 @@ public class CurrentUnits : MonoBehaviour
                 _script._isActive = false;
                 _theOne._isActive = false;
                 _player._isActive = false;
+            }
+        }
+    }
+
+    void ChangePortrait()
+    {
+        for(int i = 0; i < _childPortrait.Length; i++)
+        {
+            
+            if (i == _index - 1)
+            {
+                _childPortrait[i].gameObject.SetActive(true);
+            }
+            else
+            {
+
             }
         }
     }
