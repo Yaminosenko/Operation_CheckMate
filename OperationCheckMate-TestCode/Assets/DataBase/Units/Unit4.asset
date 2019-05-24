@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7d9e19aeaeb4bf40afcfa10066e7407, type: 3}
   m_Name: Unit4
   m_EditorClassIdentifier: 
-  _health: 0
-  _stamina: 0
-  _aim: 0
-  _luck: 0
-  _weapon: 0
+  _health: 10
+  _stamina: 10
+  _aim: 10
+  _luck: 10
   _data: {fileID: 11400000, guid: 273cb4eb084850a40906754727d08bcc, type: 2}
+  _weaponList: 3
+  _dataList:
+  - {fileID: 11400000, guid: fdaa2cb24eeb77f4a963cfb4aab5c5e1, type: 2}
+  - {fileID: 11400000, guid: 9e2e80183485999468c1a9c48935fe3d, type: 2}
+  - {fileID: 11400000, guid: f8944483319121e4680891df95fae95e, type: 2}
+  - {fileID: 11400000, guid: 9f87d6c3886b4a64498e2bf3a6250b16, type: 2}

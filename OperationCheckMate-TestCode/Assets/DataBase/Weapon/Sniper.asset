@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7d9e19aeaeb4bf40afcfa10066e7407, type: 3}
-  m_Name: Unit3
+  m_Script: {fileID: 11500000, guid: 1e7eb5c3abca10044a3eb46a958d6c92, type: 3}
+  m_Name: Sniper
   m_EditorClassIdentifier: 
-  _health: 0
-  _stamina: 0
-  _aim: 0
-  _luck: 0
-  _weapon: 0
-  _data: {fileID: 11400000, guid: 5043bc2bb1c5a39428518970ed635f83, type: 2}
+  _scope: 75
+  _dmg: 15
+  _ammo: 10

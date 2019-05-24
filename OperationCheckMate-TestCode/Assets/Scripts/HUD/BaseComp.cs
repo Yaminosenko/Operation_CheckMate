@@ -19,10 +19,11 @@ public class BaseComp : MonoBehaviour
 
      private GameObject _canvas;
      private CurrentUnits _scriptCurrent;
+    private Weapon _weaponUse;
      private Sprite _sprite;
      private int _index;
      private int _indexOfComp;
-    private int _dmg;
+     private int _dmg;
      
 
     private string _shootTxt = "Oui le tire";
@@ -34,6 +35,11 @@ public class BaseComp : MonoBehaviour
 
     private TextMeshProUGUI _tabInfoText;
     public FieldOfView _currentFov;
+
+    private int _scope;
+    private int _distanceTarget;
+    private int _protectLvl;
+    private int _percentsFinal;
 
 
     private void OnEnable()
@@ -186,11 +192,18 @@ public class BaseComp : MonoBehaviour
         Player _player;
         _target = _currentFov._actualTarget;
         _player = _target.GetComponent<Player>();
+        _dmg = _weaponUse.Damage;
+        if (_player != null)
+        {
+            _player.TakeDmg(_dmg);
+        }
 
-        _player.TakeDmg(3);
     }
 
-
+    //private void PercentsCalcul()
+    //{
+    //    _percentsFinal = _scope - _distanceTarget
+    //}
 
 
 }

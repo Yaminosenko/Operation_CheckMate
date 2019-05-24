@@ -18,6 +18,7 @@ public class CurrentUnits : MonoBehaviour
 
     private Units _dataUse;
     private BaseComp _compScript;
+    [SerializeField] private Weapon _weaponData;
     private int _index = 1;
 
     public bool _cantSwap = false;
@@ -56,6 +57,9 @@ public class CurrentUnits : MonoBehaviour
         _fovScript._isActive = true;
         _compScript._currentFov = _fovScript;
 
+
+       
+
     }
 
     private void Update()
@@ -86,7 +90,7 @@ public class CurrentUnits : MonoBehaviour
                 ChangeUnits();
                 SelectUnitOnTab();
                 ChangePortrait();
-
+                DataWeaponChange();
                 _camaTarget._target = _transCurrentTarget;
                 _camaTarget.NewTarget();
                 _compScript._data = _dataUse.Data;
@@ -176,6 +180,26 @@ public class CurrentUnits : MonoBehaviour
                 }
             }  
         
+    }
+
+    private void DataWeaponChange()
+    {
+        if (_dataUse.WeaponList == Units.WeaponEnum.Assault)
+        {
+            _weaponData = _dataUse.DataList[0];
+        }
+        if (_dataUse.WeaponList == Units.WeaponEnum.Sniper)
+        {
+            _weaponData = _dataUse.DataList[1];
+        }
+        if (_dataUse.WeaponList == Units.WeaponEnum.ShotGun)
+        {
+            _weaponData = _dataUse.DataList[2];
+        }
+        if (_dataUse.WeaponList == Units.WeaponEnum.Gatling)
+        {
+            _weaponData = _dataUse.DataList[3];
+        }
     }
 
 }

@@ -44,16 +44,7 @@ public class Units : ScriptableObject
         }
     }
 
-    [SerializeField] protected int _weapon;
-
-    public int Weapon
-    {
-        get
-        {
-            return _weapon;
-        }
-    }
-
+ 
     [SerializeField] protected Competance _data;
 
     public Competance Data
@@ -61,6 +52,29 @@ public class Units : ScriptableObject
         get
         {
             return _data;
+        }
+    }
+
+    public enum WeaponEnum
+    {
+        Assault, Sniper, ShotGun, Gatling, 
+    }
+
+    [SerializeField] protected WeaponEnum _weaponList;
+    public WeaponEnum WeaponList
+        {
+            get
+            {
+                return _weaponList;
+            }
+        }
+
+    [SerializeField] protected Weapon[] _dataList;
+    public Weapon[] DataList
+    {
+        get
+        {
+            return _dataList;
         }
     }
 }
