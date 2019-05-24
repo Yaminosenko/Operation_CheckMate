@@ -9,9 +9,15 @@ public class Player : MonoBehaviour
     public int _currentHealth;
     public bool _isActive = false;
     public Transform _portrait;
+    public Weapon _weapon;
     private Image _healthImage;
     
     private int _maxHealth;
+    public int _ammo; 
+
+    //[HideInInspector]
+
+
 
     //[SerializeField] Units _data;
 
@@ -23,6 +29,7 @@ public class Player : MonoBehaviour
         //StartCoroutine(Wait());
         //_portraitChild = _portrait.gameObject.transform.GetChild(1);
         _healthImage = _portrait.GetComponent<Image>();
+        //_ammo = _weapon.Ammo;
         //Debug.Log(_portrait);
     }
 

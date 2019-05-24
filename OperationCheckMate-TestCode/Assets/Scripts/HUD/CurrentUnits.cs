@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,8 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private Units _data2;
     [SerializeField] private Units _data3;
     [SerializeField] private Units _data4;
+
+    private Units[] _dataTab;
 
     [SerializeField] private GameObject[] _units;
     [SerializeField] private Transform[] _childPortrait;
@@ -29,8 +32,18 @@ public class CurrentUnits : MonoBehaviour
 
     private void OnEnable()
     {
+         List<Units> _dataList = new List<Units>();
          List<Transform> _theListPortrait = new List<Transform>();
         _portrait = this.gameObject.transform.GetChild(0);
+
+        //_dataList.Add(_data1);
+        //_dataList.Add(_data2);
+        //_dataList.Add(_data3);
+        //_dataList.Add(_data4);
+        _dataTab = _dataList.ToArray();
+        _dataList.Clear();
+
+        
 
         for(int i= 0; i < _portrait.gameObject.transform.childCount; i++) //recherche des portrait de chaque unité
         {
@@ -43,8 +56,26 @@ public class CurrentUnits : MonoBehaviour
         for (int i = 0; i < _childPortrait.Length; i++)
         {
             Player _player;
+            
             _player = _units[i].GetComponent<Player>();
             _player._portrait = _childPortrait[i].gameObject.transform.GetChild(0);
+
+            //if (_dataTab[i].WeaponList == Units.WeaponEnum.Assault)
+            //{
+            //   _player._weapon = _dataUse.DataList[0];
+            //}
+            //if (_dataTab[i].WeaponList == Units.WeaponEnum.Sniper)
+            //{
+            //    _player._weapon = _dataUse.DataList[1];
+            //}
+            //if (_dataTab[i].WeaponList == Units.WeaponEnum.ShotGun)
+            //{
+            //    _player._weapon = _dataUse.DataList[2];
+            //}
+            //if (_dataTab[i].WeaponList == Units.WeaponEnum.Gatling)
+            //{
+            //    _player._weapon = _dataUse.DataList[3];
+            //}
         }
 
         _cam = Camera.main;
@@ -57,9 +88,10 @@ public class CurrentUnits : MonoBehaviour
         _fovScript._isActive = true;
         _compScript._currentFov = _fovScript;
 
+        //for (int i = 0; i < _units.Length; i++)
+        //{
 
-       
-
+        //}
     }
 
     private void Update()
@@ -126,6 +158,7 @@ public class CurrentUnits : MonoBehaviour
                 _theOne._isActive = true;
                 _player._isActive = true;
                 _compScript._currentFov = _script;
+                _compScript._playerScript = _player; 
             }
             else
             {

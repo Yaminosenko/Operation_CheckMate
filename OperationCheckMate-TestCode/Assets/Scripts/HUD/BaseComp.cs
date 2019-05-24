@@ -20,7 +20,7 @@ public class BaseComp : MonoBehaviour
 
      private GameObject _canvas;
      private CurrentUnits _scriptCurrent;
-    private Weapon _weaponUse;
+     private Weapon _weaponUse;
      private Sprite _sprite;
      private int _index;
      private int _indexOfComp;
@@ -36,6 +36,7 @@ public class BaseComp : MonoBehaviour
 
     private TextMeshProUGUI _tabInfoText;
     public FieldOfView _currentFov;
+    public Player _playerScript;
 
     private float _scope;
     private float _distanceTargetPercent;
@@ -53,6 +54,8 @@ public class BaseComp : MonoBehaviour
         _defense.onClick.AddListener(DefenseButton);
         _grenade.onClick.AddListener(GrenadeButton);
         _reload.onClick.AddListener(ReloadButton);
+
+
 
         _tabInfoText = _TabInformation.GetComponentInChildren<TextMeshProUGUI>();
     }
@@ -112,7 +115,6 @@ public class BaseComp : MonoBehaviour
 
         if(_currentFov._swap == true)
         {
-            Debug.Log("aaa");
             PercentsCalcul();
         }
         
@@ -120,10 +122,12 @@ public class BaseComp : MonoBehaviour
 
     private void ShootButton()
     {
-         
-        _indexOfComp = 1;
-        _tabInfoText.SetText(_shootTxt);
-        AnyButtonDown();
+         if(_playerScript._ammo <= 0)
+        {
+            _indexOfComp = 1;
+            _tabInfoText.SetText(_shootTxt);
+            AnyButtonDown();
+        }
     }
 
     private void OverwatchButton()
@@ -193,16 +197,19 @@ public class BaseComp : MonoBehaviour
         //}
     }
 
+
     public void Shoot()
     {
+        
         Transform _target;
-        Player _player;
+        Player _playerTarget;
         _target = _currentFov._actualTarget;
-        _player = _target.GetComponent<Player>();
+        _playerTarget = _target.GetComponent<Player>();
         _dmg = _weaponUse.Damage;
-        if (_player != null)
+        _playerScript._ammo -= 1;
+        if (_playerTarget != null)
         {
-            _player.TakeDmg(_dmg);
+            _playerTarget.TakeDmg(_dmg);
         }
 
     }
@@ -210,36 +217,6 @@ public class BaseComp : MonoBehaviour
     public void PercentsCalcul()
     {
         float _distanceTarg = _currentFov._distanceTarget;
-
-        //for (int i = 0; i < 5; i++)
-        //{
-        //    if (_distanceTarg <= i * _equilibreDataPercents.PalierDistance)
-        //    {
-        //        _distanceTargetPercent = 0 + _equilibreDataPercents.PalierDistance * i;
-        //    }
-        //    else
-        //    {
-        //        _distanceTargetPercent = 0 + _equilibreDataPercents.PalierDistance * i;
-        //    }
-        //}
-
-        //if (_distanceTarg <= _equilibreDataPercents.PalierDistance)
-        //{
-        //    _distanceTargetPercent = 0;
-        //}
-        //else if (_distanceTarg >= _equilibreDataPercents.PalierDistance && _distanceTarg <= _equilibreDataPercents.PalierDistance * 2)
-        //{
-        //    _distanceTargetPercent = 30;
-        //}
-        //else if (_distanceTarg >= _equilibreDataPercents.PalierDistance && _distanceTarg * 1 <= _equilibreDataPercents.PalierDistance * 3)
-        //{
-        //    _distanceTargetPercent = 60;
-        //}
-        //else if (_distanceTarg >= _equilibreDataPercents.PalierDistance && _distanceTarg * 2 <= _equilibreDataPercents.PalierDistance * 4)
-        //{
-        //    _distanceTargetPercent = 90;
-        //}
-
 
         _scope = _scriptCurrent._weaponData.Scope;
         _percentsFinal = _scope - _distanceTarg ;
