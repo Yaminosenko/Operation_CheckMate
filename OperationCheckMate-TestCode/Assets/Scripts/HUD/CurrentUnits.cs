@@ -18,7 +18,7 @@ public class CurrentUnits : MonoBehaviour
 
     private Units _dataUse;
     private BaseComp _compScript;
-    [SerializeField] private Weapon _weaponData;
+    public Weapon _weaponData;
     private int _index = 1;
 
     public bool _cantSwap = false;

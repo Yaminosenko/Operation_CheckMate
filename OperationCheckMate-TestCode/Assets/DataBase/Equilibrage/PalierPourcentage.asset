@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e7eb5c3abca10044a3eb46a958d6c92, type: 3}
-  m_Name: Sniper
+  m_Script: {fileID: 11500000, guid: be136a2275901cb41a8494b4d32af947, type: 3}
+  m_Name: PalierPourcentage
   m_EditorClassIdentifier: 
-  _scope: 175
-  _dmg: 15
-  _ammo: 10
+  _palierAim: 0a00000019000000320000004b00000064000000
+  _palierDistance: 20

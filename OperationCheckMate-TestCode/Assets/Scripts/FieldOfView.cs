@@ -10,20 +10,22 @@ public class FieldOfView : MonoBehaviour {
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
-   // public List<GameObject> targetSpoted = new List<GameObject>;
+    [SerializeField] private BaseComp _competanceScript;
     public bool _isActive = false;
     public List<Transform> visibleTargets = new List<Transform>();
-    [SerializeField ]private int _nbOfTarget = 0;
-    [SerializeField ]private int _targetSelect = 1;
     [SerializeField ]private Material _red;
     [SerializeField ]private Material _targetMaterial;
-    [SerializeField ]private Transform[] _currentTargets;
-    public Transform _actualTarget;
+    [SerializeField] private Transform[] _currentTargets;
     private bool _aimTrue = false;
-    public bool _isAimaing = false;
 
     [HideInInspector]
 
+    public bool _swap = false;
+    public bool _isAimaing = false;
+    public Transform _actualTarget;
+    private int _nbOfTarget = 0;
+    private int _targetSelect = 1;
+    public float _distanceTarget;
     public float meshResolution;
     public int edgeResolveIterations;
     public float edgeDstThreshold;
@@ -98,10 +100,12 @@ public class FieldOfView : MonoBehaviour {
         _aimTrue = true;
     }
 
-    void SelectTarget() //Change l'unité visée a chaque "Tab". Penser a lock le changement d'unité lors de l'aim.
+    void SelectTarget() //Change l'unité visée a chaque "Tab". Penser a lock le changement d'unité lors de l'aim. 
     {
+        //placer le for et le target select une fois avant de Tab 
         if (Input.GetKeyDown(KeyCode.Tab))
         {
+            _swap = true;
             if(_targetSelect < _nbOfTarget)
             {
                 _targetSelect += 1;
@@ -126,11 +130,15 @@ public class FieldOfView : MonoBehaviour {
                     _m.color = Color.red;
                     _actualTarget = _currentTargets[i];
                     //Debug.Log(_currentTargets[i]);
-                }else
+
+                    _distanceTarget = Vector3.Distance(transform.position, _currentTargets[i].transform.position);
+                }
+                else
                 {
                     _m.color = Color.blue;
                 }
             }
+            
         }
     }
 

@@ -4,9 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "UnityCourse/Weapon")]
 public class Weapon : ScriptableObject
 {
-    [SerializeField] protected int _scope;
+    [SerializeField] protected float _scope;
 
-    public int Scope
+    public float Scope
     {
         get
         {

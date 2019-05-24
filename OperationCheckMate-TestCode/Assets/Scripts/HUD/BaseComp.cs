@@ -14,6 +14,7 @@ public class BaseComp : MonoBehaviour
      [SerializeField] private Button _reload;
      [SerializeField] private GameObject _TabInformation;
      [SerializeField] private GameObject _percents;
+     [SerializeField] private Percents_palier _equilibreDataPercents;
 
      public Competance _data;
 
@@ -36,10 +37,10 @@ public class BaseComp : MonoBehaviour
     private TextMeshProUGUI _tabInfoText;
     public FieldOfView _currentFov;
 
-    private int _scope;
-    private int _distanceTarget;
+    private float _scope;
+    private float _distanceTargetPercent;
     private int _protectLvl;
-    private int _percentsFinal;
+    [SerializeField] private float _percentsFinal;
 
 
     private void OnEnable()
@@ -107,6 +108,12 @@ public class BaseComp : MonoBehaviour
             _percents.SetActive(false);
             _scriptCurrent._cantSwap = false;
 
+        }
+
+        if(_currentFov._swap == true)
+        {
+            Debug.Log("aaa");
+            PercentsCalcul();
         }
         
     }
@@ -200,10 +207,44 @@ public class BaseComp : MonoBehaviour
 
     }
 
-    //private void PercentsCalcul()
-    //{
-    //    _percentsFinal = _scope - _distanceTarget
-    //}
+    public void PercentsCalcul()
+    {
+        float _distanceTarg = _currentFov._distanceTarget;
+
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    if (_distanceTarg <= i * _equilibreDataPercents.PalierDistance)
+        //    {
+        //        _distanceTargetPercent = 0 + _equilibreDataPercents.PalierDistance * i;
+        //    }
+        //    else
+        //    {
+        //        _distanceTargetPercent = 0 + _equilibreDataPercents.PalierDistance * i;
+        //    }
+        //}
+
+        //if (_distanceTarg <= _equilibreDataPercents.PalierDistance)
+        //{
+        //    _distanceTargetPercent = 0;
+        //}
+        //else if (_distanceTarg >= _equilibreDataPercents.PalierDistance && _distanceTarg <= _equilibreDataPercents.PalierDistance * 2)
+        //{
+        //    _distanceTargetPercent = 30;
+        //}
+        //else if (_distanceTarg >= _equilibreDataPercents.PalierDistance && _distanceTarg * 1 <= _equilibreDataPercents.PalierDistance * 3)
+        //{
+        //    _distanceTargetPercent = 60;
+        //}
+        //else if (_distanceTarg >= _equilibreDataPercents.PalierDistance && _distanceTarg * 2 <= _equilibreDataPercents.PalierDistance * 4)
+        //{
+        //    _distanceTargetPercent = 90;
+        //}
+
+
+        _scope = _scriptCurrent._weaponData.Scope;
+        _percentsFinal = _scope - _distanceTarg ;
+        _currentFov._swap = false;
+    }
 
 
 }

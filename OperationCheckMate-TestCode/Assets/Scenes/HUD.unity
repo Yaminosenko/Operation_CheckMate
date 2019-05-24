@@ -1692,6 +1692,8 @@ MonoBehaviour:
   _reload: {fileID: 1578511997}
   _TabInformation: {fileID: 1411936392}
   _percents: {fileID: 660390475}
+  _equilibreDataPercents: {fileID: 11400000, guid: a75dbdfce79fcce47ba484e02ab4c548,
+    type: 2}
   _data: {fileID: 0}
   _currentFov: {fileID: 0}
 --- !u!1001 &843805466
@@ -4120,6 +4122,7 @@ MonoBehaviour:
   _childPortrait: []
   _active: {fileID: 835004504}
   _portrait: {fileID: 0}
+  _weaponData: {fileID: 0}
   _cantSwap: 0
 --- !u!224 &1986256517 stripped
 RectTransform:
