@@ -15,6 +15,7 @@ public class CurrentUnits : MonoBehaviour
 
     [SerializeField] private GameObject[] _units;
     [SerializeField] private Transform[] _childPortrait;
+    [SerializeField] private Competance[] _evryComp;
     [SerializeField] private GameObject _active;
     [SerializeField] private Transform _portrait;
 
@@ -32,6 +33,7 @@ public class CurrentUnits : MonoBehaviour
 
     private void OnEnable()
     {
+
          List<Units> _dataList = new List<Units>();
          List<Transform> _theListPortrait = new List<Transform>();
         _portrait = this.gameObject.transform.GetChild(0);
@@ -43,9 +45,10 @@ public class CurrentUnits : MonoBehaviour
         _dataTab = _dataList.ToArray();
         _dataList.Clear();
 
-        
 
-        for(int i= 0; i < _portrait.gameObject.transform.childCount; i++) //recherche des portrait de chaque unité
+        //UpdateDataBase1();
+
+        for (int i= 0; i < _portrait.gameObject.transform.childCount; i++) //recherche des portrait de chaque unité
         {
             _theListPortrait.Add(_portrait.gameObject.transform.GetChild(i));
         }
@@ -125,10 +128,48 @@ public class CurrentUnits : MonoBehaviour
                 DataWeaponChange();
                 _camaTarget._target = _transCurrentTarget;
                 _camaTarget.NewTarget();
-                _compScript._data = _dataUse.Data;
+               // _compScript._data = _dataUse.Data;
+
+                
             }
         }
     }
+
+    private void UpdateDataBase1()
+    {
+
+       
+
+        _data1.Health = StaticStats1.Health;
+        _data1.Aim = StaticStats1.Aim;
+        _data1.Stamina = StaticStats1.Stamina;
+        _data1.Luck = StaticStats1.Luck;
+       
+
+
+        if (StaticStats1.Weapon == 1)
+        {
+            _data1.WeaponList = Units.WeaponEnum.Assault;
+            _data1.Data = _evryComp[0];
+        }
+        else if (StaticStats1.Weapon == 2)
+        {
+            _data1.WeaponList = Units.WeaponEnum.Sniper;
+            _data1.Data = _evryComp[1];
+        }
+        else if (StaticStats1.Weapon == 3)
+        {
+            _data1.WeaponList = Units.WeaponEnum.ShotGun;
+            _data1.Data = _evryComp[2];
+        }
+        else if (StaticStats1.Weapon == 4)
+        {
+            _data1.WeaponList = Units.WeaponEnum.Gatling;
+            _data1.Data = _evryComp[3];
+        }
+    }
+
+
 
     private void ChangeUnits() // change l'index de l'unité a utilisé
     {

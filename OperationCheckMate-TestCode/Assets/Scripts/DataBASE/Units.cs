@@ -4,43 +4,59 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "UnityCourse/Units")]
 public class Units : ScriptableObject
 {
-    [SerializeField] protected int _health;
+    [SerializeField] protected float _health;
 
-    public int Health
+    public float Health
     {
         get
         {
             return _health;
         }
+        set
+        {
+            _health = value;
+        }
     }
 
-    [SerializeField] protected int _stamina;
+    [SerializeField] protected float _stamina;
 
-    public int Stamina
+    public float Stamina
     {
         get
         {
             return _stamina;
         }
+        set
+        {
+            _stamina = value;
+        }
     }
 
-    [SerializeField] protected int _aim;
+    [SerializeField] protected float _aim;
 
-    public int Aim
+    public float Aim
     {
         get
         {
             return _aim;
         }
+        set
+        {
+            _aim = value;
+        }
     }
 
-    [SerializeField] protected int _luck;
+    [SerializeField] protected float _luck;
 
-    public int Luck
+    public float Luck
     {
         get
         {
             return _luck;
+        }
+        set
+        {
+            _luck = value;
         }
     }
 
@@ -53,11 +69,15 @@ public class Units : ScriptableObject
         {
             return _data;
         }
+        set
+        {
+            _data = value;
+        }
     }
 
     public enum WeaponEnum
     {
-        Assault, Sniper, ShotGun, Gatling, 
+        Assault, Sniper, ShotGun, Gatling 
     }
 
     [SerializeField] protected WeaponEnum _weaponList;
@@ -67,7 +87,11 @@ public class Units : ScriptableObject
             {
                 return _weaponList;
             }
+        set
+        {
+            _weaponList = value;
         }
+    }
 
     [SerializeField] protected Weapon[] _dataList;
     public Weapon[] DataList

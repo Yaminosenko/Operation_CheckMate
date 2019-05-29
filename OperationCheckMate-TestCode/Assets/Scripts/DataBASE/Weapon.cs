@@ -12,6 +12,10 @@ public class Weapon : ScriptableObject
         {
             return _scope;
         }
+        set
+        {
+            _scope = value;
+        }
     }
 
     [SerializeField] protected int _dmg;

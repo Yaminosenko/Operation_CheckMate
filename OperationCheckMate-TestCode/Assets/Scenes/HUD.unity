@@ -4128,6 +4128,11 @@ MonoBehaviour:
   - {fileID: 1568611801}
   - {fileID: 1529050110}
   _childPortrait: []
+  _evryComp:
+  - {fileID: 11400000, guid: 5ad704b64e73f61488b479dc89a7ef85, type: 2}
+  - {fileID: 11400000, guid: 1fab7a2987fb4cd41a4bf228d2daa4e3, type: 2}
+  - {fileID: 11400000, guid: 5043bc2bb1c5a39428518970ed635f83, type: 2}
+  - {fileID: 11400000, guid: 273cb4eb084850a40906754727d08bcc, type: 2}
   _active: {fileID: 835004504}
   _portrait: {fileID: 0}
   _weaponData: {fileID: 0}
