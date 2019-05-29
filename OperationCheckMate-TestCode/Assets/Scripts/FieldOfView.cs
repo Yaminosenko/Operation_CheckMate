@@ -10,7 +10,7 @@ public class FieldOfView : MonoBehaviour {
 
     public LayerMask targetMask;
     public LayerMask obstacleMask;
-    [SerializeField] private BaseComp _competanceScript;
+   // [SerializeField] private BaseComp _competanceScript;
     public bool _isActive = false;
     public List<Transform> visibleTargets = new List<Transform>();
     [SerializeField ]private Material _red;

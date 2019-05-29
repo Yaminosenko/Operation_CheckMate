@@ -10,14 +10,22 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private Units _data2;
     [SerializeField] private Units _data3;
     [SerializeField] private Units _data4;
+    [SerializeField] private Units _data5;
+    [SerializeField] private Units _data6;
+    [SerializeField] private Units _data7;
+    [SerializeField] private Units _data8;
 
     private Units[] _dataTab;
 
-    [SerializeField] private GameObject[] _units;
+    [SerializeField] private GameObject[] _team1;
+    [SerializeField] private GameObject[] _team2;
+    
     [SerializeField] private Transform[] _childPortrait;
+    [SerializeField] private Transform[] _childPortrait2;
     [SerializeField] private Competance[] _evryComp;
     [SerializeField] private GameObject _active;
     [SerializeField] private Transform _portrait;
+    [SerializeField] private Transform _portrait2;
 
 
     [SerializeField] private Units _dataUse;
@@ -33,15 +41,20 @@ public class CurrentUnits : MonoBehaviour
 
     private void OnEnable()
     {
-
          List<Units> _dataList = new List<Units>();
          List<Transform> _theListPortrait = new List<Transform>();
+         List<Transform> _theListPortrait2 = new List<Transform>();
         _portrait = this.gameObject.transform.GetChild(0);
+        _portrait2 = this.gameObject.transform.GetChild(1);
 
         _dataList.Add(_data1);
         _dataList.Add(_data2);
         _dataList.Add(_data3);
         _dataList.Add(_data4);
+        _dataList.Add(_data5);
+        _dataList.Add(_data6);
+        _dataList.Add(_data7);
+        _dataList.Add(_data8);
         _dataTab = _dataList.ToArray();
         _dataList.Clear();
 
@@ -52,15 +65,21 @@ public class CurrentUnits : MonoBehaviour
         {
             _theListPortrait.Add(_portrait.gameObject.transform.GetChild(i));
         }
+        for (int i = 0; i < _portrait2.gameObject.transform.childCount; i++) //recherche des portrait de chaque unité
+        {
+            _theListPortrait2.Add(_portrait2.gameObject.transform.GetChild(i));
+        }
 
         _childPortrait = _theListPortrait.ToArray();
+        _childPortrait2 = _theListPortrait2.ToArray();
         _theListPortrait.Clear();
+        _theListPortrait2.Clear();
 
         for (int i = 0; i < _childPortrait.Length; i++)
         {
             Player _player;
             
-            _player = _units[i].GetComponent<Player>();
+            _player = _team1[i].GetComponent<Player>();
             _player._portrait = _childPortrait[i].gameObject.transform.GetChild(0);
 
             Debug.Log(_dataTab.Length);
@@ -82,8 +101,34 @@ public class CurrentUnits : MonoBehaviour
             }
 
         }
-        //_weaponData =
-        //_compScript._weaponUse = _weaponData;
+
+        for (int i = 0; i < _childPortrait.Length; i++)
+        {
+            Player _player;
+
+            _player = _team2[i].GetComponent<Player>();
+            _player._portrait = _childPortrait[i].gameObject.transform.GetChild(0);
+
+            Debug.Log(_dataTab.Length);
+            if (_dataTab[i].WeaponList == Units.WeaponEnum.Assault)
+            {
+                _player._weapon = _dataTab[i].DataList[0];
+            }
+            else if (_dataTab[i].WeaponList == Units.WeaponEnum.Sniper)
+            {
+                _player._weapon = _dataTab[i].DataList[1];
+            }
+            else if (_dataTab[i].WeaponList == Units.WeaponEnum.ShotGun)
+            {
+                _player._weapon = _dataTab[i].DataList[2];
+            }
+            else if (_dataTab[i].WeaponList == Units.WeaponEnum.Gatling)
+            {
+                _player._weapon = _dataTab[i].DataList[3];
+            }
+
+        }
+        
 
         _cam = Camera.main;
         _camaTarget = _cam.gameObject.GetComponent<TargetSelector>();
@@ -91,14 +136,9 @@ public class CurrentUnits : MonoBehaviour
         _dataUse = _data1;
         _compScript._data = _dataUse.Data;
         FieldOfView _fovScript;
-        _fovScript = _units[0].GetComponent<FieldOfView>();
+        _fovScript = _team1[0].GetComponent<FieldOfView>();
         _fovScript._isActive = true;
         _compScript._currentFov = _fovScript;
-
-        //for (int i = 0; i < _units.Length; i++)
-        //{
-
-        //}
     }
 
     private void Update()
@@ -133,8 +173,6 @@ public class CurrentUnits : MonoBehaviour
                 _camaTarget._target = _transCurrentTarget;
                 _camaTarget.NewTarget();
                // _compScript._data = _dataUse.Data;
-
-                
             }
         }
     }
@@ -154,18 +192,18 @@ public class CurrentUnits : MonoBehaviour
 
    void SelectUnitOnTab() //choisit quelle unité sera selectioné
     {
-        for (int i =0; i < _units.Length; i++)
+        for (int i =0; i < _team1.Length; i++)
         {
             FieldOfView _script;
             Player _player;
             Controller _theOne;
-            _script = _units[i].GetComponent<FieldOfView>();
-            _theOne = _units[i].GetComponent<Controller>();
-            _player = _units[i].GetComponent<Player>();
+            _script = _team1[i].GetComponent<FieldOfView>();
+            _theOne = _team1[i].GetComponent<Controller>();
+            _player = _team1[i].GetComponent<Player>();
 
             if(i == _index - 1)
             {
-                _transCurrentTarget = _units[i].transform;
+                _transCurrentTarget = _team1[i].transform;
                 _script._isActive = true;
                 _theOne._isActive = true;
                 _player._isActive = true;
@@ -208,10 +246,10 @@ public class CurrentUnits : MonoBehaviour
     public void IsAimaing(bool _IsOrIsnt) // vise t-il ?
     {
         
-           for (int i = 0; i < _units.Length; i++)
+           for (int i = 0; i < _team1.Length; i++)
             {
                 FieldOfView _script;
-                _script = _units[i].GetComponent<FieldOfView>();
+                _script = _team1[i].GetComponent<FieldOfView>();
                 if(i == _index - 1)
                 {
                     if (_IsOrIsnt == true)

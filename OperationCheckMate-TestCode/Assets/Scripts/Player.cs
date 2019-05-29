@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public bool _isActive = false;
     public Transform _portrait;
     public Weapon _weapon;
+    //public bool _teamActive;
     private Image _healthImage;
     
     private int _maxHealth;
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour
         //StartCoroutine(Wait());
         //_portraitChild = _portrait.gameObject.transform.GetChild(1);
         _healthImage = _portrait.GetComponent<Image>();
-        //_ammo = _weapon.Ammo;
+        _ammo = _weapon.Ammo;
         //Debug.Log(_portrait);
     }
 

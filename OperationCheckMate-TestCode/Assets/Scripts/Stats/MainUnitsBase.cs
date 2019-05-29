@@ -14,7 +14,7 @@ public class MainUnitsBase : MonoBehaviour
     public Units[] _dataBase;
     public Competance[] _evryComp;
 
-    private bool _index = false;
+    private int _index = 0;
 
     private void OnEnable()
     {
@@ -32,7 +32,7 @@ public class MainUnitsBase : MonoBehaviour
     private void UpdateStats()
     {
         
-        if (_index == true)
+        if (_index == 1)
         {
             for (int i = 4; i < 8; i++)
             {
@@ -64,9 +64,9 @@ public class MainUnitsBase : MonoBehaviour
                  Debug.Log("vroum");
             }
 
-            SceneManager.LoadScene("HUD", LoadSceneMode.Single);
+            
         }
-        else
+        else if(_index == 0)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -100,7 +100,11 @@ public class MainUnitsBase : MonoBehaviour
             _player2.SetActive(true);
             _player1.SetActive(false);
         }
+        else if (_index == 2)
+        {
+            SceneManager.LoadScene("HUD", LoadSceneMode.Single);
+        }
 
-        _index = true;
+        _index++;
     }
 }
