@@ -74,9 +74,9 @@ public class ChangeUnit : MonoBehaviour
 
         _index += 1;
 
-        if (_index >= 4)
+        if (_index > 4)
         {
-            _index = 0;
+            _index = 1;
         }
     }
 

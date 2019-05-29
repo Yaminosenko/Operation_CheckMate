@@ -20,7 +20,7 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private Transform _portrait;
 
 
-    private Units _dataUse;
+    [SerializeField] private Units _dataUse;
     private BaseComp _compScript;
     public Weapon _weaponData;
     private int _index = 1;
@@ -38,15 +38,15 @@ public class CurrentUnits : MonoBehaviour
          List<Transform> _theListPortrait = new List<Transform>();
         _portrait = this.gameObject.transform.GetChild(0);
 
-        //_dataList.Add(_data1);
-        //_dataList.Add(_data2);
-        //_dataList.Add(_data3);
-        //_dataList.Add(_data4);
+        _dataList.Add(_data1);
+        _dataList.Add(_data2);
+        _dataList.Add(_data3);
+        _dataList.Add(_data4);
         _dataTab = _dataList.ToArray();
         _dataList.Clear();
 
 
-        //UpdateDataBase1();
+
 
         for (int i= 0; i < _portrait.gameObject.transform.childCount; i++) //recherche des portrait de chaque unité
         {
@@ -63,23 +63,27 @@ public class CurrentUnits : MonoBehaviour
             _player = _units[i].GetComponent<Player>();
             _player._portrait = _childPortrait[i].gameObject.transform.GetChild(0);
 
-            //if (_dataTab[i].WeaponList == Units.WeaponEnum.Assault)
-            //{
-            //   _player._weapon = _dataUse.DataList[0];
-            //}
-            //if (_dataTab[i].WeaponList == Units.WeaponEnum.Sniper)
-            //{
-            //    _player._weapon = _dataUse.DataList[1];
-            //}
-            //if (_dataTab[i].WeaponList == Units.WeaponEnum.ShotGun)
-            //{
-            //    _player._weapon = _dataUse.DataList[2];
-            //}
-            //if (_dataTab[i].WeaponList == Units.WeaponEnum.Gatling)
-            //{
-            //    _player._weapon = _dataUse.DataList[3];
-            //}
+            Debug.Log(_dataTab.Length);
+            if (_dataTab[i].WeaponList == Units.WeaponEnum.Assault)
+            {
+                _player._weapon = _dataTab[i].DataList[0];
+            }
+            else if (_dataTab[i].WeaponList == Units.WeaponEnum.Sniper)
+            {
+                _player._weapon = _dataTab[i].DataList[1];
+            }
+            else if (_dataTab[i].WeaponList == Units.WeaponEnum.ShotGun)
+            {
+                _player._weapon = _dataTab[i].DataList[2];
+            }
+            else if (_dataTab[i].WeaponList == Units.WeaponEnum.Gatling)
+            {
+                _player._weapon = _dataTab[i].DataList[3];
+            }
+
         }
+        //_weaponData =
+        //_compScript._weaponUse = _weaponData;
 
         _cam = Camera.main;
         _camaTarget = _cam.gameObject.GetComponent<TargetSelector>();
@@ -123,9 +127,9 @@ public class CurrentUnits : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Tab)) //changement d'unité par touche 
             {
                 ChangeUnits();
+                DataWeaponChange();
                 SelectUnitOnTab();
                 ChangePortrait();
-                DataWeaponChange();
                 _camaTarget._target = _transCurrentTarget;
                 _camaTarget.NewTarget();
                // _compScript._data = _dataUse.Data;
@@ -135,39 +139,6 @@ public class CurrentUnits : MonoBehaviour
         }
     }
 
-    private void UpdateDataBase1()
-    {
-
-       
-
-        _data1.Health = StaticStats1.Health;
-        _data1.Aim = StaticStats1.Aim;
-        _data1.Stamina = StaticStats1.Stamina;
-        _data1.Luck = StaticStats1.Luck;
-       
-
-
-        if (StaticStats1.Weapon == 1)
-        {
-            _data1.WeaponList = Units.WeaponEnum.Assault;
-            _data1.Data = _evryComp[0];
-        }
-        else if (StaticStats1.Weapon == 2)
-        {
-            _data1.WeaponList = Units.WeaponEnum.Sniper;
-            _data1.Data = _evryComp[1];
-        }
-        else if (StaticStats1.Weapon == 3)
-        {
-            _data1.WeaponList = Units.WeaponEnum.ShotGun;
-            _data1.Data = _evryComp[2];
-        }
-        else if (StaticStats1.Weapon == 4)
-        {
-            _data1.WeaponList = Units.WeaponEnum.Gatling;
-            _data1.Data = _evryComp[3];
-        }
-    }
 
 
 
@@ -199,7 +170,8 @@ public class CurrentUnits : MonoBehaviour
                 _theOne._isActive = true;
                 _player._isActive = true;
                 _compScript._currentFov = _script;
-                _compScript._playerScript = _player; 
+                _compScript._playerScript = _player;
+                _compScript._weaponUse = _weaponData;
             }
             else
             {

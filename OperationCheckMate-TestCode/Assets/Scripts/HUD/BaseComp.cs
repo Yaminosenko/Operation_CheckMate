@@ -20,7 +20,7 @@ public class BaseComp : MonoBehaviour
 
      private GameObject _canvas;
      private CurrentUnits _scriptCurrent;
-     private Weapon _weaponUse;
+     public Weapon _weaponUse;
      private Sprite _sprite;
      private int _index;
      private int _indexOfComp;
@@ -210,9 +210,13 @@ public class BaseComp : MonoBehaviour
         _playerScript._ammo -= 1;
         if (_playerTarget != null)
         {
-            _playerTarget.TakeDmg(_dmg);
+            if (RandomShoot() == true)
+            {
+                _playerTarget.TakeDmg(_dmg);
+                Debug.Log(_dmg);
+                
+            }
         }
-
     }
 
     public void PercentsCalcul()
@@ -222,6 +226,45 @@ public class BaseComp : MonoBehaviour
         _scope = _scriptCurrent._weaponData.Scope;
         _percentsFinal = _scope - _distanceTarg ;
         _currentFov._swap = false;
+    }
+
+    public bool RandomShoot()
+    {
+        float _value = 0f; 
+        float _success; 
+        
+        if (_percentsFinal < 10f)
+        {
+            return false; 
+        }
+        else if (_percentsFinal > 10 && _percentsFinal < 25)
+        {
+            _value = 25f;
+        }
+        else if (_percentsFinal > 25 && _percentsFinal < 50)
+        {
+            _value = 50f;
+        }
+        else if (_percentsFinal > 50 && _percentsFinal < 75)
+        {
+            _value = 75f;
+        }
+        else if (_percentsFinal > 75)
+        {
+            return true;
+        }
+
+        _success = Random.Range(0, 100);
+        Debug.Log(_success);
+
+        if (_success < _value)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
 

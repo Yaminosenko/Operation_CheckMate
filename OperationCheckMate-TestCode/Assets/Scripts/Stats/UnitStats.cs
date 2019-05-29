@@ -26,6 +26,6 @@ public class UnitStats : MonoBehaviour
 
         //Debug.Log(_currentPtStats);
 
-        Debug.Log(StaticStats1.Health);
+       
     }
 }

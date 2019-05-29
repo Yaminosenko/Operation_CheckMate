@@ -12,42 +12,13 @@ public class TargetSelector : MonoBehaviour
     public Transform _target;
     private Transform _transCam;
     public string targetsTag;
-    public List<KeyCode> _keyList = new List<KeyCode>();
+    //public List<KeyCode> _keyList = new List<KeyCode>();
 
     private void Start()
     {
         cam = gameObject.GetComponent<RTS_Camera>();
         camera = gameObject.GetComponent<Camera>();
         _transCam = gameObject.GetComponent<Transform>();
-    }
-
-    private void Update()
-    {
-        //if(Input.GetMouseButtonDown(0))
-        //{
-        //    Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit hit;
-        //    if(Physics.Raycast(ray, out hit))
-        //    {
-        //        if (hit.transform.CompareTag(targetsTag))
-        //            cam.SetTarget(hit.transform);
-        //        else
-        //            cam.ResetTarget();
-        //    }
-        //}
-
-        //if (_target != null)
-        //{
-        //    if(_transCam == _target)
-        //    {
-        //        cam.ResetTarget();
-        //    }
-
-        //    if (Input.anyKey)
-        //    {
-        //        cam.ResetTarget();
-        //    }
-        //}
     }
 
     public void NewTarget() // envois la target a suivre pour la cam
