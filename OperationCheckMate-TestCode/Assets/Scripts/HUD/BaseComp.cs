@@ -55,7 +55,8 @@ public class BaseComp : MonoBehaviour
         _grenade.onClick.AddListener(GrenadeButton);
         _reload.onClick.AddListener(ReloadButton);
 
-
+        
+        
 
         _tabInfoText = _TabInformation.GetComponentInChildren<TextMeshProUGUI>();
     }

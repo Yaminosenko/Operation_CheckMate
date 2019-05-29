@@ -24,6 +24,8 @@ public class UnitStats : MonoBehaviour
         _numberString = _currentPtStats.ToString();
         _number.SetText(_numberString);
 
-        Debug.Log(_currentPtStats);
+        //Debug.Log(_currentPtStats);
+
+        Debug.Log(StaticStats1.Health);
     }
 }
