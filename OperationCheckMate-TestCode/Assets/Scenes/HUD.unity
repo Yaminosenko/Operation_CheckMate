@@ -1642,7 +1642,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 11455738, guid: 407bd5cbe8c43334bb1b25c0f3826974, type: 3}
       propertyPath: targetOffset.x
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11455738, guid: 407bd5cbe8c43334bb1b25c0f3826974, type: 3}
       propertyPath: zoomInKey
@@ -5329,6 +5329,7 @@ MonoBehaviour:
   _portrait: {fileID: 0}
   _portrait2: {fileID: 0}
   _dataUse: {fileID: 0}
+  _switchTeam: 0
   _weaponData: {fileID: 0}
   _cantSwap: 0
 --- !u!224 &1986256517 stripped

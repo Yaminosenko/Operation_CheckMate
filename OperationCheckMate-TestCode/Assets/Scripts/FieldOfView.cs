@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class FieldOfView : MonoBehaviour {
+public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le script d'origine 
     public float viewRadius;
     [Range(0, 360)]
     public float viewAngle;
@@ -227,7 +227,7 @@ public class FieldOfView : MonoBehaviour {
     }
 
 
-    EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
+    EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast) //optimisation en fonction de l'edge de l'obstacle pour obtenir la meillieurs FOV possible 
     {
         float minAngle = minViewCast.angle;
         float maxAngle = maxViewCast.angle;

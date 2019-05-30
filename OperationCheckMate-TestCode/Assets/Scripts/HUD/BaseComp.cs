@@ -61,7 +61,7 @@ public class BaseComp : MonoBehaviour
         _tabInfoText = _TabInformation.GetComponentInChildren<TextMeshProUGUI>();
     }
 
-    private void Update()
+    private void Update() 
     {
         _sprite = _data.Icone;
         _index = _data.Index;
@@ -123,13 +123,13 @@ public class BaseComp : MonoBehaviour
 
     private void ShootButton()
     {
-         if(_playerScript._ammo <= 0)
-        {
+         if(_playerScript._ammo > 0)
+         {
             _indexOfComp = 1;
             _tabInfoText.SetText(_shootTxt);
             AnyButtonDown();
-        }
-    }
+         }
+    }// tout les boutons
 
     private void OverwatchButton()
     {
@@ -199,7 +199,7 @@ public class BaseComp : MonoBehaviour
     }
 
 
-    public void Shoot()
+    public void Shoot() // tir sur une cible donnée
     {
         
         Transform _target;
@@ -207,9 +207,10 @@ public class BaseComp : MonoBehaviour
         _target = _currentFov._actualTarget;
         _playerTarget = _target.GetComponent<Player>();
         _dmg = _weaponUse.Damage;
-        _playerScript._ammo -= 1;
         if (_playerTarget != null)
         {
+            _playerScript._ammo -= 1;
+        
             if (RandomShoot() == true)
             {
                 _playerTarget.TakeDmg(_dmg);
@@ -219,7 +220,7 @@ public class BaseComp : MonoBehaviour
         }
     }
 
-    public void PercentsCalcul()
+    public void PercentsCalcul() //calcule du pourcentage de chance de toucher la cible 
     {
         float _distanceTarg = _currentFov._distanceTarget;
 
@@ -228,7 +229,7 @@ public class BaseComp : MonoBehaviour
         _currentFov._swap = false;
     }
 
-    public bool RandomShoot()
+    public bool RandomShoot() // Choix du randome grace au pourcentage converti en palier pour une meillieurs expérience de jeu moins frustrante
     {
         float _value = 0f; 
         float _success; 

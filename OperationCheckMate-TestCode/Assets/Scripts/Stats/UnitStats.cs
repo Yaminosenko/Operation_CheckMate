@@ -19,7 +19,7 @@ public class UnitStats : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _number;
     private string _numberString;
 
-    private void Update()
+    private void Update() //répicatulatife des points restants
     {
         _numberString = _currentPtStats.ToString();
         _number.SetText(_numberString);

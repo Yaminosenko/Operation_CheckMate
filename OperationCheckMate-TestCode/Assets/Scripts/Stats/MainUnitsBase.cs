@@ -29,10 +29,10 @@ public class MainUnitsBase : MonoBehaviour
         
     }
 
-    private void UpdateStats()
+    private void UpdateStats() //Attribution des variables aux dataBases
     {
         
-        if (_index == 1)
+        if (_index == 1) //attribution au joueur 2
         {
             for (int i = 4; i < 8; i++)
             {
@@ -66,7 +66,7 @@ public class MainUnitsBase : MonoBehaviour
 
             
         }
-        else if(_index == 0)
+        else if(_index == 0) // attribution pour le joueur 1, c'est au tour du joueur 2
         {
             for (int i = 0; i < 4; i++)
             {
@@ -100,7 +100,7 @@ public class MainUnitsBase : MonoBehaviour
             _player2.SetActive(true);
             _player1.SetActive(false);
         }
-        else if (_index == 2)
+        else if (_index == 2) // lancement de la partie
         {
             SceneManager.LoadScene("HUD", LoadSceneMode.Single);
         }

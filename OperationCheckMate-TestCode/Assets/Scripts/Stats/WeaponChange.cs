@@ -33,7 +33,7 @@ public class WeaponChange : MonoBehaviour
 
 
 
-    public void WeaponLeft()
+    public void WeaponLeft() //bouton gauche = arme de gauche 
     {
         _index -= 1;
         Debug.Log(_index);
@@ -45,7 +45,7 @@ public class WeaponChange : MonoBehaviour
         }
     }
 
-    public void WeaponRight()
+    public void WeaponRight() // bouton droite = arme droite
     {
         _index += 1;
         Debug.Log(_index);
@@ -57,7 +57,7 @@ public class WeaponChange : MonoBehaviour
         }
     }
 
-    private void ChangeSprit()
+    private void ChangeSprit() //changement du sprite de l'arme sélectionné 
     {
         if(_index == 1)
         {

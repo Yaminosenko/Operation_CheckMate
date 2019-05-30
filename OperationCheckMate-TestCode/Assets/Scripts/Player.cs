@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
         //Debug.Log(_portrait);
     }
 
-    public void TakeDmg(int dmg)
+    public void TakeDmg(int dmg) //Système de dégât 
     {
         _currentHealth -= dmg;
 
@@ -63,7 +63,7 @@ public class Player : MonoBehaviour
 
     }
 
-    public void UpdateHealthBar()
+    public void UpdateHealthBar() // changement de la barre de vie de l'unit
     {
         float ratio = (float)_currentHealth / (float)_maxHealth;
 
