@@ -6,14 +6,15 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
 
+    [SerializeField] private Image _healthOnUnit;
     public int _currentHealth;
+     private int _maxHealth;
     public bool _isActive = false;
     public Transform _portrait;
     public Weapon _weapon;
     //public bool _teamActive;
     private Image _healthImage;
     
-    private int _maxHealth;
     public int _ammo; 
 
     //[HideInInspector]
@@ -24,14 +25,14 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        //Transform _portraitChild;
+        
         _maxHealth = 10; // A determiner par la dataBase.
         _currentHealth = _maxHealth;
-        //StartCoroutine(Wait());
-        //_portraitChild = _portrait.gameObject.transform.GetChild(1);
+      
         _healthImage = _portrait.GetComponent<Image>();
+        
         _ammo = _weapon.Ammo;
-        //Debug.Log(_portrait);
+        
     }
 
     public void TakeDmg(int dmg) //Système de dégât 
@@ -73,6 +74,7 @@ public class Player : MonoBehaviour
         Vector3 newScale = _healthImage.transform.localScale;
         newScale.x = ratio;
         _healthImage.transform.localScale = newScale;
+        _healthOnUnit.transform.localScale = newScale;
     }
 
     //private IEnumerator Wait()

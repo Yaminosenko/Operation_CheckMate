@@ -33,11 +33,14 @@ public class CurrentUnits : MonoBehaviour
     private BaseComp _compScript;
     public Weapon _weaponData;
     private int _index = 1;
+    public int _nbTours = 0;
 
     public bool _cantSwap = false;
     private Camera _cam;
     private TargetSelector _camaTarget;
     private Transform _transCurrentTarget;
+
+    private List<int> _alreadyUse = new List<int>();
 
 
     private void OnEnable()
@@ -143,38 +146,46 @@ public class CurrentUnits : MonoBehaviour
 
     private void Update()
     {
-        if(_index == 1)
+        if(_switchTeam == false)
         {
-            _dataUse = _data1;
-        } //Choix de la Database utilisé
-        else if(_index == 2)
-        {
-            _dataUse = _data2;
+            if (_index == 1)
+            {
+                _dataUse = _data1;
+            } //Choix de la Database utilisé
+            else if (_index == 2)
+            {
+                _dataUse = _data2;
+            }
+            else if (_index == 3)
+            {
+                _dataUse = _data3;
+            }
+            else if (_index == 4)
+            {
+                _dataUse = _data4;
+            }
         }
-        else if (_index == 3)
+        else
         {
-            _dataUse = _data3;
+            if (_index == 1)
+            {
+                _dataUse = _data5;
+            } //Choix de la Database utilisé
+            else if (_index == 2)
+            {
+                _dataUse = _data6;
+            }
+            else if (_index == 3)
+            {
+                _dataUse = _data7;
+            }
+            else if (_index == 4)
+            {
+                _dataUse = _data8;
+            }
         }
-        else if (_index == 4)
-        {
-            _dataUse = _data4;
-        }
-        else if (_index == 5)
-        {
-            _dataUse = _data5;
-        }
-        else if (_index == 6)
-        {
-            _dataUse = _data6;
-        }
-        else if (_index == 7)
-        {
-            _dataUse = _data7;
-        }
-        else if (_index == 8)
-        {
-            _dataUse = _data8;
-        }
+       
+        
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -187,36 +198,58 @@ public class CurrentUnits : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Tab)) //changement d'unité par touche 
             {
-                ChangeUnits();
-                DataWeaponChange();
-                SelectUnitOnTab();
-                ChangePortrait();
-                _camaTarget._target = _transCurrentTarget;
-                _camaTarget.NewTarget();
-               // _compScript._data = _dataUse.Data;
+                ChangeUnitsEvrywhere();
             }
         }
     }
 
+    public void ChangeUnitsEvrywhere()
+    {
+        ChangeUnits();
+        DataWeaponChange();
+        SelectUnitOnTab();
+        ChangePortrait();
+        _camaTarget._target = _transCurrentTarget;
+        _camaTarget.NewTarget();
+    }
 
-
+    public void EndOfThisUnitTurn()
+    {
+        _alreadyUse.Add(_index);
+    }
 
     private void ChangeUnits() // change l'index de l'unité a utilisé
     {
+        int[] _use = _alreadyUse.ToArray();
+
         _index += 1;
 
+        if(_use.Length == 4)
+        {
+            SwitchTeam();
+            _alreadyUse.Clear();
+        }
+        for (int i = 0; i < _use.Length; i++)
+        {
+            if (_index == _use[i])
+            {
+                _index += 1;
+            }
+        }
         if (_index > 4)
         {
             _index = 1;
         }
-        
     }
 
     private void SwitchTeam()
     {
+        _nbTours++;
         if (_switchTeam == false)
         {
             _switchTeam = true;
+            _portrait.gameObject.SetActive(false);
+            _portrait2.gameObject.SetActive(true);
             _transCurrentTarget = _team1[0].transform;
             _camaTarget._target = _transCurrentTarget;
             _camaTarget.NewTarget();
@@ -225,7 +258,8 @@ public class CurrentUnits : MonoBehaviour
         else
         {
             _switchTeam = false;
-            _transCurrentTarget = _team2[0].transform;
+            _portrait.gameObject.SetActive(true);
+            _portrait2.gameObject.SetActive(false);
             _camaTarget._target = _transCurrentTarget;
             _camaTarget.NewTarget();
         }
@@ -235,6 +269,7 @@ public class CurrentUnits : MonoBehaviour
    void SelectUnitOnTab() //choisit quelle unité sera selectioné
     {
         GameObject[] _TeamTab = new GameObject[4];
+        
         if (_switchTeam == false)
         {
             for (int i = 0; i < _team1.Length; i++)
@@ -336,7 +371,9 @@ public class CurrentUnits : MonoBehaviour
                     {
                         _script._isAimaing = true;
                     _script.Refresh();
-                    }
+                    _script.AimTarget();
+                    _script.FirstSelect();
+                }
                     else
                     {
                          _script._isAimaing = false;

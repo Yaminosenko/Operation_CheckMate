@@ -18,8 +18,9 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
     [SerializeField] private Transform[] _currentTargets;
     private bool _aimTrue = false;
 
+    public Transform _CamPos;
     [HideInInspector]
-
+    public CameraMouv _camMouvScript;
     public bool _swap = false;
     public bool _isAimaing = false;
     public Transform _actualTarget;
@@ -41,6 +42,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
         viewMeshFilter.mesh = viewMesh;
 
         StartCoroutine("FindTargetsWithDelay", .2f);
+        
     }
 
 
@@ -91,7 +93,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
         }
     }
 
-    void AimTarget() //lance à la fin du déplacement penser a clear a la fin du tour 
+    public void AimTarget() //lance à la fin du déplacement penser a clear a la fin du tour 
     {
         foreach (Transform Target in visibleTargets)
         {
@@ -103,6 +105,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
     void SelectTarget() //Change l'unité visée a chaque "Tab". Penser a lock le changement d'unité lors de l'aim. 
     {
         //placer le for et le target select une fois avant de Tab 
+        
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             _swap = true;
@@ -121,25 +124,45 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
                     _targetSelect = 0;
                 }
             }
-            for(int i = 0; i < _currentTargets.Length; i++)
-            {
-                Material _m;
-                _m = _currentTargets[i].GetComponent<Renderer>().material;
-                if (i+1 == _targetSelect)
-                {
-                    _m.color = Color.red;
-                    _actualTarget = _currentTargets[i];
-                    //Debug.Log(_currentTargets[i]);
-
-                    _distanceTarget = Vector3.Distance(transform.position, _currentTargets[i].transform.position);
-                }
-                else
-                {
-                    _m.color = Color.blue;
-                }
-            }
+            
+            TargetLock();
             
         }
+    }
+
+    private void TargetLock()
+    {
+        for (int i = 0; i < _currentTargets.Length; i++)
+        {
+            Material _m;
+            _m = _currentTargets[i].GetComponent<Renderer>().material;
+            if (i + 1 == _targetSelect)
+            {
+                _m.color = Color.red;
+                _actualTarget = _currentTargets[i];
+                _camMouvScript.targetObj = _actualTarget;
+                //Debug.Log(_currentTargets[i]);
+
+                _distanceTarget = Vector3.Distance(transform.position, _currentTargets[i].transform.position);
+            }
+            else
+            {
+                _m.color = Color.blue;
+            }
+        }
+    }
+
+    public void FirstSelect()
+    {
+        if (_currentTargets.Length != 0)
+        {
+            Material _m;
+            _m = _currentTargets[0].GetComponent<Renderer>().material;
+            _actualTarget = _currentTargets[0];
+            _distanceTarget = Vector3.Distance(transform.position, _currentTargets[0].transform.position);
+            _m.color = Color.red;
+        }
+
     }
 
     public void Refresh() //stop aiming 

@@ -15,11 +15,17 @@ public class BaseComp : MonoBehaviour
      [SerializeField] private GameObject _TabInformation;
      [SerializeField] private GameObject _percents;
      [SerializeField] private Percents_palier _equilibreDataPercents;
+     [SerializeField] private GameObject _camToInst;
+     [SerializeField] private CameraSwitch _camSwitch;
+     
 
      public Competance _data;
 
      private GameObject _canvas;
+     private Camera _cam;
      private CurrentUnits _scriptCurrent;
+     
+     public CameraMouv _camMouv;
      public Weapon _weaponUse;
      private Sprite _sprite;
      private int _index;
@@ -41,13 +47,17 @@ public class BaseComp : MonoBehaviour
     private float _scope;
     private float _distanceTargetPercent;
     private int _protectLvl;
+    private bool _camIsInstanciat = false;
     [SerializeField] private float _percentsFinal;
 
 
     private void OnEnable()
     {
+        _cam = Camera.main;
         _canvas = GameObject.Find("Canvas");
         _scriptCurrent = _canvas.GetComponent<CurrentUnits>();
+       // _camMouv = _camToInst.GetComponent<CameraMouv>();
+        //_camSwitch = _camswap.GetComponent<CameraSwitch>(); 
         _active.onClick.AddListener(ActiveButton);
         _shoot.onClick.AddListener(ShootButton);
         _overwatch.onClick.AddListener(OverwatchButton);
@@ -55,8 +65,6 @@ public class BaseComp : MonoBehaviour
         _grenade.onClick.AddListener(GrenadeButton);
         _reload.onClick.AddListener(ReloadButton);
 
-        
-        
 
         _tabInfoText = _TabInformation.GetComponentInChildren<TextMeshProUGUI>();
     }
@@ -100,6 +108,10 @@ public class BaseComp : MonoBehaviour
             _TabInformation.SetActive(false);
             _percents.SetActive(false);
             _scriptCurrent._cantSwap = false;
+            _currentFov.Refresh();
+            _camIsInstanciat = false;
+            _camSwitch.ResetCamera();
+            _camMouv.DestroyObject();
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
@@ -170,23 +182,30 @@ public class BaseComp : MonoBehaviour
 
     private void AnyButtonDown() // Affichage du txt du bouton
     {
-        //if (_indexOfComp != _indexUse)
-        //{
-            if(_indexOfComp == 1)
+        
+        if(_indexOfComp == 1)
+        {
+            _percents.SetActive(true);
+            _scriptCurrent.IsAimaing(true);
+
+            if(_camIsInstanciat == false)
             {
-                _percents.SetActive(true);
-                _scriptCurrent.IsAimaing(true);
-                
+                InstanciateCamera();
+                _camIsInstanciat = true;
             }
-            else
-            {
-                _percents.SetActive(false);
-                _scriptCurrent.IsAimaing(false);
-            }
+        }   
+        else
+        {
+            _percents.SetActive(false);
+            _scriptCurrent.IsAimaing(false);
+            _camIsInstanciat = false;
+            _camSwitch.ResetCamera();
+            _camMouv.DestroyObject();
+        }
 
           
-            _TabInformation.SetActive(true);
-            _scriptCurrent._cantSwap = true;
+          _TabInformation.SetActive(true);
+          _scriptCurrent._cantSwap = true;
         //}
         //else
         //{
@@ -205,18 +224,20 @@ public class BaseComp : MonoBehaviour
         Transform _target;
         Player _playerTarget;
         _target = _currentFov._actualTarget;
-        _playerTarget = _target.GetComponent<Player>();
-        _dmg = _weaponUse.Damage;
-        if (_playerTarget != null)
+        if (_target != null)
         {
+           
+            _playerTarget = _target.GetComponent<Player>();
+            _dmg = _weaponUse.Damage;
             _playerScript._ammo -= 1;
         
             if (RandomShoot() == true)
             {
                 _playerTarget.TakeDmg(_dmg);
                 Debug.Log(_dmg);
-                
             }
+            _scriptCurrent.EndOfThisUnitTurn(); // fin du tour de cette unité 
+            _scriptCurrent.ChangeUnitsEvrywhere(); // change l'unité selectionnée
         }
     }
 
@@ -256,7 +277,7 @@ public class BaseComp : MonoBehaviour
         }
 
         _success = Random.Range(0, 100);
-        Debug.Log(_success);
+        //Debug.Log(_success);
 
         if (_success < _value)
         {
@@ -268,5 +289,22 @@ public class BaseComp : MonoBehaviour
         }
     }
 
+    private void InstanciateCamera()
+    {
+        
+        GameObject _currentCam = (GameObject)Instantiate(_camToInst, _cam.transform.position, _cam.transform.rotation) as GameObject;
+        _camMouv = _currentCam.GetComponent<CameraMouv>();
+        _camSwitch.cameraOne = _currentCam;
+        _camSwitch.cameraChangeCounter();
+        _camMouv.views[0] = _currentFov._CamPos;
+        _camMouv.LetsGo();
+        _currentFov._camMouvScript = _camMouv;  
+        
+        if (_currentFov._actualTarget != null)
+        {
+            _currentFov._actualTarget = _camMouv.targetObj;
+        }
+
+    }
 
 }
