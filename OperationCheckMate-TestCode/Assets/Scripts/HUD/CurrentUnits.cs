@@ -50,6 +50,7 @@ public class CurrentUnits : MonoBehaviour
          List<Transform> _theListPortrait2 = new List<Transform>();
         _portrait = this.gameObject.transform.GetChild(0);
         _portrait2 = this.gameObject.transform.GetChild(1);
+        Debug.Log(_portrait2);
 
         _dataList.Add(_data1);
         _dataList.Add(_data2);
@@ -110,7 +111,7 @@ public class CurrentUnits : MonoBehaviour
             Player _player;
 
             _player = _team2[i].GetComponent<Player>();
-            _player._portrait = _childPortrait[i].gameObject.transform.GetChild(0);
+            _player._portrait = _childPortrait2[i].gameObject.transform.GetChild(0);
 
 
             if (_dataTab[i].WeaponList == Units.WeaponEnum.Assault)
@@ -190,7 +191,7 @@ public class CurrentUnits : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             SwitchTeam();
-            Debug.Log("ui");
+
         }
 
 
@@ -244,6 +245,7 @@ public class CurrentUnits : MonoBehaviour
 
     private void SwitchTeam()
     {
+        
         _nbTours++;
         if (_switchTeam == false)
         {
@@ -260,6 +262,7 @@ public class CurrentUnits : MonoBehaviour
             _switchTeam = false;
             _portrait.gameObject.SetActive(true);
             _portrait2.gameObject.SetActive(false);
+            _transCurrentTarget = _team2[0].transform;
             _camaTarget._target = _transCurrentTarget;
             _camaTarget.NewTarget();
         }
@@ -275,6 +278,7 @@ public class CurrentUnits : MonoBehaviour
             for (int i = 0; i < _team1.Length; i++)
             {
                 _TeamTab[i] = _team1[i];
+              
             }
         }
         else
@@ -282,6 +286,7 @@ public class CurrentUnits : MonoBehaviour
             for (int i = 0; i < _team2.Length; i++)
             {
                 _TeamTab[i] = _team2[i];
+
             }
         }
 
@@ -360,19 +365,38 @@ public class CurrentUnits : MonoBehaviour
 
     public void IsAimaing(bool _IsOrIsnt) // vise t-il ?
     {
-        
-           for (int i = 0; i < _team1.Length; i++)
+        GameObject[] _TeamTab = new GameObject[4];
+
+        if (_switchTeam == false)
+        {
+            for (int i = 0; i < _team1.Length; i++)
+            {
+                _TeamTab[i] = _team1[i];
+
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _team2.Length; i++)
+            {
+                _TeamTab[i] = _team2[i];
+
+            }
+        }
+
+
+        for (int i = 0; i < _TeamTab.Length; i++)
             {
                 FieldOfView _script;
-                _script = _team1[i].GetComponent<FieldOfView>();
+                _script = _TeamTab[i].GetComponent<FieldOfView>();
                 if(i == _index - 1)
                 {
                     if (_IsOrIsnt == true)
                     {
                         _script._isAimaing = true;
-                    _script.Refresh();
-                    _script.AimTarget();
-                    _script.FirstSelect();
+                        _script.Refresh();
+                       // _script.AimTarget();
+                        _script.FirstSelect();
                 }
                     else
                     {

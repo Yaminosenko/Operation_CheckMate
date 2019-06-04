@@ -16,7 +16,7 @@ public class CameraSwitch : MonoBehaviour
     {
 
         //Get Camera Listeners
-        cameraOneAudioLis = cameraOne.GetComponent<AudioListener>();
+        //cameraOneAudioLis = cameraOne.GetComponent<AudioListener>();
         cameraTwoAudioLis = cameraTwo.GetComponent<AudioListener>();
 
         //Camera Position Set
@@ -67,36 +67,14 @@ public class CameraSwitch : MonoBehaviour
 
     public void ResetCamera()
     {
-        cameraTwo.SetActive(true);
-        cameraTwoAudioLis.enabled = true;
+        if (cameraTwo != null)
+        {
+            cameraTwo.SetActive(true);
+            cameraTwoAudioLis.enabled = true;
+        }
+
 
         //cameraOneAudioLis.enabled = false;
         //cameraOne.SetActive(false);
     }
-
-    //public void resetCam()
-    //{
-    //    StartCoroutine(LerpToPosition(camPanDuration, farLeft.position, true));
-    //}
-
-    //IEnumerator LerpToPosition(float lerpSpeed, Vector3 newPosition, bool useRelativeSpeed = false)
-    //{
-    //    if (useRelativeSpeed)
-    //    {
-    //        float totalDistance = farRight.position.x - farLeft.position.x;
-    //        float diff = transform.position.x - farLeft.position.x;
-    //        float multiplier = diff / totalDistance;
-    //        lerpSpeed *= multiplier;
-    //    }
-
-    //    float t = 0.0f;
-    //    Vector3 startingPos = transform.position;
-    //    while (t < 1.0f)
-    //    {
-    //        t += Time.deltaTime * (Time.timeScale / lerpSpeed);
-
-    //        transform.position = Vector3.Lerp(startingPos, newPosition, t);
-    //        yield return 0;
-    //    }
-    //}
 }

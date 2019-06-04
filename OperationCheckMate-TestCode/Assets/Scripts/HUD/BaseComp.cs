@@ -41,6 +41,7 @@ public class BaseComp : MonoBehaviour
     private string _ActiveTxt = "Oui l'active";
 
     private TextMeshProUGUI _tabInfoText;
+    private TargetSelector _camScript;
     public FieldOfView _currentFov;
     public Player _playerScript;
 
@@ -56,6 +57,7 @@ public class BaseComp : MonoBehaviour
         _cam = Camera.main;
         _canvas = GameObject.Find("Canvas");
         _scriptCurrent = _canvas.GetComponent<CurrentUnits>();
+        _camScript = _cam.GetComponent<TargetSelector>();
        // _camMouv = _camToInst.GetComponent<CameraMouv>();
         //_camSwitch = _camswap.GetComponent<CameraSwitch>(); 
         _active.onClick.AddListener(ActiveButton);
@@ -111,6 +113,7 @@ public class BaseComp : MonoBehaviour
             _currentFov.Refresh();
             _camIsInstanciat = false;
             _camSwitch.ResetCamera();
+            
             _camMouv.DestroyObject();
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
@@ -118,6 +121,10 @@ public class BaseComp : MonoBehaviour
             if (_indexOfComp == 1)
             {
                 Shoot();
+            }
+            if(_indexOfComp == 5)
+            {
+                ReloadAmmo();
             }
             _indexOfComp = 0;
             _TabInformation.SetActive(false);
@@ -192,6 +199,7 @@ public class BaseComp : MonoBehaviour
             {
                 InstanciateCamera();
                 _camIsInstanciat = true;
+                _camMouv._isActive = true;
             }
         }   
         else
@@ -199,26 +207,30 @@ public class BaseComp : MonoBehaviour
             _percents.SetActive(false);
             _scriptCurrent.IsAimaing(false);
             _camIsInstanciat = false;
-            _camSwitch.ResetCamera();
-            _camMouv.DestroyObject();
+            
+            if (_camMouv != null)
+            {
+                _camSwitch.ResetCamera();
+                _camMouv.DestroyObject();
+                _camMouv = null;
+            }
+
         }
 
           
           _TabInformation.SetActive(true);
           _scriptCurrent._cantSwap = true;
-        //}
-        //else
-        //{
-        //    _indexUse = 0;
-        //    _indexOfComp = 0;
-        //    _TabInformation.SetActive(false);
-        //    _percents.SetActive(false);
-        //    _scriptCurrent._cantSwap = false;
-        //}
+    }
+
+    private void ReloadAmmo() // fin de tours apres Reload
+    {
+        _playerScript._ammo = _playerScript._MaxAmmo; // + lancé animation 
+        _scriptCurrent.EndOfThisUnitTurn();
+        Debug.Log(_playerScript._ammo);
     }
 
 
-    public void Shoot() // tir sur une cible donnée
+    public void Shoot() // tir sur une cible donnée + fin de tour 
     {
         
         Transform _target;
@@ -230,14 +242,24 @@ public class BaseComp : MonoBehaviour
             _playerTarget = _target.GetComponent<Player>();
             _dmg = _weaponUse.Damage;
             _playerScript._ammo -= 1;
+                Debug.Log("hit");
         
-            if (RandomShoot() == true)
+            if (RandomShoot() == true) // tir réussi animation tir dans unité ennemis 
             {
                 _playerTarget.TakeDmg(_dmg);
                 Debug.Log(_dmg);
+            }else
+            {
+                // animation echec tir 
             }
             _scriptCurrent.EndOfThisUnitTurn(); // fin du tour de cette unité 
+            _scriptCurrent.IsAimaing(false);
+            _scriptCurrent._cantSwap = false;
+            _currentFov.Refresh();
+            _camIsInstanciat = false;
+            _camSwitch.ResetCamera();
             _scriptCurrent.ChangeUnitsEvrywhere(); // change l'unité selectionnée
+            _camMouv.DestroyObject();
         }
     }
 
@@ -288,6 +310,8 @@ public class BaseComp : MonoBehaviour
             return true;
         }
     }
+
+ 
 
     private void InstanciateCamera()
     {

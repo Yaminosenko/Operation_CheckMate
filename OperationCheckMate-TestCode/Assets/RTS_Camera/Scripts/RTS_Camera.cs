@@ -58,8 +58,8 @@ namespace RTS_Cam
         #region MapLimits
 
         public bool limitMap = true;
-        public float limitX = 50f; //x limit of map
-        public float limitY = 50f; //z limit of map
+        public float limitX = 75; //x limit of map
+        public float limitY = 75; //z limit of map
 
         #endregion
 
@@ -84,7 +84,7 @@ namespace RTS_Cam
         #region Input
 
         public bool useScreenEdgeInput = true;
-        public float screenEdgeBorder = 25f;
+        public float screenEdgeBorder = 25;
 
         public bool useKeyboardInput = true;
         public string horizontalAxis = "Horizontal";

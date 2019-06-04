@@ -64,7 +64,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1847
+    m_Bits: 14135
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -101,3 +101,4 @@ MonoBehaviour:
   transitionSpeed: 5
   targetObj: {fileID: 0}
   speed: 5
+  _isActive: 0

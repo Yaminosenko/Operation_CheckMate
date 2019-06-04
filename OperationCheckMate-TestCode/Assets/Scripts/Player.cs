@@ -8,7 +8,8 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Image _healthOnUnit;
     public int _currentHealth;
-     private int _maxHealth;
+    public int _MaxAmmo;
+    private int _maxHealth;
     public bool _isActive = false;
     public Transform _portrait;
     public Weapon _weapon;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
         _healthImage = _portrait.GetComponent<Image>();
         
         _ammo = _weapon.Ammo;
+        _MaxAmmo = _ammo;
         
     }
 

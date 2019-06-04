@@ -9,6 +9,7 @@ public class CameraMouv : MonoBehaviour
     Transform currentView;
     public Transform targetObj;
     public int speed;
+    public bool _isActive = false;
 
     void Update()
     {
@@ -67,6 +68,10 @@ public class CameraMouv : MonoBehaviour
 
     public void DestroyObject()
     {
-        Destroy(this.gameObject);
+       if (_isActive == true)
+        {
+            Destroy(this.gameObject);
+            _isActive = false;
+        }
     }
 }

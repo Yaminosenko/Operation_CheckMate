@@ -8,6 +8,8 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
     [Range(0, 360)]
     public float viewAngle;
 
+    public LayerMask targetMaskTeam1;
+    public LayerMask targetMaskTeam2;
     public LayerMask targetMask;
     public LayerMask obstacleMask;
    // [SerializeField] private BaseComp _competanceScript;
@@ -18,6 +20,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
     [SerializeField] private Transform[] _currentTargets;
     private bool _aimTrue = false;
 
+    public bool _whichTeamAreYou = false;
     public Transform _CamPos;
     [HideInInspector]
     public CameraMouv _camMouvScript;
@@ -34,6 +37,19 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
 
+
+    private void Awake()
+    {
+        
+        if(_whichTeamAreYou == false)
+        {
+            targetMask = targetMaskTeam1;
+        }
+        else
+        {
+            targetMask = targetMaskTeam2;
+        }
+    }
 
     void Start()
     {
@@ -61,6 +77,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
 
     void LateUpdate()
     {
+                Debug.Log(_aimTrue);
         if (_isActive == true)
         {
             DrawFieldOfView();
@@ -71,6 +88,8 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
                 SelectTarget();
             }
         }
+
+        
     }
 
     void FindVisibleTargets() //mise en place des targets dans une list 
@@ -99,6 +118,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
         {
             _nbOfTarget += 1;
         }
+        //Debug.Log(_nbOfTarget);
         _aimTrue = true;
     }
 
@@ -136,12 +156,22 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
         {
             Material _m;
             _m = _currentTargets[i].GetComponent<Renderer>().material;
+            int speed = 5;
             if (i + 1 == _targetSelect)
             {
-                _m.color = Color.red;
-                _actualTarget = _currentTargets[i];
-                _camMouvScript.targetObj = _actualTarget;
-                //Debug.Log(_currentTargets[i]);
+                if(_nbOfTarget != 0)
+                {
+                    _m.color = Color.red;
+                    _actualTarget = _currentTargets[i];
+                    _camMouvScript.targetObj = _actualTarget;
+                }
+
+
+                var targetRotation = Quaternion.LookRotation(_actualTarget.position - transform.position);
+                // Smoothly rotate towards the target point.
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+
+               
 
                 _distanceTarget = Vector3.Distance(transform.position, _currentTargets[i].transform.position);
             }
@@ -183,6 +213,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
 
             AimTarget();
             _currentTargets = visibleTargets.ToArray();
+            Debug.Log(_currentTargets.Length);
             if (_currentTargets.Length != 0)
             {
                 _actualTarget = _currentTargets[0];
