@@ -21,9 +21,9 @@ public class BaseComp : MonoBehaviour
 
      public Competance _data;
 
-     private GameObject _canvas;
+     public GameObject _canvas;
      private Camera _cam;
-     private CurrentUnits _scriptCurrent;
+     public CurrentUnits _scriptCurrent;
      
      public CameraMouv _camMouv;
      public Weapon _weaponUse;
@@ -55,7 +55,7 @@ public class BaseComp : MonoBehaviour
     private void OnEnable()
     {
         _cam = Camera.main;
-        _canvas = GameObject.Find("Canvas");
+        //_canvas = GameObject.Find("Canvas");
         _scriptCurrent = _canvas.GetComponent<CurrentUnits>();
         _camScript = _cam.GetComponent<TargetSelector>();
        // _camMouv = _camToInst.GetComponent<CameraMouv>();
@@ -226,7 +226,8 @@ public class BaseComp : MonoBehaviour
     {
         _playerScript._ammo = _playerScript._MaxAmmo; // + lancé animation 
         _scriptCurrent.EndOfThisUnitTurn();
-        Debug.Log(_playerScript._ammo);
+        _scriptCurrent.ChangeUnitsEvrywhere();
+        //Debug.Log(_playerScript._ammo);
     }
 
 

@@ -26,6 +26,7 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private GameObject _active;
     [SerializeField] private Transform _portrait;
     [SerializeField] private Transform _portrait2;
+    [SerializeField] private TeamManager _teamManagerDep;
 
 
     [SerializeField] private Units _dataUse;
@@ -33,6 +34,8 @@ public class CurrentUnits : MonoBehaviour
     private BaseComp _compScript;
     public Weapon _weaponData;
     private int _index = 1;
+    private float _stepHere = 0;
+    private bool _Wait = false;
     public int _nbTours = 0;
 
     public bool _cantSwap = false;
@@ -187,19 +190,21 @@ public class CurrentUnits : MonoBehaviour
         }
        
         
-
         if (Input.GetKeyDown(KeyCode.P))
         {
             SwitchTeam();
-
         }
 
 
         if (_cantSwap == false) //ne marche pas lorsqu'une action est en cours
         {
-            if (Input.GetKeyDown(KeyCode.Tab)) //changement d'unité par touche 
+            if (_Wait == false)
             {
-                ChangeUnitsEvrywhere();
+                if (Input.GetKeyDown(KeyCode.Tab)) //changement d'unité par touche 
+                {
+                    ChangeUnitsEvrywhere();
+                    
+                }
             }
         }
     }
@@ -212,6 +217,9 @@ public class CurrentUnits : MonoBehaviour
         ChangePortrait();
         _camaTarget._target = _transCurrentTarget;
         _camaTarget.NewTarget();
+        _teamManagerDep.soldierTurn = _index - 1;
+        _Wait = true;
+        StartCoroutine(WaitBeforeDoSomethingElse());
     }
 
     public void EndOfThisUnitTurn()
@@ -255,7 +263,7 @@ public class CurrentUnits : MonoBehaviour
             _transCurrentTarget = _team1[0].transform;
             _camaTarget._target = _transCurrentTarget;
             _camaTarget.NewTarget();
-
+            _teamManagerDep.playerNum = true;
         }
         else
         {
@@ -265,6 +273,7 @@ public class CurrentUnits : MonoBehaviour
             _transCurrentTarget = _team2[0].transform;
             _camaTarget._target = _transCurrentTarget;
             _camaTarget.NewTarget();
+            _teamManagerDep.playerNum = false;
         }
     }
 
@@ -296,16 +305,16 @@ public class CurrentUnits : MonoBehaviour
         {
             FieldOfView _script;
             Player _player;
-            Controller _theOne;
+            //Controller _theOne;
             _script = _TeamTab[i].GetComponent<FieldOfView>();
-            _theOne = _TeamTab[i].GetComponent<Controller>();
+            //_theOne = _TeamTab[i].GetComponent<Controller>();
             _player = _TeamTab[i].GetComponent<Player>();
 
             if(i == _index - 1)
             {
                 _transCurrentTarget = _TeamTab[i].transform;
                 _script._isActive = true;
-                _theOne._isActive = true;
+                //_theOne._isActive = true;
                 _player._isActive = true;
                 _compScript._currentFov = _script;
                 _compScript._playerScript = _player;
@@ -314,7 +323,7 @@ public class CurrentUnits : MonoBehaviour
             else
             {
                 _script._isActive = false;
-                _theOne._isActive = false;
+                //_theOne._isActive = false;
                 _player._isActive = false;
             }
         }
@@ -427,4 +436,9 @@ public class CurrentUnits : MonoBehaviour
         }
     } //changement de l'arme en conséquence 
 
+    IEnumerator WaitBeforeDoSomethingElse()
+    {
+        yield return new WaitForSeconds(3);
+        _Wait = false;
+    }
 }

@@ -18,6 +18,7 @@ public class navAgent : MonoBehaviour
 	public GameObject Ghost;
 	public GameObject GhostSpawner;
 	// POOLING
+	public CurrentUnits _currentScript;
 
 	public GhostPooler ghostPooler;
 
@@ -156,7 +157,7 @@ public class navAgent : MonoBehaviour
 						if (hit.collider.GetComponent<Renderer>().material.GetColor("_TintColor") == cliquableColor)
 						{
 							hit.collider.GetComponent<TriggerChangeColor>().insideZone = true;
-                            Debug.Log("caca");
+                        
 							if (Input.GetMouseButtonDown(1) && _canClic == true)
 							{
 								Invoke("endMyTurn", _step);
@@ -175,8 +176,8 @@ public class navAgent : MonoBehaviour
 		}
 		else
 		{
-			image.SetActive(false);
-			_canClic = false;
+            image.SetActive(false);
+            _canClic = false;
 			agent.enabled = false;
 			//if (character != null)
 			//character.enabled = false;
@@ -225,7 +226,9 @@ public class navAgent : MonoBehaviour
 		Freezaaa();
 		resetColorsBlack();
 		ghosted = false;
-		teamManager.GetComponent<TeamManager>().soldierTurn++;
+        _currentScript.ChangeUnitsEvrywhere();
+        _currentScript.EndOfThisUnitTurn();
+		//teamManager.GetComponent<TeamManager>().soldierTurn++;
 		journeyEnabled = false;
 	}
 

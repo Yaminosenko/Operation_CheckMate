@@ -39,7 +39,7 @@ public class TeamManager : MonoBehaviour
         {
             cam1.enabled = true;
             cam2.enabled = false;
-            Debug.Log("tour joueur 1");
+            //Debug.Log("tour joueur 1");
             //squad1 = GameObject.FindGameObjectsWithTag("Player1");
             foreach (GameObject squadMate in squad1)
             {
@@ -52,18 +52,18 @@ public class TeamManager : MonoBehaviour
                     squadMate.GetComponent<navAgent>().journeyEnabled = false;
                 }
             }
-            if (soldierTurn > 3)
-            {
-                soldierTurn = 0;
-                Debug.Log("soldat 1 go !");
-                playerTurn();
-            }
+            //if (soldierTurn > 3)
+            //{
+            //    //soldierTurn = 0;
+            //    Debug.Log("soldat 1 go !");
+            //   // playerTurn();
+            //}
         }
 
         if (playerNum == true)
         {
-            cam1.enabled = false;
-            cam2.enabled = true;
+            //cam1.enabled = false;
+            //cam2.enabled = true;
             //squad2 = GameObject.FindGameObjectsWithTag("Player2");
             foreach (GameObject squadMate in squad2)
             {
@@ -76,16 +76,16 @@ public class TeamManager : MonoBehaviour
                     squadMate.GetComponent<navAgent>().journeyEnabled = false;
                 }
             }
-            if (soldierTurn > 3)
-            {
-                soldierTurn = 0;
-                playerTurn();
-            }
+            //if (soldierTurn > 3)
+            //{
+            //    soldierTurn = 0;
+            //    playerTurn();
+            //}
         }
     }
 
-    public void playerTurn ()
-    {
-        playerNum = !playerNum;
-    }
+    //public void playerTurn ()
+    //{
+    //    playerNum = !playerNum;
+    //}
 }

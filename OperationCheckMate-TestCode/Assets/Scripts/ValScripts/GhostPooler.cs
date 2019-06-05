@@ -36,7 +36,7 @@ public class GhostPooler : MonoBehaviour
 
             for (int i = 0; i < pool.size; i++)
             {
-                GameObject obj = Instantiate(pool.prefab);
+                GameObject obj = Instantiate(pool.prefab); //enlever le pool lors de la première fois
                 obj.SetActive(false);
                 objectPool.Enqueue(obj);
             }
