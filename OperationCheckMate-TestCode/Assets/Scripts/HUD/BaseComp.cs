@@ -16,7 +16,7 @@ public class BaseComp : MonoBehaviour
      [SerializeField] private GameObject _percents;
      [SerializeField] private Percents_palier _equilibreDataPercents;
      [SerializeField] private GameObject _camToInst;
-     [SerializeField] private CameraSwitch _camSwitch;
+     [SerializeField] private CameraSwitch2 _camSwitch;
      
 
      public Competance _data;
@@ -242,7 +242,7 @@ public class BaseComp : MonoBehaviour
             _playerTarget = _target.GetComponent<Player>();
             _dmg = _weaponUse.Damage;
             _playerScript._ammo -= 1;
-                Debug.Log("hit");
+
         
             if (RandomShoot() == true) // tir réussi animation tir dans unité ennemis 
             {
@@ -317,6 +317,7 @@ public class BaseComp : MonoBehaviour
     {
         
         GameObject _currentCam = (GameObject)Instantiate(_camToInst, _cam.transform.position, _cam.transform.rotation) as GameObject;
+        //Debug.Log(_currentCam);
         _camMouv = _currentCam.GetComponent<CameraMouv>();
         _camSwitch.cameraOne = _currentCam;
         _camSwitch.cameraChangeCounter();

@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - target
+  - ghost
+  - ground
+  - grid
+  - longMoveZone
+  - ghostMoveZone
+  - Camera
+  - moveZone
+  - alreadyNamed
   layers:
   - Default
   - TransparentFX

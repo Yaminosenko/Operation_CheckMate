@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_GeneratorAsset: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: ee1e0692c6c853c438b35945ab01b9ca, type: 3}
+  m_Name: Jim
+  m_EditorClassIdentifier: 
+  name: Jim
+  description: Sniper en position.
+  Avatar: {fileID: 21300000, guid: 6cad78f30c66f514ba350fff489f0990, type: 3}
+  actionPoints: 2
