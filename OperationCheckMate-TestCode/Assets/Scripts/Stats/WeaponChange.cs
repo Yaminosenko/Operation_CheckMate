@@ -48,7 +48,7 @@ public class WeaponChange : MonoBehaviour
     public void WeaponRight() // bouton droite = arme droite
     {
         _index += 1;
-        Debug.Log(_index);
+        //Debug.Log(_index);
         ChangeSprit();
         _unitsScript._weapon = _index;
         if (_index >= 4)

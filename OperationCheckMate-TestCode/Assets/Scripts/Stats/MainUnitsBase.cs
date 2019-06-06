@@ -45,24 +45,29 @@ public class MainUnitsBase : MonoBehaviour
                 {
                     _dataBase[i].WeaponList = Units.WeaponEnum.Assault;
                     _dataBase[i].Data = _evryComp[0];
+                    Debug.Log("oui");
                 }
                 else if (_units[i]._weapon == 2)
                 {
                     _dataBase[i].WeaponList = Units.WeaponEnum.Sniper;
                     _dataBase[i].Data = _evryComp[1];
+                    Debug.Log("oui");
                 }
                 else if (_units[i]._weapon == 3)
                 {
                     _dataBase[i].WeaponList = Units.WeaponEnum.ShotGun;
                     _dataBase[i].Data = _evryComp[2];
+                    Debug.Log("oui");
                 }
                 else if (_units[i]._weapon == 4)
                 {
                     _dataBase[i].WeaponList = Units.WeaponEnum.Gatling;
                     _dataBase[i].Data = _evryComp[3];
+                    Debug.Log("oui");
                 }
-                 Debug.Log("vroum");
+                Debug.Log(_units[i]._weapon);
             }
+
 
             
         }
@@ -95,6 +100,7 @@ public class MainUnitsBase : MonoBehaviour
                     _dataBase[i].WeaponList = Units.WeaponEnum.Gatling;
                     _dataBase[i].Data = _evryComp[3];
                 }
+               
             }
 
             _player2.SetActive(true);
@@ -102,7 +108,7 @@ public class MainUnitsBase : MonoBehaviour
         }
         else if (_index == 2) // lancement de la partie
         {
-            SceneManager.LoadScene("HUD", LoadSceneMode.Single);
+            SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
         }
 
         _index++;

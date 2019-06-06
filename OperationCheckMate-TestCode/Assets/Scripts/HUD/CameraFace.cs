@@ -10,7 +10,7 @@ public class CameraFace : MonoBehaviour
 
     private void OnEnable()
     {
-        _myCanvas = GetComponent<Canvas>();
+       // _myCanvas = GetComponent<Canvas>();
         m_Camera = Camera.main;
         
         _myCanvas.worldCamera = Camera.main;

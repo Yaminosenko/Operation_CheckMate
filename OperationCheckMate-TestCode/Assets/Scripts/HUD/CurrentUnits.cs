@@ -42,8 +42,9 @@ public class CurrentUnits : MonoBehaviour
     private Camera _cam;
     private TargetSelector _camaTarget;
     private Transform _transCurrentTarget;
+    private navAgent _leNavAgent;
 
-    private List<int> _alreadyUse = new List<int>();
+   [SerializeField] private List<int> _alreadyUse = new List<int>();
 
 
     private void OnEnable()
@@ -218,13 +219,17 @@ public class CurrentUnits : MonoBehaviour
         _camaTarget._target = _transCurrentTarget;
         _camaTarget.NewTarget();
         _teamManagerDep.soldierTurn = _index - 1;
+        
         _Wait = true;
         StartCoroutine(WaitBeforeDoSomethingElse());
+        _leNavAgent.ChangeUnits();
+        
     }
 
     public void EndOfThisUnitTurn()
     {
         _alreadyUse.Add(_index);
+        
     }
 
     private void ChangeUnits() // change l'index de l'unité a utilisé
@@ -319,6 +324,8 @@ public class CurrentUnits : MonoBehaviour
                 _compScript._currentFov = _script;
                 _compScript._playerScript = _player;
                 _compScript._weaponUse = _weaponData;
+                _leNavAgent = _TeamTab[i].GetComponent<navAgent>();
+                Debug.Log(_TeamTab[i]);
             }
             else
             {

@@ -232,6 +232,15 @@ public class navAgent : MonoBehaviour
 		journeyEnabled = false;
 	}
 
+    public void ChangeUnits()
+    {
+        Freezaaa();
+        resetColorsBlack();
+        ghosted = false;
+      
+        journeyEnabled = false;
+    }
+
 	public void unFreezing ()
 	{
 		UnFreezaaa();

@@ -154,21 +154,20 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
     {
         for (int i = 0; i < _currentTargets.Length; i++)
         {
-            Material _m;
-            _m = _currentTargets[i].GetComponent<Renderer>().material;
+
             int speed = 5;
             if (i + 1 == _targetSelect)
             {
                 if(_nbOfTarget != 0)
                 {
-                    _m.color = Color.red;
+                    
                     _actualTarget = _currentTargets[i];
                     _camMouvScript.targetObj = _actualTarget;
                 }
 
 
                 var targetRotation = Quaternion.LookRotation(_actualTarget.position - transform.position);
-                // Smoothly rotate towards the target point.
+               
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
 
                
@@ -177,7 +176,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
             }
             else
             {
-                _m.color = Color.blue;
+                //_m.color = Color.blue;
             }
         }
     }
@@ -187,10 +186,10 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
         if (_currentTargets.Length != 0)
         {
             Material _m;
-            _m = _currentTargets[0].GetComponent<Renderer>().material;
+            //_m = _currentTargets[0].GetComponent<Renderer>().material;
             _actualTarget = _currentTargets[0];
             _distanceTarget = Vector3.Distance(transform.position, _currentTargets[0].transform.position);
-            _m.color = Color.red;
+            //_m.color = Color.red;
         }
 
     }
@@ -205,9 +204,9 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
             {
                 for (int i = 0; i < _currentTargets.Length; i++)
                 {
-                    Material _m;
-                    _m = _currentTargets[i].GetComponent<Renderer>().material;
-                    _m.color = Color.blue;
+                    //Material _m;
+                    //_m = _currentTargets[i].GetComponent<Renderer>().material;
+                    //_m.color = Color.blue;
                 }
             }
 

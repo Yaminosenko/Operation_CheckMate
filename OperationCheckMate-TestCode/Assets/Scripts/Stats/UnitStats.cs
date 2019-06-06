@@ -14,7 +14,7 @@ public class UnitStats : MonoBehaviour
     public float _stamina = 0;
     public float _aim = 0;
     public float _luck = 0;
-    public float _weapon = 0;
+    public float _weapon = 1;
 
     [SerializeField] private TextMeshProUGUI _number;
     private string _numberString;
