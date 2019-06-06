@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CoverEnnemiTest : MonoBehaviour
 {
-    public GameObject focused;
+    public Transform focused;
     public float rangeMax;
     public float damages;
     public float coverRatio;
@@ -87,7 +87,8 @@ public class CoverEnnemiTest : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.TransformDirection(direction), out hit, rangeMax))
         {
-            if (hit.transform.gameObject == focused)
+            
+            if (hit.transform == focused)
             {
                 if (playerSys.covered == true)
                 {

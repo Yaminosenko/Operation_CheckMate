@@ -18,11 +18,22 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
     [SerializeField ]private Material _red;
     [SerializeField ]private Material _targetMaterial;
     [SerializeField] private Transform[] _currentTargets;
+    [SerializeField] private Transform _gd;
+    [SerializeField] private Transform _leTest;
     private bool _aimTrue = false;
 
     public bool _whichTeamAreYou = false;
     public Transform _CamPos;
+
     [HideInInspector]
+
+ 
+    public Transform focused;
+    public LineRenderer lr;
+    public bool acted = false;
+    Vector3 myPos;
+    Vector3 aimPos;
+
     public CameraMouv _camMouvScript;
     public bool _swap = false;
     public bool _isAimaing = false;
@@ -33,7 +44,9 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
     public float meshResolution;
     public int edgeResolveIterations;
     public float edgeDstThreshold;
-
+    public int _listNb;
+    public Vector3 direction;
+    public int _actuaTargetCover;
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
 
@@ -87,13 +100,15 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
             {
                 SelectTarget();
             }
-        }
 
-        
+            //CoverSystem();
+        }
+       
     }
 
     void FindVisibleTargets() //mise en place des targets dans une list 
     {
+        _listNb = visibleTargets.Count;
         visibleTargets.Clear();
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
@@ -107,6 +122,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
+
                 }
             }
         }
@@ -163,20 +179,22 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
                     
                     _actualTarget = _currentTargets[i];
                     _camMouvScript.targetObj = _actualTarget;
+                    focused = _actualTarget;
+                    CoverSystem();
+                    GiveCover(direction);
                 }
 
 
-                var targetRotation = Quaternion.LookRotation(_actualTarget.position - transform.position);
-               
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
+                //var targetRotation = Quaternion.LookRotation(_actualTarget.position - transform.position);
 
-               
+                //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
 
                 _distanceTarget = Vector3.Distance(transform.position, _currentTargets[i].transform.position);
+
             }
             else
             {
-                //_m.color = Color.blue;
+             
             }
         }
     }
@@ -218,6 +236,61 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
                 _actualTarget = _currentTargets[0];
             }
         }
+    }
+
+    public void CoverSystem()
+    {
+        if (focused != null)
+        {
+            myPos = transform.position;
+            aimPos = focused.transform.position;
+
+            var heading = aimPos - myPos;
+            var distance = heading.magnitude;
+            direction = heading / distance;
+       
+            lr.SetPosition(0, myPos);
+            lr.SetPosition(1, aimPos);
+        }
+    }
+
+    public void GiveCover(Vector3 direction)
+    {
+        Player playerSys = focused.GetComponent<Player>();
+
+        RaycastHit hit;
+        if (Physics.Raycast(_gd.position, transform.TransformDirection(direction), out hit))
+        {
+            Debug.DrawRay(_gd.position, transform.TransformDirection(direction) * hit.distance, Color.black, Mathf.Infinity);
+            Debug.Log(hit.transform);
+            _leTest = hit.transform;
+
+            if (hit.transform == focused)
+            {
+                if (playerSys.covered == true)
+                {
+                    if(playerSys._bigCover == true)
+                    {
+                        _actuaTargetCover = 2;
+                    }
+                    else
+                    {
+                        _actuaTargetCover = 1;
+                    }
+                }
+                else
+                {
+                    _actuaTargetCover = 3;
+                }
+            }
+            else
+            {
+                _actuaTargetCover = 0;
+            }
+        }
+
+        //acted = false;
+        //detected = false;
     }
 
 

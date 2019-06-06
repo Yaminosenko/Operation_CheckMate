@@ -17,6 +17,7 @@ public class BaseComp : MonoBehaviour
      [SerializeField] private Percents_palier _equilibreDataPercents;
      [SerializeField] private GameObject _camToInst;
      [SerializeField] private CameraSwitch2 _camSwitch;
+     [SerializeField] private TextMeshProUGUI _targetInView;
      
 
      public Competance _data;
@@ -50,6 +51,7 @@ public class BaseComp : MonoBehaviour
     private int _protectLvl;
     private bool _camIsInstanciat = false;
     [SerializeField] private float _percentsFinal;
+    [SerializeField] private float _distanceTarg;
 
 
     private void OnEnable()
@@ -113,7 +115,7 @@ public class BaseComp : MonoBehaviour
             _currentFov.Refresh();
             _camIsInstanciat = false;
             _camSwitch.ResetCamera();
-            
+            _currentFov.focused = null;
             _camMouv.DestroyObject();
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
@@ -137,6 +139,11 @@ public class BaseComp : MonoBehaviour
         {
             PercentsCalcul();
         }
+
+        string _txt;
+
+        _txt = _currentFov._listNb.ToString();
+        _targetInView.SetText(_txt);
         
     }
 
@@ -266,10 +273,47 @@ public class BaseComp : MonoBehaviour
 
     public void PercentsCalcul() //calcule du pourcentage de chance de toucher la cible 
     {
-        float _distanceTarg = _currentFov._distanceTarget;
+        float _coverValue = 0;
+         _distanceTarg = _currentFov._distanceTarget;
+
+        if (_currentFov._actuaTargetCover == 1)
+        {
+            _coverValue = 20f;
+        }
+        else if(_currentFov._actuaTargetCover == 2)
+        {
+            _coverValue = 40f;
+        }
+        else if(_currentFov._actuaTargetCover == 3)
+        {
+            _coverValue = 50;
+        }
+        else if(_currentFov._actuaTargetCover == 0)
+        {
+            _coverValue = -20f;
+        }
+
+        Debug.Log(_coverValue);
+        Debug.Log(_currentFov._actuaTargetCover);
 
         _scope = _scriptCurrent._weaponData.Scope;
-        _percentsFinal = _scope - _distanceTarg ;
+        _percentsFinal = _scope - _distanceTarg - _coverValue;
+
+        if (_scriptCurrent._weaponData == _scriptCurrent._dataUse.DataList[1])
+        {
+            if(_distanceTarg <= 5)
+            {
+                _percentsFinal = 25;
+            }
+        }
+        if (_scriptCurrent._weaponData == _scriptCurrent._dataUse.DataList[2])
+        {
+            if(_distanceTarg >= 20)
+            {
+                _percentsFinal = 25;
+            }
+        }
+
         _currentFov._swap = false;
     }
 

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e7eb5c3abca10044a3eb46a958d6c92, type: 3}
   m_Name: Assault
   m_EditorClassIdentifier: 
-  _scope: 150
+  _scope: 100
   _dmg: 10
   _ammo: 10

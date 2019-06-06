@@ -29,7 +29,7 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private TeamManager _teamManagerDep;
 
 
-    [SerializeField] private Units _dataUse;
+    public Units _dataUse;
     [SerializeField] private bool _switchTeam = false;
     private BaseComp _compScript;
     public Weapon _weaponData;
@@ -325,7 +325,7 @@ public class CurrentUnits : MonoBehaviour
                 _compScript._playerScript = _player;
                 _compScript._weaponUse = _weaponData;
                 _leNavAgent = _TeamTab[i].GetComponent<navAgent>();
-                Debug.Log(_TeamTab[i]);
+
             }
             else
             {

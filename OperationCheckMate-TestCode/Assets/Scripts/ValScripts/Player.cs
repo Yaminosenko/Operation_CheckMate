@@ -15,7 +15,8 @@ public class Player : MonoBehaviour
     public Weapon _weapon;
     //public bool _teamActive;
     private Image _healthImage;
-    
+    public bool covered = false;
+    public bool _bigCover = false;
     public int _ammo; 
 
     //[HideInInspector]

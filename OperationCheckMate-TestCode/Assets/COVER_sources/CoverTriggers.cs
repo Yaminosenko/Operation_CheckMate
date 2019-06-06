@@ -10,14 +10,23 @@ public class CoverTriggers : MonoBehaviour
 	{
 		if (col.gameObject.tag == "Player")
 		{
-            col.gameObject.GetComponent<PlayerCoverSystem>().covered = true;
+            Player p = col.gameObject.GetComponent<Player>();
+            p.covered = true;
+            if(_bigCover == false)
+            {
+                p._bigCover = false;
+            }
+            if(_bigCover == true)
+            {
+                p._bigCover = true;
+            }
 		}
 	}
     public void OnTriggerExit (Collider col)
 	{
 		if (col.gameObject.tag == "Player")
 		{
-            col.gameObject.GetComponent<PlayerCoverSystem>().covered = false;
+            col.gameObject.GetComponent<Player>().covered = false;
 		}
 	}
 
