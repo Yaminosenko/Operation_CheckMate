@@ -18,7 +18,9 @@ public class Player : MonoBehaviour
     private Image _healthImage;
     public bool covered = false;
     public bool _bigCover = false;
-    public int _ammo; 
+    public int _ammo;
+    public GameObject _triggerCover;
+    public float _axisRot;
 
     //[HideInInspector]
 

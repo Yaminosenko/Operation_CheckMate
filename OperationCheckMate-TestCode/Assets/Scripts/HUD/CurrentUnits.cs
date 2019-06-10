@@ -30,6 +30,10 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private TeamManager _teamManagerDep;
     [SerializeField] private TextMeshProUGUI _playerTurn;
 
+    [SerializeField] private Button _endOfTurn;
+    [SerializeField] private Button _nextUnitsLeft;
+    [SerializeField] private Button _nextUnitsRight;
+
 
     public Units _dataUse;
     [SerializeField] private bool _switchTeam = false;
@@ -148,8 +152,13 @@ public class CurrentUnits : MonoBehaviour
         _compScript._data = _dataUse.Data;
         FieldOfView _fovScript;
         _fovScript = _team1[0].GetComponent<FieldOfView>();
+        _team1[0].GetComponent<navAgent>()._staminaValue = _dataUse.Stamina;
         _fovScript._isActive = true;
         _compScript._currentFov = _fovScript;
+
+        _endOfTurn.onClick.AddListener(SwitchTeam);
+        _nextUnitsLeft.onClick.AddListener(ChangeUnitsEvrywhere);
+        _nextUnitsRight.onClick.AddListener(ChangeUnitsEvrywhere);
     }
 
     private void Update()
@@ -226,6 +235,8 @@ public class CurrentUnits : MonoBehaviour
         _Wait = true;
         StartCoroutine(WaitBeforeDoSomethingElse());
         _leNavAgent.ChangeUnits();
+        _leNavAgent._staminaValue = _dataUse.Stamina;
+        
         
     }
 
@@ -275,7 +286,9 @@ public class CurrentUnits : MonoBehaviour
             _playerTurn.SetText("Joueur 2");
             for(int i = 0; i < _team2.Length; i++)
             {
-                _team2[i].GetComponent<navAgent>()._alreadyMouv = true;
+                _team2[i].GetComponent<navAgent>()._alreadyMouv = false;
+                Debug.Log("team2alreadyOn");
+                
             }
         }
         else
@@ -290,7 +303,8 @@ public class CurrentUnits : MonoBehaviour
             _playerTurn.SetText("Joueur 1");
             for (int i = 0; i < _team1.Length; i++)
             {
-                _team1[i].GetComponent<navAgent>()._alreadyMouv = true;
+                _team1[i].GetComponent<navAgent>()._alreadyMouv = false;
+                Debug.Log("team1alreadyOn");
             }
         }
     }
@@ -317,23 +331,9 @@ public class CurrentUnits : MonoBehaviour
 
             }
         }
-
-        //for (int i =0; i < _TeamTab.Length; i++)
-        //{
-           
-        //}
         
         for (int i =0; i < _TeamTab.Length; i++)
         {
-
-            //if (_TeamTab[i].GetComponent<Player>()._dead == true)
-            //{
-            //    _index++;
-            //    if (_index == _use[i])
-            //    {
-            //        _index += 1;
-            //    }
-            //}
 
             FieldOfView _script;
             Player _player;
@@ -341,6 +341,7 @@ public class CurrentUnits : MonoBehaviour
             _script = _TeamTab[i].GetComponent<FieldOfView>();
             //_theOne = _TeamTab[i].GetComponent<Controller>();
             _player = _TeamTab[i].GetComponent<Player>();
+            
 
 
             if(i == _index - 1)
@@ -352,7 +353,8 @@ public class CurrentUnits : MonoBehaviour
                 _compScript._currentFov = _script;
                 _compScript._playerScript = _player;
                 _compScript._weaponUse = _weaponData;
-
+                _compScript._critChance = _dataUse.Luck;
+                _script._baseComp = _compScript;
                 _leNavAgent = _TeamTab[i].GetComponent<navAgent>();
 
             }

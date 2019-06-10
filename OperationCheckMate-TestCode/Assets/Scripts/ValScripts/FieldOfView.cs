@@ -19,7 +19,9 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
     [SerializeField ]private Material _targetMaterial;
     [SerializeField] private Transform[] _currentTargets;
     [SerializeField] private Transform _gd;
-    [SerializeField] private Transform _leTest;
+
+    public BaseComp _baseComp;
+    
     private bool _aimTrue = false;
 
     public bool _whichTeamAreYou = false;
@@ -47,6 +49,8 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
     public int _listNb;
     public Vector3 direction;
     public int _actuaTargetCover;
+    public bool _isFlank = false;
+    public bool _isOverwatched = false;
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
 
@@ -80,10 +84,10 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
         while (true)
         {
             yield return new WaitForSeconds(delay);
-            if(_isActive == true)
-            {
+            //if(_isActive == true)
+            //{
                 FindVisibleTargets();
-            }
+            //}
 
         }
     }
@@ -101,8 +105,11 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
                 SelectTarget();
             }
 
-            //CoverSystem();
         }
+            if(_isOverwatched == true)
+            {
+                OverwatchActivate();
+            }
        
     }
 
@@ -177,7 +184,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
         for (int i = 0; i < _currentTargets.Length; i++)
         {
 
-            int speed = 5;
+            //int speed = 5;
             if (i + 1 == _targetSelect)
             {
 
@@ -193,10 +200,6 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
 
                     //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
                 }
-
-
-
-
                 _distanceTarget = Vector3.Distance(transform.position, _currentTargets[i].transform.position);
 
             }
@@ -257,8 +260,8 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
             var distance = heading.magnitude;
             direction = heading / distance;
        
-            lr.SetPosition(0, myPos);
-            lr.SetPosition(1, aimPos);
+            //lr.SetPosition(0, myPos);
+            //lr.SetPosition(1, aimPos);
         }
     }
 
@@ -269,9 +272,53 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
         RaycastHit hit;
         if (Physics.Raycast(_gd.position, transform.TransformDirection(direction), out hit))
         {
-            Debug.DrawRay(_gd.position, transform.TransformDirection(direction) * hit.distance, Color.black, Mathf.Infinity);
+            //Debug.DrawRay(_gd.position, transform.TransformDirection(direction) * hit.distance, Color.black, Mathf.Infinity);
             Debug.Log(hit.transform);
-            _leTest = hit.transform;
+
+            if(playerSys._triggerCover != null)
+            {
+                GameObject _triggerzone = playerSys._triggerCover;
+                float _posZ = transform.position.z;
+                float _posX = transform.position.x;
+                float _axis = playerSys._axisRot;
+
+                Debug.Log(_triggerzone.transform.position.z);
+                Debug.Log(transform.position.z);
+
+                if(_axis == 1)
+                {
+                   if (_posX >= _triggerzone.transform.position.x)
+                   {
+                        _isFlank = true;
+                   }
+                }
+                else if(_axis == 2)
+                {
+                    if (_posX <= _triggerzone.transform.position.x)
+                    {
+                        _isFlank = true;
+                    }
+                }
+                else if(_axis == 3)
+                {
+                    if (_posZ <= _triggerzone.transform.position.z)
+                    {
+                        _isFlank = true;
+                    }
+                }
+                else if (_axis == 4)
+                {
+                    if (_posZ >= _triggerzone.transform.position.z)
+                    {
+                        _isFlank = true;
+                    }
+                }
+
+                //Quaternion _rot = Quaternion.LookRotation(transform.position, Vector3.up);
+                //_triggerzone.transform.rotation = _rot;
+                //Debug.Log(_triggerzone.transform.localEulerAngles.y);
+                //Debug.DrawRay(_triggerzone.transform.position, transform.position * hit.distance, Color.black, Mathf.Infinity);
+            }
 
             if (hit.transform == focused)
             {
@@ -285,7 +332,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
                     {
                         _actuaTargetCover = 1;
                     }
-                }
+                } 
                 else
                 {
                     _actuaTargetCover = 3;
@@ -299,6 +346,27 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
 
         //acted = false;
         //detected = false;
+    }
+
+    public void OverwatchActivate()
+    {
+        foreach (Transform Target in visibleTargets)
+        {
+            navAgent _agent = Target.GetComponent<navAgent>();
+            Player _player = gameObject.GetComponent<Player>();
+           
+            if(_agent._isMoving == true)
+            {
+                _actualTarget = _agent.transform;
+                //_camMouvScript.targetObj = _actualTarget;
+                focused = _actualTarget;
+                CoverSystem();
+                GiveCover(direction);
+                Debug.Log("overwatched");
+                _baseComp.Overwatch(_player, _player._weapon, this);
+                _isOverwatched = false;
+            }
+        }
     }
 
 

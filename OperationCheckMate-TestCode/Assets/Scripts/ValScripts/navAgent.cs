@@ -36,6 +36,7 @@ public class navAgent : MonoBehaviour
 	public GameObject teamManager;
 	public int myNumber = 0;
 	public float maxSteps = 2;
+	public float _staminaValue;
 	public float _step;
 	private float _spend;
 	private float _gSpend;
@@ -50,6 +51,7 @@ public class navAgent : MonoBehaviour
 	public bool _canClic = false;
 	private Color cliquableColor;
 	public bool _alreadyMouv = false;
+	public bool _isMoving = false;
 
 	void Start ()
 	{
@@ -161,6 +163,7 @@ public class navAgent : MonoBehaviour
                         
 							if (Input.GetMouseButtonDown(1) && _canClic == true)
 							{
+                                _isMoving = true;
 								Invoke("endMyTurn", _step);
 								Pos = new Vector3(hit.collider.transform.position.x, transform.position.y, hit.collider.transform.position.z);
 								agent.SetDestination(Pos);
@@ -227,6 +230,7 @@ public class navAgent : MonoBehaviour
 		Freezaaa();
 		resetColorsBlack();
         _alreadyMouv = true;
+        _isMoving = false;
         if (_alreadyMouv == false)
         {
             ghosted = false;

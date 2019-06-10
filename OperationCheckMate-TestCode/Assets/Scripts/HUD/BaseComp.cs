@@ -26,6 +26,7 @@ public class BaseComp : MonoBehaviour
      public GameObject _canvas;
      private Camera _cam;
      public CurrentUnits _scriptCurrent;
+     public float _critChance;
      
      public CameraMouv _camMouv;
      public Weapon _weaponUse;
@@ -123,11 +124,17 @@ public class BaseComp : MonoBehaviour
         {
             if (_indexOfComp == 1)
             {
-                Shoot();
+                Shoot(_currentFov.gameObject.transform);
             }
             if(_indexOfComp == 5)
             {
                 ReloadAmmo();
+            }
+            if(_indexOfComp == 2)
+            {
+                _currentFov._isOverwatched = true;
+                _scriptCurrent.EndOfThisUnitTurn();
+                _scriptCurrent.ChangeUnitsEvrywhere();
             }
             _indexOfComp = 0;
             _TabInformation.SetActive(false);
@@ -138,7 +145,7 @@ public class BaseComp : MonoBehaviour
 
         if(_currentFov._swap == true)
         {
-            PercentsCalcul();
+            PercentsCalcul(_currentFov, false);
         }
 
         string _txt;
@@ -239,7 +246,7 @@ public class BaseComp : MonoBehaviour
     }
 
 
-    public void Shoot() // tir sur une cible donnée + fin de tour 
+    public void Shoot(Transform _shooter) // tir sur une cible donnée + fin de tour 
     {
         
         Transform _target;
@@ -255,8 +262,15 @@ public class BaseComp : MonoBehaviour
         
             if (RandomShoot() == true) // tir réussi animation tir dans unité ennemis 
             {
-                _playerTarget.TakeDmg(_dmg);
-                Debug.Log(_dmg);
+                if(CriticalChance() == true)
+                {
+                    _playerTarget.TakeDmg(_dmg + 3);
+                }
+                else
+                {
+                    _playerTarget.TakeDmg(_dmg);
+                    //Debug.Log(_dmg);
+                }
             }else
             {
                 // animation echec tir 
@@ -272,26 +286,33 @@ public class BaseComp : MonoBehaviour
         }
     }
 
-    public void PercentsCalcul() //calcule du pourcentage de chance de toucher la cible 
+
+    public void PercentsCalcul(FieldOfView _fov, bool _ov) //calcule du pourcentage de chance de toucher la cible 
     {
         float _coverValue = 0;
          _distanceTarg = _currentFov._distanceTarget;
 
-        if (_currentFov._actuaTargetCover == 1)
+        
+        if (_fov._actuaTargetCover == 1)
         {
             _coverValue = 20f;
         }
-        else if(_currentFov._actuaTargetCover == 2)
+        else if(_fov._actuaTargetCover == 2)
         {
             _coverValue = 40f;
         }
-        else if(_currentFov._actuaTargetCover == 3)
+        else if(_fov._actuaTargetCover == 3)
         {
             _coverValue = -20;
         }
-        else if(_currentFov._actuaTargetCover == 0)
+        else if(_fov._actuaTargetCover == 0)
         {
             _coverValue = 50;
+        }
+
+        if (_fov._isFlank == true)
+        {
+            _coverValue = -20;
         }
         Debug.Log(_coverValue);
 
@@ -314,42 +335,53 @@ public class BaseComp : MonoBehaviour
             else if (_distanceTarg <= 10)
             {
                 _percentsFinal = _scope - _distanceTarg - _coverValue + 20;
+                if (_ov == true)
+                {
+                    _percentsFinal -= 20;
+                }
             }
             else
             {
                 _percentsFinal = _scope - _distanceTarg - _coverValue;
+                if (_ov == true)
+                {
+                    _percentsFinal -= 20;
+                }
             }
         }
         else
         {
             _percentsFinal = _scope - _distanceTarg - _coverValue;
-            //Debug.Log(_percentsFinal);
+           if(_ov == true)
+           {
+               _percentsFinal -= 20;
+           }
         }
 
 
-        //if (_percentsFinal < 10f)
-        //{
-        //    _percentsFinal = 0;
-        //}
-        //else if (_percentsFinal > 10 && _percentsFinal < 25)
-        //{
-        //    _percentsFinal = 25f;
-        //}
-        //else if (_percentsFinal > 25 && _percentsFinal < 50)
-        //{
-        //    _percentsFinal = 50f;
-        //}
-        //else if (_percentsFinal > 50 && _percentsFinal < 75)
-        //{
-        //    _percentsFinal = 75f;
-        //}
-        //else if (_percentsFinal > 75)
-        //{
-        //    _percentsFinal = 100;
-        //}
+        if (_percentsFinal < 10f)
+        {
+            _percentsFinal = 0;
+        }
+        else if (_percentsFinal > 10 && _percentsFinal < 25)
+        {
+            _percentsFinal = 25f;
+        }
+        else if (_percentsFinal > 25 && _percentsFinal < 50)
+        {
+            _percentsFinal = 50f;
+        }
+        else if (_percentsFinal > 50 && _percentsFinal < 75)
+        {
+            _percentsFinal = 75f;
+        }
+        else if (_percentsFinal > 75)
+        {
+            _percentsFinal = 100;
+        }
         string _txt = _percentsFinal.ToString();
         _txtPercents.SetText(_txt);
-        _currentFov._swap = false;
+        _fov._swap = false;
     }
 
     public bool RandomShoot() // Choix du randome grace au pourcentage converti en palier pour une meillieurs expérience de jeu moins frustrante
@@ -388,6 +420,56 @@ public class BaseComp : MonoBehaviour
         else
         {
             return true;
+        }
+    }
+
+    public bool CriticalChance()
+    {
+        float _critChanceF = 10;
+
+        _critChanceF += 2.5f * _critChance;
+
+        float _success = Random.Range(0, 100);
+        if(_success <= _critChanceF)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+    public void Overwatch(Player _p, Weapon _w, FieldOfView _f)
+    {
+        Transform _target;
+        Player _playerTarget;
+
+        _target = _f._actualTarget;
+        if (_target != null)
+        {
+            PercentsCalcul(_f, true);
+            _playerTarget = _target.GetComponent<Player>();
+            _dmg = _w.Damage;
+            _p._ammo -= 1;
+
+            if (RandomShoot() == true) // tir réussi animation tir dans unité ennemis 
+            {
+                if (CriticalChance() == true)
+                {
+                    _playerTarget.TakeDmg(_dmg + 3);
+                }
+                else
+                {
+                    _playerTarget.TakeDmg(_dmg);
+                    //Debug.Log(_dmg);
+                }
+            }
+            else
+            {
+                // animation echec tir 
+            }
         }
     }
 
