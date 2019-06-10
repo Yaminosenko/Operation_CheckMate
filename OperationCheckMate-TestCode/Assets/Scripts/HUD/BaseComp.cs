@@ -18,6 +18,7 @@ public class BaseComp : MonoBehaviour
      [SerializeField] private GameObject _camToInst;
      [SerializeField] private CameraSwitch2 _camSwitch;
      [SerializeField] private TextMeshProUGUI _targetInView;
+     [SerializeField] private TextMeshProUGUI _txtPercents;
      
 
      public Competance _data;
@@ -28,7 +29,7 @@ public class BaseComp : MonoBehaviour
      
      public CameraMouv _camMouv;
      public Weapon _weaponUse;
-     private Sprite _sprite;
+     public Sprite _sprite;
      private int _index;
      private int _indexOfComp;
      private int _dmg;
@@ -286,34 +287,68 @@ public class BaseComp : MonoBehaviour
         }
         else if(_currentFov._actuaTargetCover == 3)
         {
-            _coverValue = 50;
+            _coverValue = -20;
         }
         else if(_currentFov._actuaTargetCover == 0)
         {
-            _coverValue = -20f;
+            _coverValue = 50;
         }
-
         Debug.Log(_coverValue);
-        Debug.Log(_currentFov._actuaTargetCover);
+
 
         _scope = _scriptCurrent._weaponData.Scope;
-        _percentsFinal = _scope - _distanceTarg - _coverValue;
 
         if (_scriptCurrent._weaponData == _scriptCurrent._dataUse.DataList[1])
         {
-            if(_distanceTarg <= 5)
+            if(_distanceTarg <= 10)
             {
-                _percentsFinal = 25;
+                _percentsFinal = 24;
             }
         }
-        if (_scriptCurrent._weaponData == _scriptCurrent._dataUse.DataList[2])
+        else if (_scriptCurrent._weaponData == _scriptCurrent._dataUse.DataList[2])
         {
             if(_distanceTarg >= 20)
             {
-                _percentsFinal = 25;
+                _percentsFinal = 24;
+            }
+            else if (_distanceTarg <= 10)
+            {
+                _percentsFinal = _scope - _distanceTarg - _coverValue + 20;
+            }
+            else
+            {
+                _percentsFinal = _scope - _distanceTarg - _coverValue;
             }
         }
+        else
+        {
+            _percentsFinal = _scope - _distanceTarg - _coverValue;
+            //Debug.Log(_percentsFinal);
+        }
 
+
+        //if (_percentsFinal < 10f)
+        //{
+        //    _percentsFinal = 0;
+        //}
+        //else if (_percentsFinal > 10 && _percentsFinal < 25)
+        //{
+        //    _percentsFinal = 25f;
+        //}
+        //else if (_percentsFinal > 25 && _percentsFinal < 50)
+        //{
+        //    _percentsFinal = 50f;
+        //}
+        //else if (_percentsFinal > 50 && _percentsFinal < 75)
+        //{
+        //    _percentsFinal = 75f;
+        //}
+        //else if (_percentsFinal > 75)
+        //{
+        //    _percentsFinal = 100;
+        //}
+        string _txt = _percentsFinal.ToString();
+        _txtPercents.SetText(_txt);
         _currentFov._swap = false;
     }
 

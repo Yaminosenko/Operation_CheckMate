@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public int _MaxAmmo;
     private int _maxHealth;
     public bool _isActive = false;
+    public bool _dead = false;
     public Transform _portrait;
     public Weapon _weapon;
     //public bool _teamActive;
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log("u die");
             _currentHealth = 0;
+            _dead = true;
             UpdateHealthBar();
         }
         else

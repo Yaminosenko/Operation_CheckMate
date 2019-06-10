@@ -49,6 +49,7 @@ public class navAgent : MonoBehaviour
 	public Animator anim;
 	public bool _canClic = false;
 	private Color cliquableColor;
+	public bool _alreadyMouv = false;
 
 	void Start ()
 	{
@@ -225,18 +226,28 @@ public class navAgent : MonoBehaviour
 	{
 		Freezaaa();
 		resetColorsBlack();
-		ghosted = false;
-        _currentScript.ChangeUnitsEvrywhere();
-        _currentScript.EndOfThisUnitTurn();
-		//teamManager.GetComponent<TeamManager>().soldierTurn++;
-		journeyEnabled = false;
+        _alreadyMouv = true;
+        if (_alreadyMouv == false)
+        {
+            ghosted = false;
+        }
+        //ghosted = false;
+        //_currentScript.ChangeUnitsEvrywhere();
+        //_currentScript.EndOfThisUnitTurn();
+        //teamManager.GetComponent<TeamManager>().soldierTurn++;
+        journeyEnabled = false;
 	}
 
     public void ChangeUnits()
     {
         Freezaaa();
         resetColorsBlack();
-        ghosted = false;
+        if(_alreadyMouv == false)
+        {
+            Debug.Log("oui");
+            ghosted = false;
+        }
+
       
         journeyEnabled = false;
     }

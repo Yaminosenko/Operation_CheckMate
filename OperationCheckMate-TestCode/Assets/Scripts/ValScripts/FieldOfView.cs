@@ -121,8 +121,11 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
                 float dstToTarget = Vector3.Distance(transform.position, target.position);
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
+                    //if (target.GetComponent<Player>()._dead == false)
+                    //{
                     visibleTargets.Add(target);
-
+                    //}
+                    //Debug.Log(target.GetComponent<Player>()._dead);
                 }
             }
         }
@@ -132,7 +135,10 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
     {
         foreach (Transform Target in visibleTargets)
         {
-            _nbOfTarget += 1;
+            //if (Target.GetComponent<Player>()._dead == false)
+            //{
+                _nbOfTarget += 1;
+            //}
         }
         //Debug.Log(_nbOfTarget);
         _aimTrue = true;
@@ -174,6 +180,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
             int speed = 5;
             if (i + 1 == _targetSelect)
             {
+
                 if(_nbOfTarget != 0)
                 {
                     
@@ -182,12 +189,13 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
                     focused = _actualTarget;
                     CoverSystem();
                     GiveCover(direction);
+                    //var targetRotation = Quaternion.LookRotation(_actualTarget.position - transform.position);
+
+                    //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
                 }
 
 
-                //var targetRotation = Quaternion.LookRotation(_actualTarget.position - transform.position);
 
-                //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, speed * Time.deltaTime);
 
                 _distanceTarget = Vector3.Distance(transform.position, _currentTargets[i].transform.position);
 

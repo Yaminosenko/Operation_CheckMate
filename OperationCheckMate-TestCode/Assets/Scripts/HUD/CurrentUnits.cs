@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CurrentUnits : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private Transform _portrait;
     [SerializeField] private Transform _portrait2;
     [SerializeField] private TeamManager _teamManagerDep;
+    [SerializeField] private TextMeshProUGUI _playerTurn;
 
 
     public Units _dataUse;
@@ -49,7 +51,8 @@ public class CurrentUnits : MonoBehaviour
 
     private void OnEnable()
     {
-         List<Units> _dataList = new List<Units>(); // convertir list en Array
+        _playerTurn.SetText("Joueur 1");
+        List<Units> _dataList = new List<Units>(); // convertir list en Array
          List<Transform> _theListPortrait = new List<Transform>();
          List<Transform> _theListPortrait2 = new List<Transform>();
         _portrait = this.gameObject.transform.GetChild(0);
@@ -219,7 +222,7 @@ public class CurrentUnits : MonoBehaviour
         _camaTarget._target = _transCurrentTarget;
         _camaTarget.NewTarget();
         _teamManagerDep.soldierTurn = _index - 1;
-        
+        _compScript._data = _dataUse.Data;
         _Wait = true;
         StartCoroutine(WaitBeforeDoSomethingElse());
         _leNavAgent.ChangeUnits();
@@ -265,20 +268,30 @@ public class CurrentUnits : MonoBehaviour
             _switchTeam = true;
             _portrait.gameObject.SetActive(false);
             _portrait2.gameObject.SetActive(true);
-            _transCurrentTarget = _team1[0].transform;
+            _transCurrentTarget = _team2[0].transform;
             _camaTarget._target = _transCurrentTarget;
             _camaTarget.NewTarget();
             _teamManagerDep.playerNum = true;
+            _playerTurn.SetText("Joueur 2");
+            for(int i = 0; i < _team2.Length; i++)
+            {
+                _team2[i].GetComponent<navAgent>()._alreadyMouv = true;
+            }
         }
         else
         {
             _switchTeam = false;
             _portrait.gameObject.SetActive(true);
             _portrait2.gameObject.SetActive(false);
-            _transCurrentTarget = _team2[0].transform;
+            _transCurrentTarget = _team1[0].transform;
             _camaTarget._target = _transCurrentTarget;
             _camaTarget.NewTarget();
             _teamManagerDep.playerNum = false;
+            _playerTurn.SetText("Joueur 1");
+            for (int i = 0; i < _team1.Length; i++)
+            {
+                _team1[i].GetComponent<navAgent>()._alreadyMouv = true;
+            }
         }
     }
 
@@ -286,7 +299,8 @@ public class CurrentUnits : MonoBehaviour
    void SelectUnitOnTab() //choisit quelle unité sera selectioné
     {
         GameObject[] _TeamTab = new GameObject[4];
-        
+        int[] _use = _alreadyUse.ToArray();
+
         if (_switchTeam == false)
         {
             for (int i = 0; i < _team1.Length; i++)
@@ -304,16 +318,30 @@ public class CurrentUnits : MonoBehaviour
             }
         }
 
-
-
+        //for (int i =0; i < _TeamTab.Length; i++)
+        //{
+           
+        //}
+        
         for (int i =0; i < _TeamTab.Length; i++)
         {
+
+            //if (_TeamTab[i].GetComponent<Player>()._dead == true)
+            //{
+            //    _index++;
+            //    if (_index == _use[i])
+            //    {
+            //        _index += 1;
+            //    }
+            //}
+
             FieldOfView _script;
             Player _player;
             //Controller _theOne;
             _script = _TeamTab[i].GetComponent<FieldOfView>();
             //_theOne = _TeamTab[i].GetComponent<Controller>();
             _player = _TeamTab[i].GetComponent<Player>();
+
 
             if(i == _index - 1)
             {
@@ -324,6 +352,7 @@ public class CurrentUnits : MonoBehaviour
                 _compScript._currentFov = _script;
                 _compScript._playerScript = _player;
                 _compScript._weaponUse = _weaponData;
+
                 _leNavAgent = _TeamTab[i].GetComponent<navAgent>();
 
             }

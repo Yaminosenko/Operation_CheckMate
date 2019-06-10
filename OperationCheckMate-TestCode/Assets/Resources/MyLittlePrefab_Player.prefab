@@ -1744,6 +1744,7 @@ MonoBehaviour:
   moveRange: 10
   anim: {fileID: 6854483605149821070}
   _canClic: 0
+  _alreadyMouv: 0
 --- !u!195 &8734756474798498474
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1782,6 +1783,7 @@ MonoBehaviour:
   _currentHealth: 0
   _MaxAmmo: 0
   _isActive: 0
+  _dead: 0
   _portrait: {fileID: 0}
   _weapon: {fileID: 0}
   covered: 0
@@ -1799,8 +1801,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 933f27ed8a5cf43359d7caf0a5f5e732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 61.1
-  viewAngle: 117
+  viewRadius: 35
+  viewAngle: 180
   targetMaskTeam1:
     serializedVersion: 2
     m_Bits: 8192
@@ -1818,7 +1820,7 @@ MonoBehaviour:
   _red: {fileID: 2100000, guid: f30b5874d866443a09587129155dd161, type: 2}
   _targetMaterial: {fileID: 2100000, guid: d3271630fad40494a8cee9eb7a44f9ab, type: 2}
   _currentTargets: []
-  _gd: {fileID: 0}
+  _gd: {fileID: 1022060971916523033}
   _leTest: {fileID: 0}
   _whichTeamAreYou: 0
   _CamPos: {fileID: 7114026639745194930}

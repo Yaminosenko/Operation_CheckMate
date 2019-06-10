@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scope: 100
   _dmg: 10
-  _ammo: 10
+  _ammo: 4
