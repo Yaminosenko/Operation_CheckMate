@@ -51,6 +51,8 @@ public class CurrentUnits : MonoBehaviour
     private navAgent _leNavAgent;
 
    [SerializeField] private List<int> _alreadyUse = new List<int>();
+   [SerializeField] private List<int> _deadUnits1 = new List<int>();
+   [SerializeField] private List<int> _deadUnits2 = new List<int>();
 
 
     private void OnEnable()
@@ -248,8 +250,20 @@ public class CurrentUnits : MonoBehaviour
 
     private void ChangeUnits() // change l'index de l'unité a utilisé
     {
-        int[] _use = _alreadyUse.ToArray();
 
+        int[] _use = _alreadyUse.ToArray();
+        int[] _dead;
+        
+
+        if(_switchTeam == true)
+        {
+            _dead =  _deadUnits1.ToArray();
+        }
+        else
+        {
+            _dead = _deadUnits2.ToArray();
+        }
+        
         _index += 1;
 
         if(_use.Length == 4)
@@ -262,6 +276,14 @@ public class CurrentUnits : MonoBehaviour
             if (_index == _use[i])
             {
                 _index += 1;
+            }
+        }
+        for(int i = 0; i<_dead.Length; i++)
+        {
+            if(_index == _dead[i])
+            {
+                _index += 1;
+                Debug.Log("noUdeadSoShutUp");
             }
         }
         if (_index > 4)
@@ -287,6 +309,11 @@ public class CurrentUnits : MonoBehaviour
             for(int i = 0; i < _team2.Length; i++)
             {
                 _team2[i].GetComponent<navAgent>()._alreadyMouv = false;
+                Player p = _team2[i].GetComponent<Player>();
+                if(p._cd != 0)
+                {
+                    p._cd -= 1;
+                }
                 Debug.Log("team2alreadyOn");
                 
             }
@@ -304,6 +331,11 @@ public class CurrentUnits : MonoBehaviour
             for (int i = 0; i < _team1.Length; i++)
             {
                 _team1[i].GetComponent<navAgent>()._alreadyMouv = false;
+                Player p = _team1[i].GetComponent<Player>();
+                if (p._cd != 0)
+                {
+                    p._cd -= 1;
+                }
                 Debug.Log("team1alreadyOn");
             }
         }
@@ -337,18 +369,27 @@ public class CurrentUnits : MonoBehaviour
 
             FieldOfView _script;
             Player _player;
-            //Controller _theOne;
             _script = _TeamTab[i].GetComponent<FieldOfView>();
-            //_theOne = _TeamTab[i].GetComponent<Controller>();
             _player = _TeamTab[i].GetComponent<Player>();
-            
 
 
             if(i == _index - 1)
             {
+                if(_player._dead == true)
+                {
+                    if(_switchTeam == true)
+                    {
+                        _deadUnits1.Add(_index);
+                    }
+                    else
+                    {
+                        _deadUnits2.Add(_index);
+                    }
+                    ChangeUnitsEvrywhere();
+                    //Debug.Log(_TeamTab[i]); 
+                }
                 _transCurrentTarget = _TeamTab[i].transform;
                 _script._isActive = true;
-                //_theOne._isActive = true;
                 _player._isActive = true;
                 _compScript._currentFov = _script;
                 _compScript._playerScript = _player;

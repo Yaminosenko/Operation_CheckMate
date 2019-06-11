@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le script d'origine 
+public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour la base du script d'origine 
     public float viewRadius;
     [Range(0, 360)]
     public float viewAngle;
@@ -128,10 +128,10 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
                 float dstToTarget = Vector3.Distance(transform.position, target.position);
                 if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
                 {
-                    //if (target.GetComponent<Player>()._dead == false)
-                    //{
-                    visibleTargets.Add(target);
-                    //}
+                    if (target.GetComponent<Player>()._dead == false)
+                    {
+                        visibleTargets.Add(target);
+                    }
                     //Debug.Log(target.GetComponent<Player>()._dead);
                 }
             }
@@ -273,7 +273,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour le scr
         if (Physics.Raycast(_gd.position, transform.TransformDirection(direction), out hit))
         {
             //Debug.DrawRay(_gd.position, transform.TransformDirection(direction) * hit.distance, Color.black, Mathf.Infinity);
-            Debug.Log(hit.transform);
+
 
             if(playerSys._triggerCover != null)
             {

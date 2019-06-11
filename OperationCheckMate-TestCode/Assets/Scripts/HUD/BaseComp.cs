@@ -135,6 +135,7 @@ public class BaseComp : MonoBehaviour
                 _currentFov._isOverwatched = true;
                 _scriptCurrent.EndOfThisUnitTurn();
                 _scriptCurrent.ChangeUnitsEvrywhere();
+                _playerScript._cd = 2;
             }
             _indexOfComp = 0;
             _TabInformation.SetActive(false);
@@ -157,19 +158,25 @@ public class BaseComp : MonoBehaviour
 
     private void ShootButton()
     {
-         if(_playerScript._ammo > 0)
-         {
-            _indexOfComp = 1;
-            _tabInfoText.SetText(_shootTxt);
-            AnyButtonDown();
-         }
+        if(_currentFov._listNb != 0)
+        {
+             if(_playerScript._ammo > 0)
+             {
+                _indexOfComp = 1;
+                _tabInfoText.SetText(_shootTxt);
+                AnyButtonDown();
+             }
+        }
     }// tout les boutons
 
     private void OverwatchButton()
     {
-        _indexOfComp = 2;
-        _tabInfoText.SetText(_ovTxt);
-        AnyButtonDown();
+        if(_playerScript._cd == 0)
+        {
+            _indexOfComp = 2;
+            _tabInfoText.SetText(_ovTxt);
+            AnyButtonDown();
+        }
     }
 
     private void DefenseButton()

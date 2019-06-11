@@ -248,7 +248,7 @@ public class navAgent : MonoBehaviour
         resetColorsBlack();
         if(_alreadyMouv == false)
         {
-            Debug.Log("oui");
+
             ghosted = false;
         }
 

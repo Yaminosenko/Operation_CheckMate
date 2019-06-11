@@ -10,6 +10,8 @@ public class MainUnitsBase : MonoBehaviour
     [SerializeField] private Button _next;
     [SerializeField] private GameObject _player1;
     [SerializeField] private GameObject _player2;
+    [SerializeField] private Image _play;
+    [SerializeField] private Sprite _playSprite;
     public UnitStats[] _units;
     public Units[] _dataBase;
     public Competance[] _evryComp;
@@ -68,7 +70,7 @@ public class MainUnitsBase : MonoBehaviour
                 Debug.Log(_units[i]._weapon);
             }
 
-
+            _play.sprite = _playSprite;
             
         }
         else if(_index == 0) // attribution pour le joueur 1, c'est au tour du joueur 2

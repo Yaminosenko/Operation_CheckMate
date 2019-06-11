@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     public bool covered = false;
     public bool _bigCover = false;
     public int _ammo;
+    public int _cd = 0;
     public GameObject _triggerCover;
     public float _axisRot;
 
