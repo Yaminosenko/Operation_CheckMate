@@ -7,15 +7,23 @@ using UnityEngine.SceneManagement;
 public class MainUnitsBase : MonoBehaviour
 {
 
-    [SerializeField] public Button _next;
+    [SerializeField] private Button _next;
+    [SerializeField] private GameObject _player1;
+    [SerializeField] private GameObject _player2;
+    [SerializeField] private Image _play;
+    [SerializeField] private Sprite _playSprite;
     public UnitStats[] _units;
     public Units[] _dataBase;
+    public Competance[] _evryComp;
+
+    private int _index = 0;
 
     private void OnEnable()
     {
 
         _next.onClick.AddListener(UpdateStats);
-       // InvokeRepeating("UpdateStats", 0f, 0.5f);
+        // InvokeRepeating("UpdateStats", 0f, 0.5f);
+        _player2.SetActive(false);
     }
 
     private void Update()
@@ -23,43 +31,88 @@ public class MainUnitsBase : MonoBehaviour
         
     }
 
-    private void UpdateStats()
+    private void UpdateStats() //Attribution des variables aux dataBases
     {
         
-        for (int i = 0; i < 4; i++)
+        if (_index == 1) //attribution au joueur 2
         {
-            _dataBase[i].Health = _units[i]._healthPoint;
-            _dataBase[i].Stamina = _units[i]._stamina;
-            _dataBase[i].Aim = _units[i]._aim;
-            _dataBase[i].Luck = _units[i]._luck;
+            for (int i = 4; i < 8; i++)
+            {
+                _dataBase[i].Health = _units[i]._healthPoint;
+                _dataBase[i].Stamina = _units[i]._stamina;
+                _dataBase[i].Aim = _units[i]._aim;
+                _dataBase[i].Luck = _units[i]._luck;
+
+                if (_units[i]._weapon == 1)
+                {
+                    _dataBase[i].WeaponList = Units.WeaponEnum.Assault;
+                    _dataBase[i].Data = _evryComp[0];
+                    Debug.Log("oui");
+                }
+                else if (_units[i]._weapon == 2)
+                {
+                    _dataBase[i].WeaponList = Units.WeaponEnum.Sniper;
+                    _dataBase[i].Data = _evryComp[1];
+                    Debug.Log("oui");
+                }
+                else if (_units[i]._weapon == 3)
+                {
+                    _dataBase[i].WeaponList = Units.WeaponEnum.ShotGun;
+                    _dataBase[i].Data = _evryComp[2];
+                    Debug.Log("oui");
+                }
+                else if (_units[i]._weapon == 4)
+                {
+                    _dataBase[i].WeaponList = Units.WeaponEnum.Gatling;
+                    _dataBase[i].Data = _evryComp[3];
+                    Debug.Log("oui");
+                }
+                Debug.Log(_units[i]._weapon);
+            }
+
+            _play.sprite = _playSprite;
+            
+        }
+        else if(_index == 0) // attribution pour le joueur 1, c'est au tour du joueur 2
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                _dataBase[i].Health = _units[i]._healthPoint;
+                _dataBase[i].Stamina = _units[i]._stamina;
+                _dataBase[i].Aim = _units[i]._aim;
+                _dataBase[i].Luck = _units[i]._luck;
+
+                if (_units[i]._weapon == 1)
+                {
+                    _dataBase[i].WeaponList = Units.WeaponEnum.Assault;
+                    _dataBase[i].Data = _evryComp[0];
+                }
+                else if (_units[i]._weapon == 2)
+                {
+                    _dataBase[i].WeaponList = Units.WeaponEnum.Sniper;
+                    _dataBase[i].Data = _evryComp[1];
+                }
+                else if (_units[i]._weapon == 3)
+                {
+                    _dataBase[i].WeaponList = Units.WeaponEnum.ShotGun;
+                    _dataBase[i].Data = _evryComp[2];
+                }
+                else if (_units[i]._weapon == 4)
+                {
+                    _dataBase[i].WeaponList = Units.WeaponEnum.Gatling;
+                    _dataBase[i].Data = _evryComp[3];
+                }
+               
+            }
+
+            _player2.SetActive(true);
+            _player1.SetActive(false);
+        }
+        else if (_index == 2) // lancement de la partie
+        {
+            SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
         }
 
-
-        
-        StaticStats1.Health = _units[0]._healthPoint;
-        StaticStats1.Stamina = _units[0]._stamina;
-        StaticStats1.Aim = _units[0]._aim;
-        StaticStats1.Luck = _units[0]._luck;
-        StaticStats1.Weapon = _units[0]._weapon;
-
-        StaticStats2.Health = _units[1]._healthPoint;
-        StaticStats2.Stamina = _units[1]._stamina;
-        StaticStats2.Aim = _units[1]._aim;
-        StaticStats2.Luck = _units[1]._luck;
-        StaticStats2.Weapon = _units[1]._weapon;
-
-        StaticStats3.Health = _units[2]._healthPoint;
-        StaticStats3.Stamina = _units[2]._stamina;
-        StaticStats3.Aim = _units[2]._aim;
-        StaticStats3.Luck = _units[2]._luck;
-        StaticStats3.Weapon = _units[2]._weapon;
-
-        StaticStats4.Health = _units[3]._healthPoint;
-        StaticStats4.Stamina = _units[3]._stamina;
-        StaticStats4.Aim = _units[3]._aim;
-        StaticStats4.Luck = _units[3]._luck;
-        StaticStats4.Weapon = _units[3]._weapon;
-
-        SceneManager.LoadScene("HUD", LoadSceneMode.Single);
+        _index++;
     }
 }

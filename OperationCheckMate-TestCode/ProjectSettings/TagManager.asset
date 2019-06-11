@@ -5,7 +5,18 @@ TagManager:
   serializedVersion: 2
   tags:
   - target
+<<<<<<< HEAD
   - squares
+=======
+  - ghost
+  - ground
+  - grid
+  - longMoveZone
+  - ghostMoveZone
+  - Camera
+  - moveZone
+  - alreadyNamed
+>>>>>>> a62594165f7c7585548eba51fa3a0dc852a08f89
   layers:
   - Default
   - TransparentFX
@@ -18,9 +29,9 @@ TagManager:
   - Obstacles
   - Targets
   - IgnoreCam
-  - 
-  - 
-  - 
+  - UI_Health
+  - Team1
+  - Team2
   - 
   - 
   - 

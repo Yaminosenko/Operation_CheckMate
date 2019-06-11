@@ -10,6 +10,11 @@ public class ChangeUnit : MonoBehaviour
     [SerializeField] private GameObject _unitNb3;
     [SerializeField] private GameObject _unitNb4;
 
+    [SerializeField] private GameObject _name1;
+    [SerializeField] private GameObject _name2;
+    [SerializeField] private GameObject _name3;
+    [SerializeField] private GameObject _name4;
+
     [SerializeField] public Button _right;
     [SerializeField] public Button _left;
 
@@ -29,6 +34,11 @@ public class ChangeUnit : MonoBehaviour
             _unitNb2.SetActive(false);
             _unitNb3.SetActive(false);
             _unitNb4.SetActive(false);
+
+            _name1.SetActive(true);
+            _name2.SetActive(false);
+            _name3.SetActive(false);
+            _name4.SetActive(false);
         }
 
         else if (_index == 2)
@@ -37,6 +47,11 @@ public class ChangeUnit : MonoBehaviour
             _unitNb2.SetActive(true);
             _unitNb3.SetActive(false);
             _unitNb4.SetActive(false);
+
+            _name1.SetActive(false);
+            _name2.SetActive(true);
+            _name3.SetActive(false);
+            _name4.SetActive(false);
         }
 
         else if (_index == 3)
@@ -45,6 +60,11 @@ public class ChangeUnit : MonoBehaviour
             _unitNb2.SetActive(false);
             _unitNb3.SetActive(true);
             _unitNb4.SetActive(false);
+
+            _name1.SetActive(false);
+            _name2.SetActive(false);
+            _name3.SetActive(true);
+            _name4.SetActive(false);
         }
 
         else if (_index == 4)
@@ -53,6 +73,11 @@ public class ChangeUnit : MonoBehaviour
             _unitNb2.SetActive(false);
             _unitNb3.SetActive(false);
             _unitNb4.SetActive(true);
+
+            _name1.SetActive(false);
+            _name2.SetActive(false);
+            _name3.SetActive(false);
+            _name4.SetActive(true);
         }
     }
 
@@ -74,9 +99,9 @@ public class ChangeUnit : MonoBehaviour
 
         _index += 1;
 
-        if (_index >= 4)
+        if (_index > 4)
         {
-            _index = 0;
+            _index = 1;
         }
     }
 
