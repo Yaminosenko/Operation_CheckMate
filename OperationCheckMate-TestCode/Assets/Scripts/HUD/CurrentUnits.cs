@@ -20,6 +20,10 @@ public class CurrentUnits : MonoBehaviour
 
     [SerializeField] private GameObject[] _team1;
     [SerializeField] private GameObject[] _team2;
+
+    [SerializeField] private GameObject[] _nameTeam1;
+    [SerializeField] private GameObject[] _nameTeam2;
+    [SerializeField] private GameObject[] _teamName;
     
     [SerializeField] private Transform[] _childPortrait;
     [SerializeField] private Transform[] _childPortrait2;
@@ -33,6 +37,7 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private Button _endOfTurn;
     [SerializeField] private Button _nextUnitsLeft;
     [SerializeField] private Button _nextUnitsRight;
+    [SerializeField] private MathCircle _mCircle;
 
 
     public Units _dataUse;
@@ -143,10 +148,17 @@ public class CurrentUnits : MonoBehaviour
             {
                 _player._weapon = _dataTab[i].DataList[3];
             }
+        }
 
+        for (int i = 0; i < _nameTeam1.Length; i++)
+        {
+            if (i != 0)
+            {
+                _nameTeam1[i].SetActive(false);
+            }
+            _nameTeam2[i].SetActive(false);
         }
         
-
         _cam = Camera.main;
         _camaTarget = _cam.gameObject.GetComponent<TargetSelector>();
         _compScript = _active.GetComponent<BaseComp>();
@@ -230,6 +242,7 @@ public class CurrentUnits : MonoBehaviour
         DataWeaponChange();
         SelectUnitOnTab();
         ChangePortrait();
+        ChangeName();
         _camaTarget._target = _transCurrentTarget;
         _camaTarget.NewTarget();
         _teamManagerDep.soldierTurn = _index - 1;
@@ -306,6 +319,9 @@ public class CurrentUnits : MonoBehaviour
             _camaTarget.NewTarget();
             _teamManagerDep.playerNum = true;
             _playerTurn.SetText("Joueur 2");
+            _teamName[1].SetActive(true);
+            _teamName[0].SetActive(false);
+
             for(int i = 0; i < _team2.Length; i++)
             {
                 _team2[i].GetComponent<navAgent>()._alreadyMouv = false;
@@ -315,8 +331,15 @@ public class CurrentUnits : MonoBehaviour
                     p._cd -= 1;
                 }
                 Debug.Log("team2alreadyOn");
-                
             }
+
+            for (int i = 0; i < _team1.Length; i++)
+            {
+                _nameTeam1[i].SetActive(false);
+            }
+
+
+
         }
         else
         {
@@ -328,6 +351,8 @@ public class CurrentUnits : MonoBehaviour
             _camaTarget.NewTarget();
             _teamManagerDep.playerNum = false;
             _playerTurn.SetText("Joueur 1");
+            _teamName[1].SetActive(false);
+            _teamName[0].SetActive(true);
             for (int i = 0; i < _team1.Length; i++)
             {
                 _team1[i].GetComponent<navAgent>()._alreadyMouv = false;
@@ -338,6 +363,12 @@ public class CurrentUnits : MonoBehaviour
                 }
                 Debug.Log("team1alreadyOn");
             }
+
+            for (int i = 0; i < _team1.Length; i++)
+            {
+                _nameTeam2[i].SetActive(false);
+            }
+
         }
     }
 
@@ -371,6 +402,8 @@ public class CurrentUnits : MonoBehaviour
             Player _player;
             _script = _TeamTab[i].GetComponent<FieldOfView>();
             _player = _TeamTab[i].GetComponent<Player>();
+            GrenadeAimingSystem _GAS = _TeamTab[i].GetComponentInChildren<GrenadeAimingSystem>();
+            
 
 
             if(i == _index - 1)
@@ -388,6 +421,7 @@ public class CurrentUnits : MonoBehaviour
                     ChangeUnitsEvrywhere();
                     //Debug.Log(_TeamTab[i]); 
                 }
+                _mCircle.GAS = _GAS;
                 _transCurrentTarget = _TeamTab[i].transform;
                 _script._isActive = true;
                 _player._isActive = true;
@@ -395,6 +429,7 @@ public class CurrentUnits : MonoBehaviour
                 _compScript._playerScript = _player;
                 _compScript._weaponUse = _weaponData;
                 _compScript._critChance = _dataUse.Luck;
+                _compScript._GAS = _GAS;
                 _script._baseComp = _compScript;
                 _leNavAgent = _TeamTab[i].GetComponent<navAgent>();
 
@@ -404,6 +439,39 @@ public class CurrentUnits : MonoBehaviour
                 _script._isActive = false;
                 //_theOne._isActive = false;
                 _player._isActive = false;
+            }
+        }
+    }
+
+    void ChangeName()
+    {
+        Debug.Log(_index - 1);
+        if(_switchTeam == false)
+        {
+            for(int i = 0; i < _nameTeam1.Length; i++)
+            {
+                if(i == _index - 1)
+                {
+                    _nameTeam1[i].SetActive(true);
+                }
+                else
+                {
+                    _nameTeam1[i].SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _nameTeam1.Length; i++)
+            {
+                if (i == _index - 1)
+                {
+                    _nameTeam2[i].SetActive(true);
+                }
+                else
+                {
+                    _nameTeam2[i].SetActive(false);
+                }
             }
         }
     }

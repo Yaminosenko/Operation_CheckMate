@@ -22,6 +22,7 @@ public class BaseComp : MonoBehaviour
      
 
      public Competance _data;
+     public GrenadeAimingSystem _GAS;
 
      public GameObject _canvas;
      private Camera _cam;
@@ -119,6 +120,7 @@ public class BaseComp : MonoBehaviour
             _camSwitch.ResetCamera();
             _currentFov.focused = null;
             _camMouv.DestroyObject();
+            _GAS._isActive = false;
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
@@ -192,6 +194,7 @@ public class BaseComp : MonoBehaviour
         _indexOfComp = 4;
         _tabInfoText.SetText(_grenadeTxt);
         AnyButtonDown();
+        _GAS._isActive = true;
     }
 
     private void ReloadButton()
@@ -216,6 +219,7 @@ public class BaseComp : MonoBehaviour
         {
             _percents.SetActive(true);
             _scriptCurrent.IsAimaing(true);
+            _GAS._isActive = false;
 
             if(_camIsInstanciat == false)
             {
@@ -224,11 +228,16 @@ public class BaseComp : MonoBehaviour
                 _camMouv._isActive = true;
             }
         }   
+        else if(_indexOfComp == 4)
+        {
+            _GAS._isActive = true;
+        }
         else
         {
             _percents.SetActive(false);
             _scriptCurrent.IsAimaing(false);
             _camIsInstanciat = false;
+            _GAS._isActive = false;
             
             if (_camMouv != null)
             {
