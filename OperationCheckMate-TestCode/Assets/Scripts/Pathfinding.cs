@@ -6,6 +6,7 @@ public class Pathfinding : MonoBehaviour {
 
 	public Transform seeker, target;
 	Grid grid;
+	public int myInt = 14;
 
 	void Awake() {
 		grid = GetComponent<Grid> ();
@@ -77,7 +78,7 @@ public class Pathfinding : MonoBehaviour {
 		int dstY = Mathf.Abs(nodeA.gridY - nodeB.gridY);
 
 		if (dstX > dstY)
-			return 14*dstY + 10* (dstX-dstY);
-		return 14*dstX + 10 * (dstY-dstX);
+			return myInt*dstY + 10* (dstX-dstY);
+		return myInt*dstX + 10 * (dstY-dstX);
 	}
 }

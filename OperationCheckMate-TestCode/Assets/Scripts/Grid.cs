@@ -12,6 +12,11 @@ public class Grid : MonoBehaviour {
 	float nodeDiameter;
 	int gridSizeX, gridSizeY;
 
+	public GameObject mySquare;
+
+	public int _i = 0;
+	public Vector3 myOffset;
+
 	void Awake() {
 		nodeDiameter = nodeRadius*2;
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x/nodeDiameter);
@@ -59,13 +64,40 @@ public class Grid : MonoBehaviour {
 		percentX = Mathf.Clamp01(percentX);
 		percentY = Mathf.Clamp01(percentY);
 
-		int x = Mathf.RoundToInt((gridSizeX-1) * percentX);
-		int y = Mathf.RoundToInt((gridSizeY-1) * percentY);
+		int x = Mathf.RoundToInt((gridSizeX) * percentX);
+		int y = Mathf.RoundToInt((gridSizeY) * percentY);
 		return grid[x,y];
 	}
 
 	public List<Node> path;
-	void OnDrawGizmos() {
+	void Update ()
+	{
+		if (grid != null)
+		{
+			foreach (Node n in grid)
+			{
+				if (path != null)
+					if (path.Contains(n))
+					{
+						Vector3 roundedPos = n.worldPosition + myOffset;
+						GameObject _square = Instantiate(mySquare, roundedPos, Quaternion.identity) as GameObject;
+						_square.transform.localScale = new Vector3(0.9f, 1f, 0.9f);
+						_square.tag = "squares";
+						_i++;
+					}
+			}
+		}
+		if (_i > 20)
+		{
+			GameObject[] _square = GameObject.FindGameObjectsWithTag("squares");
+			foreach (GameObject _s in _square)
+			{
+				Destroy(_s, 0f);
+				_i--;
+			}
+		}
+	}
+	/*void OnDrawGizmos() {
 		Gizmos.DrawWireCube(transform.position,new Vector3(gridWorldSize.x,1,gridWorldSize.y));
 
 		if (grid != null) {
@@ -77,5 +109,5 @@ public class Grid : MonoBehaviour {
 				Gizmos.DrawCube(n.worldPosition, Vector3.one * (nodeDiameter-.1f));
 			}
 		}
-	}
+	}*/
 }

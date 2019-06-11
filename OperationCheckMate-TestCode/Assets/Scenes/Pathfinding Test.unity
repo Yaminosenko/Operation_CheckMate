@@ -490,7 +490,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 322526542}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 3, y: 1, z: 3}
   m_Children: []
   m_Father: {fileID: 0}
@@ -899,6 +899,10 @@ MonoBehaviour:
     m_Bits: 256
   gridWorldSize: {x: 30, y: 30}
   nodeRadius: 0.5
+  mySquare: {fileID: 7400038993501434062, guid: 59937f016190df540b4e362c74374927,
+    type: 3}
+  _i: 0
+  myOffset: {x: 0, y: 0, z: 0}
 --- !u!4 &1671852229
 Transform:
   m_ObjectHideFlags: 0
@@ -927,6 +931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seeker: {fileID: 1968263583}
   target: {fileID: 310692853}
+  myInt: 14
 --- !u!1 &1840817988
 GameObject:
   m_ObjectHideFlags: 0
