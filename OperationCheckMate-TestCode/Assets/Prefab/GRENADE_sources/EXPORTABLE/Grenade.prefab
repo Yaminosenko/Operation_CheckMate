@@ -52,7 +52,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1913653602845632514}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -130,7 +130,7 @@ MonoBehaviour:
     type: 3}
   SoundOnCreate: {fileID: 955339893716863987, guid: a42f9977a57948143be216f3b0a7c52b,
     type: 3}
-  explosionDmg: 20
+  explosionDmg: 3
   fixDamages: 1
 --- !u!96 &-4617409505383024483
 TrailRenderer:
@@ -140,7 +140,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1913653602845632514}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 0
@@ -200,7 +200,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0, b: 0, a: 0.39215687}
+      key0: {r: 1, g: 1, b: 1, a: 0.39215687}
       key1: {r: 1, g: 0, b: 0, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}

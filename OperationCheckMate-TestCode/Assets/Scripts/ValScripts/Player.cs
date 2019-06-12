@@ -17,11 +17,14 @@ public class Player : MonoBehaviour
     //public bool _teamActive;
     private Image _healthImage;
     public bool covered = false;
+    public bool hitted = false;
     public bool _bigCover = false;
     public int _ammo;
     public int _cd = 0;
     public GameObject _triggerCover;
     public float _axisRot;
+    public GameObject _muzzleShoot;
+    public Animator anim;
 
     //[HideInInspector]
 
@@ -39,8 +42,20 @@ public class Player : MonoBehaviour
         
         _ammo = _weapon.Ammo;
         _MaxAmmo = _ammo;
-        
+        anim = gameObject.GetComponent<Animator>();
     }
+
+    public void Shooting()
+    {
+        anim.SetTrigger("isShooting");
+    }
+
+    public void Reloading()
+    {
+        anim.SetTrigger("isReloading");
+    }
+
+ 
 
     public void TakeDmg(int dmg) //Système de dégât 
     {
@@ -52,9 +67,14 @@ public class Player : MonoBehaviour
             _currentHealth = 0;
             _dead = true;
             UpdateHealthBar();
+            anim.SetBool("isDead", true);
+           
         }
         else
         {
+            hitted = true;
+            anim.SetTrigger("isHitted");
+            Invoke("Safe", 2f);
             UpdateHealthBar();
         }
     }
@@ -70,6 +90,21 @@ public class Player : MonoBehaviour
             }
         }
 
+    }
+    private void Safe()
+    {
+        hitted = false;
+    }
+   public float AnimationLength(string name)
+    {
+        float time = 0;
+        RuntimeAnimatorController ac = anim.runtimeAnimatorController;
+
+        for (int i = 0; i < ac.animationClips.Length; i++)
+            if (ac.animationClips[i].name == name)
+                time = ac.animationClips[i].length;
+
+        return time;
     }
 
     public void UpdateHealthBar() // changement de la barre de vie de l'unit

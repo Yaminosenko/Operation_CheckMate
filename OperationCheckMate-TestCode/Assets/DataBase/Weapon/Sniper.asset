@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Sniper
   m_EditorClassIdentifier: 
   _scope: 175
-  _dmg: 15
+  _dmg: 4
   _ammo: 3

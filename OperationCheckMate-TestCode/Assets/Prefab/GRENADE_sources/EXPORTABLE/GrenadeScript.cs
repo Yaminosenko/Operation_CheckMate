@@ -77,12 +77,13 @@ public class GrenadeScript : MonoBehaviour
 				var distance = heading.magnitude;
 				var direction = heading / distance;
 				
-				RaycastHit _hit;
-				if (Physics.Raycast(transform.position, transform.TransformDirection(direction), out _hit, Radius))
-				{
-					if (_hit.transform.gameObject == hit.transform.gameObject)
-					{
-                            Debug.Log("caca");
+				//RaycastHit _hit;
+				//if (Physics.Raycast(transform.position, transform.TransformDirection(direction), out _hit, Radius))
+				//{
+				//	if (_hit.transform.gameObject == hit.transform.gameObject)
+				//	{
+    //            Debug.Log("hit");
+
 						Player Player = hit.transform.GetComponent<Player>();
 						if (Player != null)
 						{
@@ -106,14 +107,14 @@ public class GrenadeScript : MonoBehaviour
 							{
 								damage = explosionDmg;
 							}
-							//if (Player.GetComponent<PlayerCoverSystem>().hitted == false)
-							//{
-								Player.GetComponent<Player>().TakeDmg((int)damage);
-							//}
-						}
+                    if (Player.GetComponent<Player>().hitted == false)
+                    {
+                        Player.GetComponent<Player>().TakeDmg(Mathf.RoundToInt(damage));
+                    }
+                }
 					}
-				}
-            }
+				//}
+            //}
         }
 	}
 }

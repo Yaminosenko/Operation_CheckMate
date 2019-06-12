@@ -24,6 +24,7 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private GameObject[] _nameTeam1;
     [SerializeField] private GameObject[] _nameTeam2;
     [SerializeField] private GameObject[] _teamName;
+    [SerializeField] private GameObject[] _ammo;
     
     [SerializeField] private Transform[] _childPortrait;
     [SerializeField] private Transform[] _childPortrait2;
@@ -321,8 +322,10 @@ public class CurrentUnits : MonoBehaviour
             _playerTurn.SetText("Joueur 2");
             _teamName[1].SetActive(true);
             _teamName[0].SetActive(false);
+            _leNavAgent.ChangeUnits();
+            _leNavAgent._staminaValue = _dataUse.Stamina;
 
-            for(int i = 0; i < _team2.Length; i++)
+            for (int i = 0; i < _team2.Length; i++)
             {
                 _team2[i].GetComponent<navAgent>()._alreadyMouv = false;
                 Player p = _team2[i].GetComponent<Player>();
@@ -337,9 +340,6 @@ public class CurrentUnits : MonoBehaviour
             {
                 _nameTeam1[i].SetActive(false);
             }
-
-
-
         }
         else
         {
@@ -353,6 +353,8 @@ public class CurrentUnits : MonoBehaviour
             _playerTurn.SetText("Joueur 1");
             _teamName[1].SetActive(false);
             _teamName[0].SetActive(true);
+            _leNavAgent.ChangeUnits();
+            _leNavAgent._staminaValue = _dataUse.Stamina;
             for (int i = 0; i < _team1.Length; i++)
             {
                 _team1[i].GetComponent<navAgent>()._alreadyMouv = false;
@@ -430,6 +432,7 @@ public class CurrentUnits : MonoBehaviour
                 _compScript._weaponUse = _weaponData;
                 _compScript._critChance = _dataUse.Luck;
                 _compScript._GAS = _GAS;
+                _compScript._muzzleTransform = _player._muzzleShoot;
                 _script._baseComp = _compScript;
                 _leNavAgent = _TeamTab[i].GetComponent<navAgent>();
 
@@ -445,7 +448,7 @@ public class CurrentUnits : MonoBehaviour
 
     void ChangeName()
     {
-        Debug.Log(_index - 1);
+
         if(_switchTeam == false)
         {
             for(int i = 0; i < _nameTeam1.Length; i++)

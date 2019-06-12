@@ -282,8 +282,8 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour la bas
                 float _posX = transform.position.x;
                 float _axis = playerSys._axisRot;
 
-                Debug.Log(_triggerzone.transform.position.z);
-                Debug.Log(transform.position.z);
+
+
 
                 if(_axis == 1)
                 {

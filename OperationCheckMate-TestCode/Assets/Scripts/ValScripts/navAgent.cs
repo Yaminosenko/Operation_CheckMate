@@ -52,6 +52,7 @@ public class navAgent : MonoBehaviour
 	private Color cliquableColor;
 	public bool _alreadyMouv = false;
 	public bool _isMoving = false;
+    
 
 	void Start ()
 	{
@@ -108,20 +109,17 @@ public class navAgent : MonoBehaviour
 	{
 		Movement();
 
-        //if (cam1.enabled == true)
-        //{
-        //	cam = cam1;
-        //}
-        //else
-        //{
-        //	cam = cam2;
-        //}
+     
         cam = cam1;
 	}
 
 	void Movement()
 	{
-		if (Vector3.Distance(startPos, transform.position) >= moveRange)
+        if (Vector3.Distance(Pos, transform.position) <= 0.2f)
+        {
+            anim.SetBool("isRunning", false);
+        }
+        if (Vector3.Distance(startPos, transform.position) >= moveRange)
 		{
 			if (agent.enabled == true && agent != null)
 				agent.SetDestination(transform.position);
@@ -163,6 +161,7 @@ public class navAgent : MonoBehaviour
                         
 							if (Input.GetMouseButtonDown(1) && _canClic == true)
 							{
+                                anim.SetBool("isRunning", true);
                                 _isMoving = true;
 								Invoke("endMyTurn", _step);
 								Pos = new Vector3(hit.collider.transform.position.x, transform.position.y, hit.collider.transform.position.z);
@@ -227,7 +226,8 @@ public class navAgent : MonoBehaviour
 
 	public void endMyTurn ()
 	{
-		Freezaaa();
+        anim.SetBool("isRunning", false);
+        Freezaaa();
 		resetColorsBlack();
         _alreadyMouv = true;
         _isMoving = false;
@@ -244,6 +244,7 @@ public class navAgent : MonoBehaviour
 
     public void ChangeUnits()
     {
+
         Freezaaa();
         resetColorsBlack();
         if(_alreadyMouv == false)

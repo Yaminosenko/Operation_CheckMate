@@ -19,6 +19,10 @@ public class BaseComp : MonoBehaviour
      [SerializeField] private CameraSwitch2 _camSwitch;
      [SerializeField] private TextMeshProUGUI _targetInView;
      [SerializeField] private TextMeshProUGUI _txtPercents;
+
+     [SerializeField] private GameObject _fxMuzzleFalsh;
+     [SerializeField] private GameObject _fxProjectile;
+     public GameObject _muzzleTransform;
      
 
      public Competance _data;
@@ -35,6 +39,7 @@ public class BaseComp : MonoBehaviour
      private int _index;
      private int _indexOfComp;
      private int _dmg;
+     private float _bulletSpeed;
      
 
     private string _shootTxt = "Oui le tire";
@@ -72,6 +77,7 @@ public class BaseComp : MonoBehaviour
         _grenade.onClick.AddListener(GrenadeButton);
         _reload.onClick.AddListener(ReloadButton);
 
+        _bulletSpeed = _fxProjectile.GetComponent<Projectile_move>().speed;
 
         _tabInfoText = _TabInformation.GetComponentInChildren<TextMeshProUGUI>();
     }
@@ -256,12 +262,62 @@ public class BaseComp : MonoBehaviour
     private void ReloadAmmo() // fin de tours apres Reload
     {
         _playerScript._ammo = _playerScript._MaxAmmo; // + lancé animation 
-        _scriptCurrent.EndOfThisUnitTurn();
-        _scriptCurrent.ChangeUnitsEvrywhere();
+        _playerScript.Reloading();
+        Invoke("ReloadWait", _playerScript.AnimationLength("reload"));
+
         //Debug.Log(_playerScript._ammo);
     }
 
+    public void ReloadWait()
+    {
+        _scriptCurrent.EndOfThisUnitTurn();
+        _scriptCurrent.ChangeUnitsEvrywhere();
+    }
 
+    public void Bullet()
+    {
+        Transform _target;
+        
+        _target = _currentFov._actualTarget;
+        GameObject go = Instantiate(_fxProjectile, _muzzleTransform.transform.position, Quaternion.identity);
+        go.transform.LookAt(_target.position);
+        Destroy(go, 3f);
+
+    }
+
+    public void ChangeAfterShoot()
+    {
+        _scriptCurrent.EndOfThisUnitTurn(); // fin du tour de cette unité 
+        _scriptCurrent.IsAimaing(false);
+        _scriptCurrent._cantSwap = false;
+        _currentFov.Refresh();
+        _camIsInstanciat = false;
+        _camSwitch.ResetCamera();
+        _scriptCurrent.ChangeUnitsEvrywhere(); // change l'unité selectionnée
+        _camMouv.DestroyObject();
+    }
+    public void Hitting()
+    {
+        Transform _target;
+        Player _playerTarget;
+        _target = _currentFov._actualTarget;
+        if (_target != null)
+        {
+                _playerTarget = _target.GetComponent<Player>();
+                _playerTarget.TakeDmg(_dmg);
+        }
+    }
+    public void Hitting2()
+    {
+        Transform _target;
+        Player _playerTarget;
+        _target = _currentFov._actualTarget;
+        if (_target != null)
+        {
+            _playerTarget = _target.GetComponent<Player>();
+            _playerTarget.TakeDmg(_dmg + 3);
+        }
+    }
     public void Shoot(Transform _shooter) // tir sur une cible donnée + fin de tour 
     {
         
@@ -274,33 +330,38 @@ public class BaseComp : MonoBehaviour
             _playerTarget = _target.GetComponent<Player>();
             _dmg = _weaponUse.Damage;
             _playerScript._ammo -= 1;
+            Invoke("Bullet", _playerScript.AnimationLength("shoot") / 2);
+            Invoke("ChangeAfterShoot", _playerScript.AnimationLength("shoot"));
+            _playerScript.Shooting();
 
-        
             if (RandomShoot() == true) // tir réussi animation tir dans unité ennemis 
             {
-                if(CriticalChance() == true)
+                if (CriticalChance() == true)
                 {
-                    _playerTarget.TakeDmg(_dmg + 3);
+                    float hitTime = Vector3.Distance(_playerScript.gameObject.transform.position, _target.transform.position) / _bulletSpeed;//a changer
+                    Invoke("Hitting2", hitTime);
+                    
                 }
                 else
                 {
-                    _playerTarget.TakeDmg(_dmg);
-                    //Debug.Log(_dmg);
+                    float hitTime = Vector3.Distance(_playerScript.gameObject.transform.position, _target.transform.position) / _bulletSpeed;//a changer
+                    Invoke("Hitting", hitTime);
                 }
-            }else
-            {
-                // animation echec tir 
             }
-            _scriptCurrent.EndOfThisUnitTurn(); // fin du tour de cette unité 
-            _scriptCurrent.IsAimaing(false);
-            _scriptCurrent._cantSwap = false;
-            _currentFov.Refresh();
-            _camIsInstanciat = false;
-            _camSwitch.ResetCamera();
-            _scriptCurrent.ChangeUnitsEvrywhere(); // change l'unité selectionnée
-            _camMouv.DestroyObject();
+            else
+            {
+
+                // v = d / t    ->    t = d / v
+                float hitTime =  Vector3.Distance(_playerScript.gameObject.transform.position, _target.transform.position) / _bulletSpeed;//a changer
+                Invoke("Hitting", hitTime);
+            }
+
+
+          
         }
     }
+
+ 
 
 
     public void PercentsCalcul(FieldOfView _fov, bool _ov) //calcule du pourcentage de chance de toucher la cible 
@@ -330,7 +391,7 @@ public class BaseComp : MonoBehaviour
         {
             _coverValue = -20;
         }
-        Debug.Log(_coverValue);
+
 
 
         _scope = _scriptCurrent._weaponData.Scope;

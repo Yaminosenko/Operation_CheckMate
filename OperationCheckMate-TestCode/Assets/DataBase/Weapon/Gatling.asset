@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Gatling
   m_EditorClassIdentifier: 
   _scope: 125
-  _dmg: 10
-  _ammo: 5
+  _dmg: 3
+  _ammo: 4

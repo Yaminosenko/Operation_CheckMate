@@ -43,7 +43,7 @@ namespace RTS_Cam
         #region Height
 
         public bool autoHeight = true;
-        public LayerMask groundMask = -1; //layermask of ground or other objects that affect height
+        private LayerMask groundMask = 8; //layermask of ground or other objects that affect height
 
         public float maxHeight = 10f; //maximal height
         public float minHeight = 15f; //minimnal height
@@ -334,7 +334,11 @@ namespace RTS_Cam
             Ray ray = new Ray(m_Transform.position, Vector3.down);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, groundMask.value))
+            {
+                Debug.Log(hit.transform);
                 return (hit.point - m_Transform.position).magnitude;
+            }
+
 
             return 0f;
         }
