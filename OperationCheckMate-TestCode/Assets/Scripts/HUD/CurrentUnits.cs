@@ -39,6 +39,7 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private Button _nextUnitsLeft;
     [SerializeField] private Button _nextUnitsRight;
     [SerializeField] private MathCircle _mCircle;
+    [SerializeField] private int _countAmmo;
 
 
     public Units _dataUse;
@@ -235,6 +236,8 @@ public class CurrentUnits : MonoBehaviour
                 }
             }
         }
+
+        
     }
 
     public void ChangeUnitsEvrywhere()
