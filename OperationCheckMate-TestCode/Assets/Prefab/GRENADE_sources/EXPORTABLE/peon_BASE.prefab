@@ -3835,7 +3835,7 @@ Animator:
   m_GameObject: {fileID: 7010288599748669933}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 66a0c3a2e0154874a8666515a6977c04, type: 3}
-  m_Controller: {fileID: 9100000, guid: 1218466d67a7084439a88b0f51bd71f8, type: 2}
+  m_Controller: {fileID: 9100000, guid: f4441e49829c8de4687fb4b6ff4eacf6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4635,11 +4635,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6274312037001298942}
     m_Modifications:
-    - target: {fileID: 5936620365946123398, guid: c84a51281de1abd428f65b024b7f6e89,
-        type: 3}
-      propertyPath: m_Name
-      value: GrenadeLauncher
-      objectReference: {fileID: 0}
     - target: {fileID: 5936620365946123399, guid: c84a51281de1abd428f65b024b7f6e89,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4694,6 +4689,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5936620365946123398, guid: c84a51281de1abd428f65b024b7f6e89,
+        type: 3}
+      propertyPath: m_Name
+      value: GrenadeLauncher
       objectReference: {fileID: 0}
     - target: {fileID: 5936620365946123392, guid: c84a51281de1abd428f65b024b7f6e89,
         type: 3}

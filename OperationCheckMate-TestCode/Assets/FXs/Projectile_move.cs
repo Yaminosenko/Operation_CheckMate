@@ -59,8 +59,8 @@ public class Projectile_move : MonoBehaviour {
     {
         if (_hit == false)
         {
-            Debug.Log(other.gameObject);
-            Debug.Log(other.gameObject.tag);
+          
+
             if (other.gameObject.tag == "Player")
             {
                 GetComponentInChildren<Rigidbody>().Sleep();

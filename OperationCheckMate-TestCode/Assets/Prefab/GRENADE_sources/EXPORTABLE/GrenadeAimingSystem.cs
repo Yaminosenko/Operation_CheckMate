@@ -23,11 +23,25 @@ public class GrenadeAimingSystem : MonoBehaviour
     float m_CurrentClipLength;
     public GameObject Player;
     public BaseComp _compScript;
+    public GameObject _mainUnit;
 
-    private bool throwed = false;
+    public bool throwed = false;
     public Vector3 Vo;
     public LineRenderer lr;
 
+    private void Start()
+    {
+        FieldOfView f = _mainUnit.GetComponent<FieldOfView>();
+        Player p = _mainUnit.GetComponent<Player>();
+        if (f._whichTeamAreYou == false)
+        {
+            anim = p._playerMesh[0].GetComponent<Animator>();
+        }
+        else
+        {
+            anim = p._playerMesh[1].GetComponent<Animator>();
+        }
+    }
     void Update()
     {
         if (throwed == false)
@@ -95,6 +109,7 @@ public class GrenadeAimingSystem : MonoBehaviour
                 {
                     Vector3 _here = cursor.transform.position;
                     throwed = true;
+                    StartCoroutine(_compScript.WaitAfterGrenadeLaunch());
                 }
                 anim.SetTrigger("isThrowingGrenade");
 

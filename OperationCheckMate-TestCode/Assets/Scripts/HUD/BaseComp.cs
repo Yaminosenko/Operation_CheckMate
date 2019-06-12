@@ -60,6 +60,7 @@ public class BaseComp : MonoBehaviour
     private bool _camIsInstanciat = false;
     [SerializeField] private float _percentsFinal;
     [SerializeField] private float _distanceTarg;
+    [SerializeField] private GameObject[] _ammo;
 
 
     private void OnEnable()
@@ -80,6 +81,8 @@ public class BaseComp : MonoBehaviour
         _bulletSpeed = _fxProjectile.GetComponent<Projectile_move>().speed;
 
         _tabInfoText = _TabInformation.GetComponentInChildren<TextMeshProUGUI>();
+
+        InvokeRepeating("AmmoWrite", 0f, 1f);
     }
 
     private void Update() 
@@ -125,8 +128,8 @@ public class BaseComp : MonoBehaviour
             _camIsInstanciat = false;
             _camSwitch.ResetCamera();
             _currentFov.focused = null;
+            _GAS.cursorThere = false;
             _camMouv.DestroyObject();
-            _GAS._isActive = false;
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
@@ -161,9 +164,28 @@ public class BaseComp : MonoBehaviour
 
         _txt = _currentFov._listNb.ToString();
         _targetInView.SetText(_txt);
+
+        
         
     }
-
+    public void AmmoWrite()
+    {
+        for (int i = 0; i < _ammo.Length; i++)
+        {
+            if(_playerScript != null)
+            {
+                int a = _playerScript._ammo;
+                if (i < a)
+                {
+                    _ammo[i].SetActive(true);
+                }
+                else
+                {
+                    _ammo[i].SetActive(false);
+                }
+            }
+        }
+    }
     private void ShootButton()
     {
         if(_currentFov._listNb != 0)
@@ -171,11 +193,14 @@ public class BaseComp : MonoBehaviour
              if(_playerScript._ammo > 0)
              {
                 _indexOfComp = 1;
-                _tabInfoText.SetText(_shootTxt);
+                int dmg = _weaponUse.Damage;
+                _tabInfoText.SetText(_weaponUse.Damage.ToString() + "-" + (dmg+3).ToString());
                 AnyButtonDown();
              }
         }
     }// tout les boutons
+
+   
 
     private void OverwatchButton()
     {
@@ -200,7 +225,8 @@ public class BaseComp : MonoBehaviour
         _indexOfComp = 4;
         _tabInfoText.SetText(_grenadeTxt);
         AnyButtonDown();
-        _GAS._isActive = true;
+        _GAS.cursorThere = true;
+        //StartCoroutine(WaitAfterGrenadeLaunch());
     }
 
     private void ReloadButton()
@@ -236,14 +262,14 @@ public class BaseComp : MonoBehaviour
         }   
         else if(_indexOfComp == 4)
         {
-            _GAS._isActive = true;
+            _GAS.cursorThere = false;
         }
         else
         {
             _percents.SetActive(false);
             _scriptCurrent.IsAimaing(false);
             _camIsInstanciat = false;
-            _GAS._isActive = false;
+            _GAS.cursorThere = false;
             
             if (_camMouv != null)
             {
@@ -274,13 +300,20 @@ public class BaseComp : MonoBehaviour
         _scriptCurrent.ChangeUnitsEvrywhere();
     }
 
+    //public void GrenadeLaunch()
+    //{
+    //    StartCoroutine(WaitAfterGrenadeLaunch());
+    //}
+
     public void Bullet()
     {
         Transform _target;
-        
+        Player _playerTarget;
         _target = _currentFov._actualTarget;
+        _playerTarget = _target.GetComponent<Player>();
+        Transform p = _playerTarget._targetShootOnTheFace;
         GameObject go = Instantiate(_fxProjectile, _muzzleTransform.transform.position, Quaternion.identity);
-        go.transform.LookAt(_target.position);
+        go.transform.LookAt(p.position);
         Destroy(go, 3f);
 
     }
@@ -318,6 +351,9 @@ public class BaseComp : MonoBehaviour
             _playerTarget.TakeDmg(_dmg + 3);
         }
     }
+
+
+
     public void Shoot(Transform _shooter) // tir sur une cible donnée + fin de tour 
     {
         
@@ -339,25 +375,16 @@ public class BaseComp : MonoBehaviour
                 if (CriticalChance() == true)
                 {
                     float hitTime = Vector3.Distance(_playerScript.gameObject.transform.position, _target.transform.position) / _bulletSpeed;//a changer
-                    Invoke("Hitting2", hitTime);
+                    Invoke("Hitting2", hitTime + _playerScript.AnimationLength("shoot") / 2);
                     
                 }
                 else
                 {
                     float hitTime = Vector3.Distance(_playerScript.gameObject.transform.position, _target.transform.position) / _bulletSpeed;//a changer
-                    Invoke("Hitting", hitTime);
+                    Invoke("Hitting", hitTime + _playerScript.AnimationLength("shoot") / 2);
+                  
                 }
             }
-            else
-            {
-
-                // v = d / t    ->    t = d / v
-                float hitTime =  Vector3.Distance(_playerScript.gameObject.transform.position, _target.transform.position) / _bulletSpeed;//a changer
-                Invoke("Hitting", hitTime);
-            }
-
-
-          
         }
     }
 
@@ -548,6 +575,14 @@ public class BaseComp : MonoBehaviour
                 // animation echec tir 
             }
         }
+    }
+
+    public IEnumerator WaitAfterGrenadeLaunch()
+    {
+        Debug.Log("here");
+        yield return new WaitForSeconds(3.5f);
+        ReloadWait();
+        _GAS._isActive = false;
     }
 
  
