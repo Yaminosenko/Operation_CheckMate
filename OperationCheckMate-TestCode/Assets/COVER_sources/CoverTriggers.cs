@@ -6,6 +6,8 @@ public class CoverTriggers : MonoBehaviour
 {
     public bool _bigCover = false;
     public float _triggerOrientation;
+    public Transform _fovSavior;
+    public bool _corner = false;
 
     public float _whichAxis;
    // public float _newOrientation;
@@ -35,8 +37,12 @@ public class CoverTriggers : MonoBehaviour
             //Debug.Log(transform.position.z);
         }
 
+        if (_fovSavior != null)
+        {
+            _fovSavior.eulerAngles = new Vector3(_fovSavior.eulerAngles.x, _fovSavior.eulerAngles.y + -_triggerOrientation, _fovSavior.eulerAngles.z);
+            
+        }
 
-        
     }
 
     public void OnTriggerStay (Collider col)
@@ -45,6 +51,16 @@ public class CoverTriggers : MonoBehaviour
 		{
             
             Player p = col.gameObject.GetComponent<Player>();
+            FieldOfView f = col.gameObject.GetComponent<FieldOfView>();
+            if(_corner == true)
+            {
+                if (_fovSavior != null)
+                {
+                 
+                    f._lestestdufov = _fovSavior;
+                }
+            }
+
             p.covered = true;
             p._triggerCover = this.gameObject;
             p._axisRot = _whichAxis;
@@ -63,10 +79,12 @@ public class CoverTriggers : MonoBehaviour
 		if (col.gameObject.tag == "Player")
 		{
             Player p = col.gameObject.GetComponent<Player>();
+            FieldOfView f = col.gameObject.GetComponent<FieldOfView>();
             p.covered = false;
             p._bigCover = false;
             p._triggerCover = null;
             p._axisRot = 0;
+            f._lestestdufov = null;
         }
 	}
 

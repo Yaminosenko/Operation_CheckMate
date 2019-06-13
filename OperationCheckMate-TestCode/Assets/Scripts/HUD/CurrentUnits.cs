@@ -20,6 +20,11 @@ public class CurrentUnits : MonoBehaviour
 
     [SerializeField] private GameObject[] _team1;
     [SerializeField] private GameObject[] _team2;
+
+    [SerializeField] private GameObject[] _nameTeam1;
+    [SerializeField] private GameObject[] _nameTeam2;
+    [SerializeField] private GameObject[] _teamName;
+    
     
     [SerializeField] private Transform[] _childPortrait;
     [SerializeField] private Transform[] _childPortrait2;
@@ -33,6 +38,8 @@ public class CurrentUnits : MonoBehaviour
     [SerializeField] private Button _endOfTurn;
     [SerializeField] private Button _nextUnitsLeft;
     [SerializeField] private Button _nextUnitsRight;
+    [SerializeField] private MathCircle _mCircle;
+    [SerializeField] private int _countAmmo;
 
 
     public Units _dataUse;
@@ -57,7 +64,7 @@ public class CurrentUnits : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerTurn.SetText("Joueur 1");
+        //_playerTurn.SetText("Joueur 1");
         List<Units> _dataList = new List<Units>(); // convertir list en Array
          List<Transform> _theListPortrait = new List<Transform>();
          List<Transform> _theListPortrait2 = new List<Transform>();
@@ -143,10 +150,17 @@ public class CurrentUnits : MonoBehaviour
             {
                 _player._weapon = _dataTab[i].DataList[3];
             }
-
         }
-        
 
+        for (int i = 0; i < _nameTeam1.Length; i++)
+        {
+            if (i != 0)
+            {
+                _nameTeam1[i].SetActive(false);
+            }
+            _nameTeam2[i].SetActive(false);
+        }
+        EnableMeshPlayer();
         _cam = Camera.main;
         _camaTarget = _cam.gameObject.GetComponent<TargetSelector>();
         _compScript = _active.GetComponent<BaseComp>();
@@ -161,10 +175,190 @@ public class CurrentUnits : MonoBehaviour
         _endOfTurn.onClick.AddListener(SwitchTeam);
         _nextUnitsLeft.onClick.AddListener(ChangeUnitsEvrywhere);
         _nextUnitsRight.onClick.AddListener(ChangeUnitsEvrywhere);
+        //ChangeUnitsEvrywhere();
+    }
+    private void EnableMeshPlayer()
+    {
+        List<GameObject> _teamList = new List<GameObject>();
+        for(int i = 0; i < _team1.Length; i++)
+        {
+            _teamList.Add(_team1[i]);
+            _teamList.Add(_team2[i]);
+        }
+        GameObject[] _teamAll = _teamList.ToArray();
+        
+        for(int i = 0; i < _teamAll.Length; i++)
+        {
+            Player p = _teamAll[i].GetComponent<Player>();
+            FieldOfView f = _teamAll[i].GetComponent<FieldOfView>();
+            UnitsSetActive u;
+
+            if(f._whichTeamAreYou == false)
+            {
+                u = p._playerMesh[0].GetComponent<UnitsSetActive>();
+                p._playerMesh[1].SetActive(false);
+            }
+            else
+            {
+                u = p._playerMesh[1].GetComponent<UnitsSetActive>();
+                p._playerMesh[0].SetActive(false);
+            }
+
+            if (_dataTab[i].Health >= 3)
+            {
+                for (int a = 0; a < u._lvl1Health.Length; a++)
+                {
+                    u._lvl1Health[a].SetActive(true);
+                }
+                u._lvl2Health.SetActive(false);
+            }
+            if (_dataTab[i].Health == 6)
+            {
+                u._lvl2Health.SetActive(true);
+            }
+            if (_dataTab[i].Health < 3)
+            {
+                for (int a = 0; a < u._lvl1Health.Length; a++)
+                {
+                    u._lvl1Health[a].SetActive(false);
+                }
+                u._lvl2Health.SetActive(false);
+            }
+
+            if (_dataTab[i].Stamina >= 3)
+            {
+                for (int a = 0; a < u._lvl1Stamina.Length; a++)
+                {
+                    u._lvl1Stamina[a].SetActive(true);
+                }
+                for (int a = 0; a < u._lvl2Stamina.Length; a++)
+                {
+                    u._lvl2Stamina[a].SetActive(false);
+                }
+            }
+            if (_dataTab[i].Stamina == 6)
+            {
+                for (int a = 0; a < u._lvl2Stamina.Length; a++)
+                {
+                    u._lvl2Stamina[a].SetActive(true);
+                }
+            }
+            if (_dataTab[i].Stamina < 3)
+            {
+                for (int a = 0; a < u._lvl1Stamina.Length; a++)
+                {
+                    u._lvl1Stamina[a].SetActive(false);
+                }
+                for (int a = 0; a < u._lvl2Stamina.Length; a++)
+                {
+                    u._lvl2Stamina[a].SetActive(false);
+                }
+            }
+
+            if (_dataTab[i].Luck >= 3)
+            {
+                u._lvl1Luck.SetActive(true);
+                u._lvl2Luck.SetActive(false);
+            }
+            if (_dataTab[i].Luck == 6)
+            {
+                u._lvl2Luck.SetActive(true);
+            }
+            if (_dataTab[i].Luck < 3)
+            {
+                u._lvl1Luck.SetActive(false);
+                u._lvl2Luck.SetActive(false);
+            }
+
+            if (_dataTab[i].Wint == 1)
+            {
+                u._assault.SetActive(true);
+                u._snip.SetActive(false);
+                u._shotGun.SetActive(false);
+                u._gatling.SetActive(false);
+            }
+            else if (_dataTab[i].Wint == 2)
+            {
+                u._assault.SetActive(false);
+                u._snip.SetActive(true);
+                u._shotGun.SetActive(false);
+                u._gatling.SetActive(false);
+            }
+            else if (_dataTab[i].Wint == 3)
+            {
+                u._assault.SetActive(false);
+                u._snip.SetActive(false);
+                u._shotGun.SetActive(true);
+                u._gatling.SetActive(false);
+            }
+            else if (_dataTab[i].Wint == 4)
+            {
+                u._assault.SetActive(false);
+                u._snip.SetActive(false);
+                u._shotGun.SetActive(false);
+                u._gatling.SetActive(true);
+            }
+
+            if (_dataTab[i].Aim >= 3 && _dataTab[i].Aim != 6)
+            {
+                u._assaultlvl[0].SetActive(false);
+                u._sniplvl[0].SetActive(false);
+                u._shotGunlvl[0].SetActive(false);
+                u._gatlinglvl[0].SetActive(false);
+
+                u._assaultlvl[1].SetActive(true);
+                u._sniplvl[1].SetActive(true);
+                u._shotGunlvl[1].SetActive(true);
+                u._gatlinglvl[1].SetActive(true);
+
+                u._assaultlvl[2].SetActive(false);
+                u._sniplvl[2].SetActive(false);
+                u._shotGunlvl[2].SetActive(false);
+                u._gatlinglvl[2].SetActive(false);
+            }
+            if (_dataTab[i].Aim == 6)
+            {
+                u._assaultlvl[0].SetActive(false);
+                u._sniplvl[0].SetActive(false);
+                u._shotGunlvl[0].SetActive(false);
+                u._gatlinglvl[0].SetActive(false);
+
+                u._assaultlvl[1].SetActive(false);
+                u._sniplvl[1].SetActive(false);
+                u._shotGunlvl[1].SetActive(false);
+                u._gatlinglvl[1].SetActive(false);
+
+                u._assaultlvl[2].SetActive(true);
+                u._sniplvl[2].SetActive(true);
+                u._shotGunlvl[2].SetActive(true);
+                u._gatlinglvl[2].SetActive(true);
+            }
+            if (_dataTab[i].Aim < 3)
+            {
+                u._assaultlvl[0].SetActive(true);
+                u._sniplvl[0].SetActive(true);
+                u._shotGunlvl[0].SetActive(true);
+                u._gatlinglvl[0].SetActive(true);
+
+                u._assaultlvl[1].SetActive(false);
+                u._sniplvl[1].SetActive(false);
+                u._shotGunlvl[1].SetActive(false);
+                u._gatlinglvl[1].SetActive(false);
+
+                u._assaultlvl[2].SetActive(false);
+                u._sniplvl[2].SetActive(false);
+                u._shotGunlvl[2].SetActive(false);
+                u._gatlinglvl[2].SetActive(false);
+            }
+
+
+        }
+
     }
 
     private void Update()
     {
+
         if(_switchTeam == false)
         {
             if (_index == 1)
@@ -205,10 +399,7 @@ public class CurrentUnits : MonoBehaviour
         }
        
         
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SwitchTeam();
-        }
+   
 
 
         if (_cantSwap == false) //ne marche pas lorsqu'une action est en cours
@@ -222,6 +413,8 @@ public class CurrentUnits : MonoBehaviour
                 }
             }
         }
+
+        
     }
 
     public void ChangeUnitsEvrywhere()
@@ -230,6 +423,7 @@ public class CurrentUnits : MonoBehaviour
         DataWeaponChange();
         SelectUnitOnTab();
         ChangePortrait();
+        ChangeName();
         _camaTarget._target = _transCurrentTarget;
         _camaTarget.NewTarget();
         _teamManagerDep.soldierTurn = _index - 1;
@@ -268,7 +462,7 @@ public class CurrentUnits : MonoBehaviour
 
         if(_use.Length == 4)
         {
-            SwitchTeam();
+             SwitchTeam();
             _alreadyUse.Clear();
         }
         for (int i = 0; i < _use.Length; i++)
@@ -305,8 +499,14 @@ public class CurrentUnits : MonoBehaviour
             _camaTarget._target = _transCurrentTarget;
             _camaTarget.NewTarget();
             _teamManagerDep.playerNum = true;
-            _playerTurn.SetText("Joueur 2");
-            for(int i = 0; i < _team2.Length; i++)
+           // _playerTurn.SetText("Joueur 2");
+            _teamName[1].SetActive(true);
+            _teamName[0].SetActive(false);
+            _leNavAgent.ChangeUnits();
+            _leNavAgent._staminaValue = _dataUse.Stamina;
+           
+
+            for (int i = 0; i < _team2.Length; i++)
             {
                 _team2[i].GetComponent<navAgent>()._alreadyMouv = false;
                 Player p = _team2[i].GetComponent<Player>();
@@ -315,7 +515,11 @@ public class CurrentUnits : MonoBehaviour
                     p._cd -= 1;
                 }
                 Debug.Log("team2alreadyOn");
-                
+            }
+
+            for (int i = 0; i < _team1.Length; i++)
+            {
+                _nameTeam1[i].SetActive(false);
             }
         }
         else
@@ -327,7 +531,12 @@ public class CurrentUnits : MonoBehaviour
             _camaTarget._target = _transCurrentTarget;
             _camaTarget.NewTarget();
             _teamManagerDep.playerNum = false;
-            _playerTurn.SetText("Joueur 1");
+           // _playerTurn.SetText("Joueur 1");
+            _teamName[1].SetActive(false);
+            _teamName[0].SetActive(true);
+            _leNavAgent.ChangeUnits();
+            _leNavAgent._staminaValue = _dataUse.Stamina;
+                
             for (int i = 0; i < _team1.Length; i++)
             {
                 _team1[i].GetComponent<navAgent>()._alreadyMouv = false;
@@ -338,6 +547,12 @@ public class CurrentUnits : MonoBehaviour
                 }
                 Debug.Log("team1alreadyOn");
             }
+
+            for (int i = 0; i < _team1.Length; i++)
+            {
+                _nameTeam2[i].SetActive(false);
+            }
+
         }
     }
 
@@ -371,6 +586,8 @@ public class CurrentUnits : MonoBehaviour
             Player _player;
             _script = _TeamTab[i].GetComponent<FieldOfView>();
             _player = _TeamTab[i].GetComponent<Player>();
+            GrenadeAimingSystem _GAS = _TeamTab[i].GetComponentInChildren<GrenadeAimingSystem>();
+            
 
 
             if(i == _index - 1)
@@ -388,6 +605,7 @@ public class CurrentUnits : MonoBehaviour
                     ChangeUnitsEvrywhere();
                     //Debug.Log(_TeamTab[i]); 
                 }
+                _mCircle.GAS = _GAS;
                 _transCurrentTarget = _TeamTab[i].transform;
                 _script._isActive = true;
                 _player._isActive = true;
@@ -395,6 +613,9 @@ public class CurrentUnits : MonoBehaviour
                 _compScript._playerScript = _player;
                 _compScript._weaponUse = _weaponData;
                 _compScript._critChance = _dataUse.Luck;
+                _compScript._GAS = _GAS;
+                _compScript._muzzleTransform = _player._muzzleShoot;
+                _compScript.AmmoWrite();
                 _script._baseComp = _compScript;
                 _leNavAgent = _TeamTab[i].GetComponent<navAgent>();
 
@@ -404,6 +625,39 @@ public class CurrentUnits : MonoBehaviour
                 _script._isActive = false;
                 //_theOne._isActive = false;
                 _player._isActive = false;
+            }
+        }
+    }
+
+    void ChangeName()
+    {
+
+        if(_switchTeam == false)
+        {
+            for(int i = 0; i < _nameTeam1.Length; i++)
+            {
+                if(i == _index - 1)
+                {
+                    _nameTeam1[i].SetActive(true);
+                }
+                else
+                {
+                    _nameTeam1[i].SetActive(false);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < _nameTeam1.Length; i++)
+            {
+                if (i == _index - 1)
+                {
+                    _nameTeam2[i].SetActive(true);
+                }
+                else
+                {
+                    _nameTeam2[i].SetActive(false);
+                }
             }
         }
     }

@@ -86,21 +86,25 @@ public class MainUnitsBase : MonoBehaviour
                 {
                     _dataBase[i].WeaponList = Units.WeaponEnum.Assault;
                     _dataBase[i].Data = _evryComp[0];
+                    _dataBase[i].Wint = 1;
                 }
                 else if (_units[i]._weapon == 2)
                 {
                     _dataBase[i].WeaponList = Units.WeaponEnum.Sniper;
                     _dataBase[i].Data = _evryComp[1];
+                    _dataBase[i].Wint = 2;
                 }
                 else if (_units[i]._weapon == 3)
                 {
                     _dataBase[i].WeaponList = Units.WeaponEnum.ShotGun;
                     _dataBase[i].Data = _evryComp[2];
+                    _dataBase[i].Wint = 3;
                 }
                 else if (_units[i]._weapon == 4)
                 {
                     _dataBase[i].WeaponList = Units.WeaponEnum.Gatling;
                     _dataBase[i].Data = _evryComp[3];
+                    _dataBase[i].Wint = 4;
                 }
                
             }

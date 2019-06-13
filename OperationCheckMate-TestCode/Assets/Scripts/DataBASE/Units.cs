@@ -101,4 +101,18 @@ public class Units : ScriptableObject
             return _dataList;
         }
     }
+
+    [SerializeField] protected float _weaponInt;
+
+    public float Wint
+    {
+        get
+        {
+            return _weaponInt;
+        }
+        set
+        {
+            _weaponInt = value;
+        }
+    }
 }

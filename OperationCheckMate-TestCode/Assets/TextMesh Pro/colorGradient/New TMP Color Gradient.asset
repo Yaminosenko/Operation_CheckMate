@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: New TMP Color Gradient
   m_EditorClassIdentifier: 
   colorMode: 3
-  topLeft: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}
-  topRight: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}
-  bottomLeft: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}
-  bottomRight: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
+  topLeft: {r: 0.0754717, g: 0.0754717, b: 0.0754717, a: 1}
+  topRight: {r: 0.1792453, g: 0.15542357, b: 0.13612497, a: 1}
+  bottomLeft: {r: 0.254717, g: 0.23849681, b: 0.22467962, a: 0.6784314}
+  bottomRight: {r: 0.3773585, g: 0.35526398, b: 0.33641866, a: 1}

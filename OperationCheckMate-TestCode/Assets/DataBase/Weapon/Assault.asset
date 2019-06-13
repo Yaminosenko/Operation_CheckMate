@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Assault
   m_EditorClassIdentifier: 
   _scope: 100
-  _dmg: 10
-  _ammo: 4
+  _dmg: 3
+  _ammo: 3

@@ -23,3 +23,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9e2e80183485999468c1a9c48935fe3d, type: 2}
   - {fileID: 11400000, guid: f8944483319121e4680891df95fae95e, type: 2}
   - {fileID: 11400000, guid: 9f87d6c3886b4a64498e2bf3a6250b16, type: 2}
+  _weaponInt: 2
