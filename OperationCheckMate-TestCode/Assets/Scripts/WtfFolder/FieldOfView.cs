@@ -128,7 +128,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour la bas
              t = transform;
         }
 
-        Debug.Log(t);
+       
 
         Collider[] targetsInViewRadius = Physics.OverlapSphere(t.position, viewRadius, targetMask);
 

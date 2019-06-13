@@ -61,16 +61,21 @@ public class CoverTriggers : MonoBehaviour
                 }
             }
 
+            
             p.covered = true;
             p._triggerCover = this.gameObject;
             p._axisRot = _whichAxis;
             if(_bigCover == false)
             {
+             
                 p._bigCover = false;
+                p.CoverLow(true);
             }
             if(_bigCover == true)
             {
+
                 p._bigCover = true;
+                p.CoverHigh(true);
             }
 		}
 	}
@@ -85,6 +90,8 @@ public class CoverTriggers : MonoBehaviour
             p._triggerCover = null;
             p._axisRot = 0;
             f._lestestdufov = null;
+            p.CoverHigh(false);
+            p.CoverLow(false);
         }
 	}
 

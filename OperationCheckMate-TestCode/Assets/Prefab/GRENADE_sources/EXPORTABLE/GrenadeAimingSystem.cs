@@ -111,6 +111,9 @@ public class GrenadeAimingSystem : MonoBehaviour
                     throwed = true;
                     StartCoroutine(_compScript.WaitAfterGrenadeLaunch());
                 }
+                Player p = _mainUnit.GetComponent<Player>();
+                p.CoverHigh(false);
+                p.CoverLow(false);
                 anim.SetTrigger("isThrowingGrenade");
 
                 float AnimationLength(string name)

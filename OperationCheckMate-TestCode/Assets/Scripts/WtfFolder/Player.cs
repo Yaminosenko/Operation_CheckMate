@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     public Animator anim;
     public Transform _targetShootOnTheFace;
     public GameObject[] _playerMesh;
+    
 
 
     
@@ -69,7 +70,17 @@ public class Player : MonoBehaviour
         anim.SetTrigger("isReloading");
     }
 
- 
+    public void CoverLow(bool b)
+    {
+        
+        anim.SetBool("isCoverLow", b);
+    }
+    public void CoverHigh(bool b)
+    {
+        anim.SetBool("isInCoverHigh", b);
+    }
+
+
 
     public void TakeDmg(int dmg) //Système de dégât 
     {
@@ -81,13 +92,18 @@ public class Player : MonoBehaviour
             _currentHealth = 0;
             _dead = true;
             UpdateHealthBar();
+            CoverHigh(false);
+            CoverLow(false);
             anim.SetBool("isDead", true);
            
         }
         else
         {
             hitted = true;
+            CoverHigh(false);
+            CoverLow(false);
             anim.SetTrigger("isHitted");
+           
             Invoke("Safe", 2f);
             UpdateHealthBar();
         }

@@ -61,6 +61,8 @@ public class BaseComp : MonoBehaviour
     [SerializeField] private float _percentsFinal;
     [SerializeField] private float _distanceTarg;
     [SerializeField] private GameObject[] _ammo;
+    public GameObject _shootSound;
+    public GameObject _reloadSound;
 
 
     private void OnEnable()
@@ -288,6 +290,9 @@ public class BaseComp : MonoBehaviour
     private void ReloadAmmo() // fin de tours apres Reload
     {
         _playerScript._ammo = _playerScript._MaxAmmo; // + lancé animation 
+        _playerScript.CoverHigh(false);
+        _playerScript.CoverLow(false);
+        Instantiate(_reloadSound, _playerScript.transform);
         _playerScript.Reloading();
         Invoke("ReloadWait", _playerScript.AnimationLength("reload"));
 
@@ -313,6 +318,7 @@ public class BaseComp : MonoBehaviour
         _playerTarget = _target.GetComponent<Player>();
         Transform p = _playerTarget._targetShootOnTheFace;
         GameObject go = Instantiate(_fxProjectile, _muzzleTransform.transform.position, Quaternion.identity);
+        Instantiate(_shootSound, _playerScript.transform);
         go.transform.LookAt(p.position);
         Destroy(go, 3f);
 
@@ -368,6 +374,8 @@ public class BaseComp : MonoBehaviour
             _playerScript._ammo -= 1;
             Invoke("Bullet", _playerScript.AnimationLength("shoot") / 2);
             Invoke("ChangeAfterShoot", _playerScript.AnimationLength("shoot"));
+            _playerScript.CoverHigh(false);
+            _playerScript.CoverLow(false);
             _playerScript.Shooting();
 
             if (RandomShoot() == true) // tir réussi animation tir dans unité ennemis 

@@ -3,7 +3,12 @@ guid: 66a0c3a2e0154874a8666515a6977c04
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TX_Peon01
+    second: {fileID: 2100000, guid: be67ce3f9915eda4287253877368af1e, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
