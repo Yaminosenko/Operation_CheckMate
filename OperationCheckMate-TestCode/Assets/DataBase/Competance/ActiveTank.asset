@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25cb950b0aae031409fd67f77830b5a9, type: 3}
   m_Name: ActiveTank
   m_EditorClassIdentifier: 
-  _icon: {fileID: 21300000, guid: 9f546dad2e3b66c4a8b90f8d593694b5, type: 3}
+  _icon: {fileID: 21300000, guid: d0e861915d7790a4ea9a39a54a1c87db, type: 3}
   _index: 9

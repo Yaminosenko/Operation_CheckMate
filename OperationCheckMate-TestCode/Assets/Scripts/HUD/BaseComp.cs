@@ -19,9 +19,11 @@ public class BaseComp : MonoBehaviour
      [SerializeField] private CameraSwitch2 _camSwitch;
      [SerializeField] private TextMeshProUGUI _targetInView;
      [SerializeField] private TextMeshProUGUI _txtPercents;
+     [SerializeField] private TextMeshProUGUI _txtTextAmbiance;
 
      [SerializeField] private GameObject _fxMuzzleFalsh;
      [SerializeField] private GameObject _fxProjectile;
+     [SerializeField] private Image _pngWeapon;
      public GameObject _muzzleTransform;
      
 
@@ -42,11 +44,11 @@ public class BaseComp : MonoBehaviour
      private float _bulletSpeed;
      
 
-    private string _shootTxt = "Oui le tire";
-    private string _ovTxt = "Oui la Vigilence";
+    private string _shootTxt = "Tir sur l'unite selectioner:";
+    private string _ovTxt = "Tir avec une petite penalite sur la premiere unite bougeant dans votre ligne de vue:";
     private string _defenseTxt = "Oui le defense";
-    private string _grenadeTxt = "Oui la grenade";
-    private string _reloadTxt = "Oui le Reload";
+    private string _grenadeTxt = "Lance une grenade sur la zone selectionner:";
+    private string _reloadTxt = "Recharge votre arme";
     private string _ActiveTxt = "Oui l'active";
 
     private TextMeshProUGUI _tabInfoText;
@@ -92,7 +94,7 @@ public class BaseComp : MonoBehaviour
         _sprite = _data.Icone;
         _index = _data.Index;
 
-        _active.image.sprite = _sprite;
+        _pngWeapon.sprite = _sprite;
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -105,20 +107,13 @@ public class BaseComp : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            DefenseButton();
+            GrenadeButton();
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            GrenadeButton();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
             ReloadButton();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            ActiveButton();
-        }
+      
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             
@@ -196,7 +191,8 @@ public class BaseComp : MonoBehaviour
              {
                 _indexOfComp = 1;
                 int dmg = _weaponUse.Damage;
-                _tabInfoText.SetText(_weaponUse.Damage.ToString() + "-" + (dmg+3).ToString());
+                _txtTextAmbiance.SetText(_shootTxt);
+                _tabInfoText.SetText(_weaponUse.Damage.ToString() + "-" + (dmg+3).ToString() + " dmg");
                 AnyButtonDown();
              }
         }
@@ -209,7 +205,8 @@ public class BaseComp : MonoBehaviour
         if(_playerScript._cd == 0)
         {
             _indexOfComp = 2;
-            _tabInfoText.SetText(_ovTxt);
+            _txtTextAmbiance.SetText(_ovTxt);
+            _tabInfoText.SetText("2 tours CoolDown");
             AnyButtonDown();
         }
     }
@@ -225,7 +222,8 @@ public class BaseComp : MonoBehaviour
     {
         //seulement lorsque il a encore une grenade
         _indexOfComp = 4;
-        _tabInfoText.SetText(_grenadeTxt);
+        _txtTextAmbiance.SetText(_grenadeTxt);
+        _tabInfoText.SetText(4.ToString() + " dmg" + " 2 tours CoolDown");
         AnyButtonDown();
         _GAS.cursorThere = true;
         //StartCoroutine(WaitAfterGrenadeLaunch());
@@ -235,7 +233,8 @@ public class BaseComp : MonoBehaviour
     {
         //seulement quand il lui manque au moins une munition
         _indexOfComp = 5;
-        _tabInfoText.SetText(_reloadTxt);
+        _txtTextAmbiance.SetText(_reloadTxt);
+        _tabInfoText.SetText(" ");
         AnyButtonDown();
     }
 
@@ -344,6 +343,7 @@ public class BaseComp : MonoBehaviour
         {
                 _playerTarget = _target.GetComponent<Player>();
                 _playerTarget.TakeDmg(_dmg);
+            Debug.Log(_dmg);
         }
     }
     public void Hitting2()

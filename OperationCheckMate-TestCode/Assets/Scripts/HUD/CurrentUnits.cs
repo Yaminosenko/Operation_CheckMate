@@ -137,19 +137,24 @@ public class CurrentUnits : MonoBehaviour
             if (_dataTab[i].WeaponList == Units.WeaponEnum.Assault)
             {
                 _player._weapon = _dataTab[i].DataList[0];
+                //_weaponData = _dataTab[i].DataList[0];
             }
             else if (_dataTab[i].WeaponList == Units.WeaponEnum.Sniper)
             {
                 _player._weapon = _dataTab[i].DataList[1];
+                //_weaponData = _dataTab[i].DataList[1];
             }
             else if (_dataTab[i].WeaponList == Units.WeaponEnum.ShotGun)
             {
                 _player._weapon = _dataTab[i].DataList[2];
+                //_weaponData = _dataTab[i].DataList[2];
             }
             else if (_dataTab[i].WeaponList == Units.WeaponEnum.Gatling)
             {
                 _player._weapon = _dataTab[i].DataList[3];
+                //_weaponData = _dataTab[i].DataList[3];
             }
+
         }
 
         for (int i = 0; i < _nameTeam1.Length; i++)
@@ -176,6 +181,7 @@ public class CurrentUnits : MonoBehaviour
         _nextUnitsLeft.onClick.AddListener(ChangeUnitsEvrywhere);
         _nextUnitsRight.onClick.AddListener(ChangeUnitsEvrywhere);
         //ChangeUnitsEvrywhere();
+        
     }
     private void EnableMeshPlayer()
     {
@@ -358,8 +364,69 @@ public class CurrentUnits : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(_index);
+        Debug.Log(_dataUse);
+        //if (_switchTeam == false)
+        //{
+        //    if (_index == 1)
+        //    {
+        //        _dataUse = _data1;
+        //    } //Choix de la Database utilisé
+        //    else if (_index == 2)
+        //    {
+        //        _dataUse = _data2;
+        //    }
+        //    else if (_index == 3)
+        //    {
+        //        _dataUse = _data3;
+        //    }
+        //    else if (_index == 4)
+        //    {
+        //        _dataUse = _data4;
+        //    }
+        //}
+        //else
+        //{
+        //    if (_index == 1)
+        //    {
+        //        _dataUse = _data5;
+        //    } //Choix de la Database utilisé
+        //    else if (_index == 2)
+        //    {
+        //        _dataUse = _data6;
+        //    }
+        //    else if (_index == 3)
+        //    {
+        //        _dataUse = _data7;
+        //    }
+        //    else if (_index == 4)
+        //    {
+        //        _dataUse = _data8;
+        //    }
+        //}
+       
+        
+   
 
-        if(_switchTeam == false)
+
+        if (_cantSwap == false) //ne marche pas lorsqu'une action est en cours
+        {
+            if (_Wait == false)
+            {
+                if (Input.GetKeyDown(KeyCode.Tab)) //changement d'unité par touche 
+                {
+                    ChangeUnitsEvrywhere();
+                    
+                }
+            }
+        }
+
+        
+    }
+
+    public void DataChoice()
+    {
+        if (_switchTeam == false)
         {
             if (_index == 1)
             {
@@ -397,31 +464,14 @@ public class CurrentUnits : MonoBehaviour
                 _dataUse = _data8;
             }
         }
-       
-        
-   
-
-
-        if (_cantSwap == false) //ne marche pas lorsqu'une action est en cours
-        {
-            if (_Wait == false)
-            {
-                if (Input.GetKeyDown(KeyCode.Tab)) //changement d'unité par touche 
-                {
-                    ChangeUnitsEvrywhere();
-                    
-                }
-            }
-        }
-
-        
     }
 
     public void ChangeUnitsEvrywhere()
     {
         ChangeUnits();
-        DataWeaponChange();
+        DataChoice();
         SelectUnitOnTab();
+        DataWeaponChange();
         ChangePortrait();
         ChangeName();
         _camaTarget._target = _transCurrentTarget;
@@ -432,7 +482,6 @@ public class CurrentUnits : MonoBehaviour
         StartCoroutine(WaitBeforeDoSomethingElse());
         _leNavAgent.ChangeUnits();
         _leNavAgent._staminaValue = _dataUse.Stamina;
-        
         
     }
 
@@ -536,6 +585,7 @@ public class CurrentUnits : MonoBehaviour
             _teamName[0].SetActive(true);
             _leNavAgent.ChangeUnits();
             _leNavAgent._staminaValue = _dataUse.Stamina;
+            
                 
             for (int i = 0; i < _team1.Length; i++)
             {
@@ -611,13 +661,14 @@ public class CurrentUnits : MonoBehaviour
                 _player._isActive = true;
                 _compScript._currentFov = _script;
                 _compScript._playerScript = _player;
-                _compScript._weaponUse = _weaponData;
+                _compScript._weaponUse = _player._weapon;
                 _compScript._critChance = _dataUse.Luck;
                 _compScript._GAS = _GAS;
                 _compScript._muzzleTransform = _player._muzzleShoot;
                 _compScript.AmmoWrite();
                 _script._baseComp = _compScript;
                 _leNavAgent = _TeamTab[i].GetComponent<navAgent>();
+                Debug.Log(_compScript._currentFov);
 
             }
             else

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25cb950b0aae031409fd67f77830b5a9, type: 3}
   m_Name: ActiveSniper
   m_EditorClassIdentifier: 
-  _icon: {fileID: 21300000, guid: 89e30ba6aff0cf34fa37b11d34c29997, type: 3}
+  _icon: {fileID: 21300000, guid: 8ad956dadd2ce3646964f3f598ed3206, type: 3}
   _index: 7
