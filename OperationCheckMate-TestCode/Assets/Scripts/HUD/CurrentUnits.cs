@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class CurrentUnits : MonoBehaviour
 {
@@ -61,6 +62,7 @@ public class CurrentUnits : MonoBehaviour
    [SerializeField] private List<int> _deadUnits1 = new List<int>();
    [SerializeField] private List<int> _deadUnits2 = new List<int>();
 
+    private int _secu = 4;
 
     private void OnEnable()
     {
@@ -362,10 +364,19 @@ public class CurrentUnits : MonoBehaviour
 
     }
 
+    void TestDead()
+    {
+        int[] _dead1 = _deadUnits1.ToArray();
+        int[] _dead2 = _deadUnits2.ToArray();
+
+        if(_dead1.Length >= 4 || _dead2.Length >= 4)
+        {
+            Application.Quit();
+        }
+    }
     private void Update()
     {
-        Debug.Log(_index);
-        Debug.Log(_dataUse);
+       
         //if (_switchTeam == false)
         //{
         //    if (_index == 1)
@@ -464,6 +475,7 @@ public class CurrentUnits : MonoBehaviour
                 _dataUse = _data8;
             }
         }
+        
     }
 
     public void ChangeUnitsEvrywhere()
@@ -496,15 +508,17 @@ public class CurrentUnits : MonoBehaviour
 
         int[] _use = _alreadyUse.ToArray();
         int[] _dead;
-        
+        bool _whoWin = false;
 
         if(_switchTeam == true)
         {
             _dead =  _deadUnits1.ToArray();
+            _whoWin = true;
         }
         else
         {
             _dead = _deadUnits2.ToArray();
+            _whoWin = true;
         }
         
         _index += 1;
@@ -525,8 +539,23 @@ public class CurrentUnits : MonoBehaviour
         {
             if(_index == _dead[i])
             {
-                _index += 1;
-                Debug.Log("noUdeadSoShutUp");
+                if(_dead.Length > 4)
+                {
+                    if (_whoWin == false)
+                    {
+                        SceneManager.LoadScene("VictoryFoxtrot", LoadSceneMode.Single);
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene("VictoryNovember", LoadSceneMode.Single);
+                    }
+                    Debug.Log("noUdeadSoShutUp");
+                }
+                else
+                {
+                    _index += 1;
+                    
+                }
             }
         }
         if (_index > 4)
@@ -637,23 +666,46 @@ public class CurrentUnits : MonoBehaviour
             _script = _TeamTab[i].GetComponent<FieldOfView>();
             _player = _TeamTab[i].GetComponent<Player>();
             GrenadeAimingSystem _GAS = _TeamTab[i].GetComponentInChildren<GrenadeAimingSystem>();
-            
+            bool _whoWin = false;
 
 
             if(i == _index - 1)
             {
-                if(_player._dead == true)
+                if(_secu > 0)
                 {
-                    if(_switchTeam == true)
+                    if(_player._dead == true)
                     {
-                        _deadUnits1.Add(_index);
+                        if(_switchTeam == true)
+                        {
+                            _deadUnits1.Add(_index);
+                            _whoWin = true;
+                        }
+                        else
+                        {
+                            _deadUnits2.Add(_index);
+                            _whoWin = false;
+                        }
+                        _secu--;
+                        ChangeUnitsEvrywhere();
+                        //Debug.Log(_TeamTab[i]); 
                     }
                     else
                     {
-                        _deadUnits2.Add(_index);
+                        _secu = 4;
                     }
-                    ChangeUnitsEvrywhere();
-                    //Debug.Log(_TeamTab[i]); 
+                }
+                else
+                {
+                    if(_whoWin == false)
+                    {
+                        SceneManager.LoadScene("VictoryFoxtrot", LoadSceneMode.Single);
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene("VictoryNovember", LoadSceneMode.Single);
+                    }
+                    
+                    Debug.Log("finish");
                 }
                 _mCircle.GAS = _GAS;
                 _transCurrentTarget = _TeamTab[i].transform;
@@ -668,7 +720,7 @@ public class CurrentUnits : MonoBehaviour
                 _compScript.AmmoWrite();
                 _script._baseComp = _compScript;
                 _leNavAgent = _TeamTab[i].GetComponent<navAgent>();
-                Debug.Log(_compScript._currentFov);
+
 
             }
             else

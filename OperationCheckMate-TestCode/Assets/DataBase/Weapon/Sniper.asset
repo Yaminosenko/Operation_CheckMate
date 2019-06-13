@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e7eb5c3abca10044a3eb46a958d6c92, type: 3}
   m_Name: Sniper
   m_EditorClassIdentifier: 
-  _scope: 125
+  _scope: 100
   _dmg: 4
   _ammo: 3

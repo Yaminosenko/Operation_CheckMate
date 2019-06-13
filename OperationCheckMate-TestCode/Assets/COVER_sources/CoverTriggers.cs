@@ -49,6 +49,7 @@ public class CoverTriggers : MonoBehaviour
 
     private void OnMouseOver()
     {
+        Debug.Log("unefois");
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit))
         {
@@ -61,11 +62,13 @@ public class CoverTriggers : MonoBehaviour
         }
         if(_bigCover == true)
         {
+        Debug.Log("mais");
             _pngCoverHigh.SetActive(true);
             _pngCoverLow.SetActive(false);
         }
         else
         {
+        Debug.Log("pasCinq");
             _pngCoverHigh.SetActive(false);
             _pngCoverLow.SetActive(true);
         }

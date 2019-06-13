@@ -130,7 +130,7 @@ MonoBehaviour:
     type: 3}
   SoundOnCreate: {fileID: 955339893716863987, guid: a42f9977a57948143be216f3b0a7c52b,
     type: 3}
-  explosionDmg: 3
+  explosionDmg: 6
   fixDamages: 1
 --- !u!96 &-4617409505383024483
 TrailRenderer:

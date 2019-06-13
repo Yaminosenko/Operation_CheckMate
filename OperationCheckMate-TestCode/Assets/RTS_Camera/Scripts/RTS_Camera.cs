@@ -335,7 +335,7 @@ namespace RTS_Cam
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, groundMask.value))
             {
-                Debug.Log(hit.transform);
+
                 return (hit.point - m_Transform.position).magnitude;
             }
 

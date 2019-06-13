@@ -27,11 +27,11 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour la bas
 
     public bool _whichTeamAreYou = false;
     public Transform _CamPos;
+    public Transform focused;
 
     [HideInInspector]
 
  
-    public Transform focused;
     public LineRenderer lr;
     public bool acted = false;
     Vector3 myPos;
@@ -353,7 +353,7 @@ public class FieldOfView : MonoBehaviour { // crédit: Sebtian Lague pour la bas
             }
             else
             {
-                _actuaTargetCover = 0;
+                _actuaTargetCover = 3;
             }
         }
 

@@ -20,6 +20,7 @@ public class BaseComp : MonoBehaviour
      [SerializeField] private TextMeshProUGUI _targetInView;
      [SerializeField] private TextMeshProUGUI _txtPercents;
      [SerializeField] private TextMeshProUGUI _txtTextAmbiance;
+     [SerializeField] private TextMeshProUGUI _txtCrtical;
 
      [SerializeField] private GameObject _fxMuzzleFalsh;
      [SerializeField] private GameObject _fxProjectile;
@@ -42,6 +43,7 @@ public class BaseComp : MonoBehaviour
      private int _indexOfComp;
      private int _dmg;
      private float _bulletSpeed;
+     private float _aim;
      
 
     private string _shootTxt = "Tir sur l'unite selectioner:";
@@ -127,6 +129,8 @@ public class BaseComp : MonoBehaviour
             _currentFov.focused = null;
             _GAS.cursorThere = false;
             _camMouv.DestroyObject();
+            _txtCrtical.SetText(0.ToString());
+            _txtPercents.SetText(0.ToString());
         }
         if (Input.GetKeyDown(KeyCode.KeypadEnter))
         {
@@ -154,6 +158,7 @@ public class BaseComp : MonoBehaviour
 
         if(_currentFov._swap == true)
         {
+            CriticCalcul();
             PercentsCalcul(_currentFov, false);
         }
 
@@ -430,68 +435,86 @@ public class BaseComp : MonoBehaviour
 
 
         _scope = _scriptCurrent._weaponData.Scope;
+        
 
-        if (_scriptCurrent._weaponData == _scriptCurrent._dataUse.DataList[1])
-        {
-            if(_distanceTarg <= 10)
-            {
-                _percentsFinal = 24;
-            }
-        }
-        else if (_scriptCurrent._weaponData == _scriptCurrent._dataUse.DataList[2])
-        {
-            if(_distanceTarg >= 20)
-            {
-                _percentsFinal = 24;
-            }
-            else if (_distanceTarg <= 10)
-            {
-                _percentsFinal = _scope - _distanceTarg - _coverValue + 20;
-                if (_ov == true)
-                {
-                    _percentsFinal -= 20;
-                }
-            }
-            else
-            {
-                _percentsFinal = _scope - _distanceTarg - _coverValue;
-                if (_ov == true)
-                {
-                    _percentsFinal -= 20;
-                }
-            }
-        }
-        else
-        {
-            _percentsFinal = _scope - _distanceTarg - _coverValue;
-           if(_ov == true)
-           {
-               _percentsFinal -= 20;
-           }
-        }
+        //if (_scriptCurrent._weaponData == _scriptCurrent._dataUse.DataList[1])
+        //{
+        //    if (_distanceTarg <= 5)
+        //    {
+        //        _percentsFinal = 24;
+        //    }
+        //    else
+        //    {
+        //        _percentsFinal = _scope - _distanceTarg - _coverValue;
+        //    }
+        //}
+
+        _percentsFinal = _scope - _distanceTarg - _coverValue;
+        Debug.Log(_scope);
+        Debug.Log(_distanceTarg);
+        Debug.Log(_coverValue);
+
+        //if (_scriptCurrent._weaponData == _scriptCurrent._dataUse.DataList[1])
+        //{
+        //    if (_distanceTarg <= 5)
+        //    {
+        //        _percentsFinal = 24;
+        //    }
+        //    else
+        //    {
+        //        _percentsFinal = _scope - _distanceTarg - _coverValue;
+        //    }
+        //}
+        //else if (_scriptCurrent._weaponData == _scriptCurrent._dataUse.DataList[2])
+        //{
+        //    if (_distanceTarg >= 20)
+        //    {
+        //        _percentsFinal = 24;
+        //    }
+        //    else if (_distanceTarg <= 5)
+        //    {
+        //        _percentsFinal = _scope - _distanceTarg - _coverValue + 20;
+
+        //    }
+        //    else
+        //    {
+        //        _percentsFinal = _scope - _distanceTarg - _coverValue;
+        //    }
+        //}
+        //else
+        //{
+        //_percentsFinal = _scope - _distanceTarg - _coverValue;
+
+        //}
+
+        //if (_ov == true)
+        //{
+        //    _percentsFinal -= 20;
+        //}
 
 
-        if (_percentsFinal < 10f)
-        {
-            _percentsFinal = 0;
-        }
-        else if (_percentsFinal > 10 && _percentsFinal < 25)
-        {
-            _percentsFinal = 25f;
-        }
-        else if (_percentsFinal > 25 && _percentsFinal < 50)
-        {
-            _percentsFinal = 50f;
-        }
-        else if (_percentsFinal > 50 && _percentsFinal < 75)
-        {
-            _percentsFinal = 75f;
-        }
-        else if (_percentsFinal > 75)
-        {
-            _percentsFinal = 100;
-        }
-        string _txt = _percentsFinal.ToString();
+        //if (_percentsFinal < 10f)
+        //{
+        //    _percentsFinal = 0;
+        //}
+        //else if (_percentsFinal > 10 && _percentsFinal < 25)
+        //{
+        //    _percentsFinal = 25f;
+        //}
+        //else if (_percentsFinal > 25 && _percentsFinal < 50)
+        //{
+        //    _percentsFinal = 50f;
+        //}
+        //else if (_percentsFinal > 50 && _percentsFinal < 75)
+        //{
+        //    _percentsFinal = 75f;
+        //}
+        //else if (_percentsFinal > 75)
+        //{
+        //    _percentsFinal = 100;
+        //}
+
+        string _txt = Mathf.RoundToInt(_percentsFinal).ToString();
         _txtPercents.SetText(_txt);
         _fov._swap = false;
     }
@@ -534,10 +557,19 @@ public class BaseComp : MonoBehaviour
             return true;
         }
     }
+    void CriticCalcul()
+    {
+        float _critChanceF = 0;
+
+        _critChanceF += 2.5f * _critChance;
+
+        string _txt = Mathf.RoundToInt(_critChanceF).ToString();
+        _txtCrtical.SetText(_txt);
+    }
 
     public bool CriticalChance()
     {
-        float _critChanceF = 10;
+        float _critChanceF = 0;
 
         _critChanceF += 2.5f * _critChance;
 
