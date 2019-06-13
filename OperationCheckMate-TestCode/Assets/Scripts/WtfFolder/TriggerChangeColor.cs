@@ -54,7 +54,29 @@ public class TriggerChangeColor : MonoBehaviour
 	{
 		rend.material.SetColor ("_TintColor", _color1);
 	}
-	
+	public void mousePasOver()
+    {
+        var trail = gameObject.GetComponent<ParticleSystem>().trails;
+        if (insideZone == true)
+            trail.colorOverLifetime = gradient1;
+        else
+            trail.colorOverLifetime = gradient2;
+
+        gameObject.GetComponent<ParticleSystem>().Play();
+
+        if (isHovered == false)
+        {
+            //gameObject.tag = "moused";
+            isHovered = true;
+        }
+    }
+    public void MousePasExit()
+    {
+        gameObject.GetComponent<ParticleSystem>().Stop();
+        //gameObject.tag = "grid";
+        isHovered = false;
+        gameObject.GetComponent<ParticleSystem>().Clear();
+    }
 	void OnMouseOver()
 	{
 		var trail = gameObject.GetComponent<ParticleSystem>().trails;

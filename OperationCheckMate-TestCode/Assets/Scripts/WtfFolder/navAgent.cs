@@ -52,6 +52,9 @@ public class navAgent : MonoBehaviour
 	private Color cliquableColor;
 	public bool _alreadyMouv = false;
 	public bool _isMoving = false;
+    public GameObject _soundStep;
+    public float _stepCount = 0.5f;
+   
     
 
 	void Start ()
@@ -125,6 +128,10 @@ public class navAgent : MonoBehaviour
      
         cam = cam1;
 	}
+    void Stepp()
+    {
+        Instantiate(_soundStep, transform);
+    }
 
 	void Movement()
 	{
@@ -145,6 +152,7 @@ public class navAgent : MonoBehaviour
 		RaycastHit hit;
 		if (journeyEnabled == true)
 		{
+            
 			if (ghosted == false)
 			{
 				splitGhost(moveRange/5);
@@ -161,33 +169,75 @@ public class navAgent : MonoBehaviour
 				ghosted = true;
 				startPos = transform.position;
 			}
+            
 			if (Physics.Raycast(ray, out hit))
 			{
-				if (hit.collider.isTrigger && hit.collider.gameObject.tag == "grid")
-				{
-					if (hit.collider.GetComponent<Renderer>().material != null &&
-						hit.collider.GetComponent<Renderer>().material.GetColor("_TintColor") != null)
-					{
-						if (hit.collider.GetComponent<Renderer>().material.GetColor("_TintColor") == cliquableColor)
-						{
-							hit.collider.GetComponent<TriggerChangeColor>().insideZone = true;
-                        
-							if (Input.GetMouseButtonDown(1) && _canClic == true)
-							{
+
+                if (hit.collider.isTrigger && hit.collider.gameObject.tag == "grid")
+                {
+                    if (hit.collider.GetComponent<Renderer>().material != null &&
+                        hit.collider.GetComponent<Renderer>().material.GetColor("_TintColor") != null)
+                    {
+                        if (hit.collider.GetComponent<Renderer>().material.GetColor("_TintColor") == cliquableColor)
+                        {
+                            hit.collider.GetComponent<TriggerChangeColor>().insideZone = true;
+
+                            if (Input.GetMouseButtonDown(1) && _canClic == true)
+                            {
+
+
                                 anim.SetBool("isRunning", true);
                                 _isMoving = true;
-								Invoke("endMyTurn", _step);
-								Pos = new Vector3(hit.collider.transform.position.x, transform.position.y, hit.collider.transform.position.z);
-								agent.SetDestination(Pos);
-							}
-						}
-						else
-							if (hit.collider.gameObject.tag == "grid")
-							{
-								hit.collider.GetComponent<TriggerChangeColor>().insideZone = false;
-							}
-					}
-				}
+                                Invoke("endMyTurn", _step);
+                                Pos = new Vector3(hit.collider.transform.position.x, transform.position.y, hit.collider.transform.position.z);
+                                agent.SetDestination(Pos);
+                            }
+                        }
+                        else
+                            if (hit.collider.gameObject.tag == "grid")
+                        {
+                            hit.collider.GetComponent<TriggerChangeColor>().insideZone = false;
+                        }
+                    }
+                }
+                else if (hit.collider.isTrigger && hit.collider.gameObject.tag == "cover")
+                {
+                    RaycastHit[] hits;
+                    hits = Physics.RaycastAll(ray, Mathf.Infinity);
+
+                    for (int i = 0; i < hits.Length; i++)
+                    {
+                        RaycastHit hitAll = hits[i];
+                        if (hitAll.collider.isTrigger && hitAll.collider.gameObject.tag == "grid")
+                        {
+                            if (hitAll.collider.GetComponent<Renderer>().material != null &&
+                            hitAll.collider.GetComponent<Renderer>().material.GetColor("_TintColor") != null)
+                            {
+                                if (hitAll.collider.GetComponent<Renderer>().material.GetColor("_TintColor") == cliquableColor)
+                                {
+                                    Debug.Log(hits[i].collider.gameObject);
+                                    hitAll.collider.GetComponent<TriggerChangeColor>().insideZone = true;
+
+                                    if (Input.GetMouseButtonDown(1) && _canClic == true)
+                                    {
+
+
+                                        anim.SetBool("isRunning", true);
+                                        _isMoving = true;
+                                        Invoke("endMyTurn", _step);
+                                        Pos = new Vector3(hitAll.collider.transform.position.x, transform.position.y, hitAll.collider.transform.position.z);
+                                        agent.SetDestination(Pos);
+                                    }
+                                }
+                                else
+                                    if (hitAll.collider.gameObject.tag == "grid")
+                                {
+                                    hitAll.collider.GetComponent<TriggerChangeColor>().insideZone = false;
+                                }
+                            }
+                        }
+                    }
+                }
 			}
 		}
 		else

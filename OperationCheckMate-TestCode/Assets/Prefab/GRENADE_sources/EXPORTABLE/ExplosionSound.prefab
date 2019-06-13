@@ -88,7 +88,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.836
+      value: 0.5
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -141,5 +141,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boomclips:
-  - {fileID: 8300000, guid: 1364f42ce3690dd439d1e25b3621d6a1, type: 3}
-  killFaster: 3
+  - {fileID: 8300000, guid: 31aa6569e0f685840ad660330b2e183e, type: 3}
+  killFaster: 1

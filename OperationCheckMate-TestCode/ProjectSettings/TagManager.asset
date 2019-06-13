@@ -8,6 +8,7 @@ TagManager:
   - ghost
   - grid
   - ground
+  - cover
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - ground
   - team1
   - team2
-  - 
+  - cover
   - 
   - 
   - 

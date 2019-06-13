@@ -10,6 +10,8 @@ public class CoverTriggers : MonoBehaviour
     public bool _corner = false;
 
     public float _whichAxis;
+    public GameObject _pngCoverLow;
+    public GameObject _pngCoverHigh;
    // public float _newOrientation;
 
     private void OnEnable()
@@ -43,6 +45,46 @@ public class CoverTriggers : MonoBehaviour
             
         }
 
+    }
+
+    private void OnMouseOver()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit))
+        {
+            if(hit.collider.tag == "grid")
+            {
+                TriggerChangeColor t = hit.collider.GetComponent<TriggerChangeColor>();
+
+                t.mousePasOver();
+            }
+        }
+        if(_bigCover == true)
+        {
+            _pngCoverHigh.SetActive(true);
+            _pngCoverLow.SetActive(false);
+        }
+        else
+        {
+            _pngCoverHigh.SetActive(false);
+            _pngCoverLow.SetActive(true);
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit))
+        {
+            if (hit.collider.tag == "grid")
+            {
+                TriggerChangeColor t = hit.collider.GetComponent<TriggerChangeColor>();
+
+                t.MousePasExit();
+            }
+        }
+        _pngCoverHigh.SetActive(false);
+        _pngCoverLow.SetActive(false);
     }
 
     public void OnTriggerStay (Collider col)
